@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<ctype.h>
 #include<stdlib.h>
 
 //Token names
@@ -12,7 +13,7 @@ COMMA,ASSIGNOP,SQBO,SQBC,BO,BC,COMMENTMARK};
 union Variant{
     char lexeme[21];
     int val;
-    float realVal;
+    double realVal;
 };
 
 //struct
@@ -40,10 +41,16 @@ int forward=0,begin=0;
  3: both in buff2*/
 int flag = 0;
 
+// stores current_line_no
+int current_line_no;
+
+//global variable for state for dfa
+int state = 0;
+
 //function prototypes
 
 // tk_data has to be set according to tk_name
-void tokenise(int line_no,enum TOKEN tk_name,char * tk_data);
+void tokenise(enum TOKEN tk_name);
 
 // get the next character
 char getnextchar(FILE *fp,char * buff1,char * buff2);
@@ -53,3 +60,9 @@ void getnextblock(FILE* fp,char * buff);
 
 //check for keywords,AND,OR,true,false
 int check_keyword(char *lexeme);
+
+//error handling function
+void error_handle();
+
+//copying lexeme
+void copy_lexeme(char * str);
