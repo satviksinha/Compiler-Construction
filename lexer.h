@@ -1,11 +1,12 @@
 #include<stdio.h>
 #include<ctype.h>
 #include<stdlib.h>
+#include<string.h>
 
 //Token names
 enum TOKEN {INTEGER,REAL,BOOLEAN,OF,ARRAY,START,END,DECLARE,MODULE,DRIVER,
 PROGRAM,GET_VALUE,PRINT,USE,WITH,PARAMETERS,TAKES,INPUT,RETURNS,FOR,IN,SWITCH,
-CASE,BREAK,DEFAULT,WHILE,ID,NUM,RNUM,AND,OR,TRUE,FALSE,PLUS,MINUS,MUL,DIV,
+CASE,BREAK,DEFAULT,WHILE,AND,OR,TRUE,FALSE,ID,NUM,RNUM,PLUS,MINUS,MUL,DIV,
 LT,LE,GE,GT,EQ,NE,DEF,ENDDEF,DRIVERDEF,DRIVERENDDEF,COLON,RANGEOP,SEMICOL,
 COMMA,ASSIGNOP,SQBO,SQBC,BO,BC,COMMENTMARK};
 
@@ -29,8 +30,9 @@ typedef struct token_info{
 TK_INFO global_token;
 
 // twin buffers
-char buff1[512];
-char buff2[512];
+#define buffer_size 512
+char buff1[buffer_size];
+char buff2[buffer_size];
 
 // pointers to the buffer
 int forward=0,begin=0;
@@ -42,10 +44,18 @@ int forward=0,begin=0;
 int flag = 0;
 
 // stores current_line_no
-int current_line_no;
+int current_line_no=1;
 
 //global variable for state for dfa
 int state = 0;
+
+//hashtable
+struct ht_entry{
+    enum TOKEN tk;
+    char str[11];
+};
+
+struct ht_entry hashTable[84];
 
 //function prototypes
 
@@ -66,3 +76,6 @@ void error_handle();
 
 //copying lexeme
 void copy_lexeme(char * str);
+
+//get the hash value for a string
+int get_hash(char* str);

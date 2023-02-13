@@ -1,13 +1,77 @@
 #include"lexer.h"
 
+//hash function
+//initialise hash table for keywords - initHashTable()
+//check if a lexeme is present in the hash table - check_keyword
+
+int get_hash(char* str){
+    int size = strlen(str);
+    int sum = 0;
+    for(int i=0;i<size;i++){
+        sum+= str[i];
+    }
+    return sum%97;
+}
+
+void initHashTable(){
+    char arr[30][11]={"integer","real","boolean","of","array","start","end","declare","module","driver","program","get_value","print","use","with","parameters","takes","input","returns","for","in","switch","case","break","default","while","AND","OR","true","false"};
+    enum TOKEN tokens[30] = {INTEGER,REAL,BOOLEAN,OF,ARRAY,START,END,DECLARE,MODULE,DRIVER,
+                            PROGRAM,GET_VALUE,PRINT,USE,WITH,PARAMETERS,TAKES,INPUT,RETURNS,FOR,IN,SWITCH,
+                            CASE,BREAK,DEFAULT,WHILE,AND,OR,TRUE,FALSE};    
+    int flag1=0,flag2=0;
+    for(int i=0;i<30;i++){
+        if(get_hash(arr[i]) == 32 && flag1 == 0){
+            flag1=1;
+            strcpy(hashTable[33].str,arr[i]);
+            hashTable[33].tk = tokens[i];
+        }
+        else if(get_hash(arr[i]) == 64 && flag2 == 0){
+            flag2=1;
+            strcpy(hashTable[65].str,arr[i]);
+            hashTable[65].tk = tokens[i];
+        }
+        else{
+            strcpy(hashTable[get_hash(arr[i])].str,arr[i]);
+            hashTable[get_hash(arr[i])].tk = tokens[i];
+        }
+    }
+}
+
+int check_keyword(char* lexeme){
+    int hash_value = get_hash(lexeme);
+    char string[21];
+    if(hash_value == 32 || hash_value == 64){
+        strcpy(string,hashTable[hash_value].str);
+        if(!strcmp(string,lexeme)){
+            tokenise(hashTable[hash_value].tk);
+            return 1;
+        }
+        else{
+            strcpy(string,hashTable[hash_value+1].str);
+            if(!strcmp(string,lexeme)){
+                tokenise(hashTable[hash_value+1].tk);
+                return 1;
+            }
+        }
+    }
+    else{
+        strcpy(string,hashTable[hash_value].str);
+        if(!strcmp(string,lexeme)){
+            tokenise(hashTable[hash_value].tk);
+            return 1;
+        }
+    }
+    return 0;     
+}
+
 void getnextblock(FILE* fp,char * buff){
-    fread(buff,512,1,fp);
+    fread(buff,buffer_size,1,fp);
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){
     switch(flag){
         case 0:
-        if(forward == 512){
+        if(forward == buffer_size){
             getnextblock(fp,buff2);
             forward = 0;
             flag = 1;
@@ -22,7 +86,7 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
         return buff1[forward++];
         break;
         case 3:
-        if(forward == 512){
+        if(forward == buffer_size){
             getnextblock(fp,buff1);
             forward = 0;
             flag = 2;
@@ -39,11 +103,50 @@ void error_handle(){
 
 void copy_lexeme(char * str){
     // mark ending by '\0'
+    if(flag==0){
+        int i=0;
+        for(i=begin;i<forward;i++){
+            str[i-begin]=buff1[i];
+        }
+        str[i-begin] = '\0';
+
+    }
+    else if(flag==1){
+        int i=0;
+        for(i=begin;i<buffer_size;i++){
+            str[i-begin]=buff1[i];
+        }
+        for(i=0;i<forward;i++){
+            str[buffer_size-begin+i]=buff2[i];
+        }
+        str[buffer_size-begin+forward]='\0';
+    }
+    else if(flag==2){
+        int i=0;
+        for(i=begin;i<buffer_size;i++){
+            str[i-begin]=buff2[i];
+        }
+        for(i=0;i<forward;i++){
+            str[buffer_size-begin+i]=buff1[i];
+        }
+        str[buffer_size-begin+forward]='\0';
+    }
+    else{
+        int i=0;
+        for(i=begin;i<forward;i++){
+            str[i-begin]=buff2[i];
+        }
+        str[i-begin] = '\0';
+    }
+
 }
+//abc+-
 
 void tokenise(enum TOKEN tk_name){
      global_token.line_no = current_line_no;
      global_token.tk_name = tk_name;
+     //
+     forward--;
      if(tk_name == ID)
         copy_lexeme(global_token.tk_data.lexeme);
      else if(tk_name == NUM){
@@ -58,6 +161,7 @@ void tokenise(enum TOKEN tk_name){
         global_token.tk_data.realVal = atof(str);
      }
      state = 0;
+     begin = forward;
 }
 
 void dfa(char input){
@@ -110,7 +214,12 @@ void dfa(char input){
         case 1:
         if(!isdigit(input) && !isalpha(input) && input!='_'){
              // check if it is a keyword, call check_keyword
-            tokenise(ID);
+             
+            char str[21];
+            copy_lexeme(str);
+            if(!check_keyword(str)){
+                tokenise(ID);
+            }
         }
         break;
 
@@ -337,7 +446,6 @@ void dfa(char input){
 }
 
 int main(){
-    FILE* fp = fopen("testcase.txt","r");
-    getnextblock(fp,buff1);
+    initHashTable();
     return 0;
 }
