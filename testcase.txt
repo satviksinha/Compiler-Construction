@@ -1,55 +1,27 @@
-#include<stdio.h>
-#include<stdlib.h>
+<<module arraysum>>
+takes input[list:array[4..20] of real];
+returns [sum:real];
+start
+declare s: real;
+s := 0.0;
+declare index : integer;
+for (index in 4..20)
+start
+s := s + list[index];
+end
+sum := s;
+end
 
-//Token names
-enum TOKEN {INTEGER,REAL,BOOLEAN,OF,ARRAY,START,END,DECLARE,MODULE,DRIVER,
-PROGRAM,GET_VALUE,PRINT,USE,WITH,PARAMETERS,TAKES,INPUT,RETURNS,FOR,IN,SWITCH,
-CASE,BREAK,DEFAULT,WHILE,ID,NUM,RNUM,AND,OR,TRUE,FALSE,PLUS,MINUS,MUL,DIV,
-LT,LE,GE,GT,EQ,NE,DEF,ENDDEF,DRIVERDEF,DRIVERENDDEF,COLON,RANGEOP,SEMICOL,
-COMMA,ASSIGNOP,SQBO,SQBC,BO,BC,COMMENTMARK};
-
-// union
-union Variant{
-    char lexeme[21];
-    int val;
-    float realVal;
-};
-
-//struct
-typedef struct token_info{
-    int line_no;
-    enum TOKEN tk_name;
-    union Variant tk_data;
-} TK_INFO;
-
-//global declarations
-
-//global token
-TK_INFO global_token;
-
-// twin buffers
-char buff1[512];
-char buff2[512];
-
-// pointers to the buffer
-int forward=0,begin=0;
-
- /*0: both pointers in buff1
- 1: begin in buff1 and forward in buff2
- 2: forward in buff1 and begin in buff2
- 3: both in buff2*/
-int flag = 0;
-
-//function prototypes
-
-// tk_data has to be set according to tk_name
-void tokenise(int line_no,enum TOKEN tk_name,char * tk_data);
-
-// get the next character
-char getnextchar(char buff1[512],char buff2[512]);
-
-// populate the two buffers
-char getnextblock(FILE* fp,char buff[512]);
-
-//check for keywords,AND,OR,true,false
-int check_keyword(char lexeme[21]);
+<<<driver Program>>>
+start
+declare num, k:integer;
+declare A:array [4..10] of integer;
+for( k in 6..10)
+start
+A[k]:=(num - k)*(num-k);
+print(A[k]);
+end
+[num]:=use module arraysum with parameters A;
+print(num);
+end
+$

@@ -65,13 +65,14 @@ int check_keyword(char* lexeme){
 }
 
 void getnextblock(FILE* fp,char * buff){
-    fread(buff,buffer_size,1,fp);
+    fread(buff,buffer_size,1,fp);\
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){
     switch(flag){
         case 0:
         if(forward == buffer_size){
+
             getnextblock(fp,buff2);
             forward = 0;
             flag = 1;
@@ -99,6 +100,7 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
 
 void error_handle(){
     //likha hai ye
+    printf("inside error handle");
 }
 
 void copy_lexeme(char * str){
@@ -162,6 +164,10 @@ void tokenise(enum TOKEN tk_name){
      }
      state = 0;
      begin = forward;
+     if(flag==1)flag=3;
+     if(flag==2)flag=0;
+     printf("\n token is %d \n \n",global_token.tk_name);
+     token_found=1;
 }
 
 void dfa(char input){
@@ -233,8 +239,10 @@ void dfa(char input){
         case 3:
         if(isdigit(input))
             state = 4;
-        else if(input == '.')
-            state = 39;
+        else if(input == '.'){
+            forward--;
+            tokenise(NUM);
+        }
         else
             error_handle();
         break;
@@ -433,19 +441,49 @@ void dfa(char input){
         break;
 
         case 37:
-        if(!input==' ' && !input=='\t'){
+        if(!(input==' ') && !(input=='\t')){
             state = 0;
+            forward--;
         }
         break;
 
         case 38:
         current_line_no++;
         state = 0;
+        forward--;
         break;
     }
 }
 
+void initFile(){
+    FILE *fp = fopen("testcase.txt", "a");
+    if(fp == NULL){
+        printf("File not found");
+        return;
+    }
+    fputc('\n',fp);
+    fputc('$',fp);
+    fclose(fp);
+}
+
+
 int main(){
     initHashTable();
+    initFile(); // add $ character to end of file- temporary solution
+    FILE *fp = fopen("testcase.txt", "r");
+    if(fp == NULL){
+        printf("File not found");
+        return 0;
+    }
+    fread(buff1,buffer_size,1,fp);
+    while(1){
+            char input = getnextchar(fp,buff1,buff2);
+            if(input == '$'){
+                break;
+            }
+            dfa(input);
+        
+    }
+
     return 0;
 }
