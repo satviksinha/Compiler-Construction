@@ -138,9 +138,10 @@ void error_handle(){
 
 void copy_lexeme(char * str){
     // mark ending by '\0'
+    int forward2=forward-1;
     if(flag==0){
         int i=0;
-        for(i=begin;i<forward;i++){
+        for(i=begin;i<forward2;i++){
             str[i-begin]=buff1[i];
         }
         str[i-begin] = '\0';
@@ -151,24 +152,24 @@ void copy_lexeme(char * str){
         for(i=begin;i<buffer_size;i++){
             str[i-begin]=buff1[i];
         }
-        for(i=0;i<forward;i++){
+        for(i=0;i<forward2;i++){
             str[buffer_size-begin+i]=buff2[i];
         }
-        str[buffer_size-begin+forward]='\0';
+        str[buffer_size-begin+forward2]='\0';
     }
     else if(flag==2){
         int i=0;
         for(i=begin;i<buffer_size;i++){
             str[i-begin]=buff2[i];
         }
-        for(i=0;i<forward;i++){
+        for(i=0;i<forward2;i++){
             str[buffer_size-begin+i]=buff1[i];
         }
-        str[buffer_size-begin+forward]='\0';
+        str[buffer_size-begin+forward2]='\0';
     }
     else{
         int i=0;
-        for(i=begin;i<forward;i++){
+        for(i=begin;i<forward2;i++){
             str[i-begin]=buff2[i];
         }
         str[i-begin] = '\0';
@@ -253,9 +254,9 @@ void dfa(char input){
         case 1:
         if(!isdigit(input) && !isalpha(input) && input!='_'){
              // check if it is a keyword, call check_keyword
-             
             char str[21];
             copy_lexeme(str);
+            printf("'%s':%d",str,(int)strlen(str));
             if(!check_keyword(str)){
                 tokenise(ID);
             }
@@ -477,11 +478,13 @@ void dfa(char input){
         if(!(input==' ') && !(input=='\t')){
             state = 0;
             forward--;
+            begin++;
         }
         break;
 
         case 38:
         current_line_no++;
+        begin++;
         state = 0;
         forward--;
         break;
