@@ -182,25 +182,26 @@ void tokenise(enum TOKEN tk_name){
      global_token.line_no = current_line_no;
      global_token.tk_name = tk_name;
      //
-     forward--;
      if(tk_name == ID)
         copy_lexeme(global_token.tk_data.lexeme);
      else if(tk_name == NUM){
         char str[11];
         copy_lexeme(str);
         global_token.tk_data.val = atoi(str);
+        printf("\n value is %d",global_token.tk_data.val);
      }
      else if(tk_name == RNUM){
         char str[21];
         copy_lexeme(str);
-        //satark rahe for E
         global_token.tk_data.realVal = atof(str);
+        printf("\n value is %f",global_token.tk_data.realVal);
      }
+     forward--;
      state = 0;
      begin = forward;
      if(flag==1)flag=3;
      if(flag==2)flag=0;
-     printf("\n token is %s \n \n",tokenName[global_token.tk_name]);
+     printf("\n token is %s, line no is %d \n \n",tokenName[global_token.tk_name],global_token.line_no);
      token_found=1;
 }
 
