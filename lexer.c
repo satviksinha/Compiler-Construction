@@ -1,8 +1,41 @@
 #include"lexer.h"
 
-//hash function
-//initialise hash table for keywords - initHashTable()
-//check if a lexeme is present in the hash table - check_keyword
+char* tokenName[57] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
+"PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
+"CASE","BREAK","DEFAULT","WHILE","AND","OR","TRUE","FALSE","ID","NUM","RNUM","PLUS","MINUS","MUL","DIV",
+"LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
+"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK"};
+
+   // integer : 71 
+// real : 32
+// of : 19
+// array : 58
+// start : 73
+// end : 20
+// declare : 41
+// module : 64
+// driver : 70
+// program : 81
+// get_value : 83
+// print : 72
+// use : 42
+// with : 56
+// parameters : 9
+// takes : 51
+// input : 75
+// returns : 11
+// for : 36
+// in : 21
+// switch : 76
+// case : 24
+// break : 32
+// default : 62
+// while : 52
+// AND : 17
+// OR : 64
+// true : 60
+// false : 38
+//  : 0
 
 int get_hash(char* str){
     int size = strlen(str);
@@ -166,7 +199,7 @@ void tokenise(enum TOKEN tk_name){
      begin = forward;
      if(flag==1)flag=3;
      if(flag==2)flag=0;
-     printf("\n token is %d \n \n",global_token.tk_name);
+     printf("\n token is %s \n \n",tokenName[global_token.tk_name]);
      token_found=1;
 }
 
