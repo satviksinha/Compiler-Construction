@@ -98,14 +98,16 @@ int check_keyword(char* lexeme){
 }
 
 void getnextblock(FILE* fp,char * buff){
-    fread(buff,buffer_size,1,fp);\
+    fread(buff,buffer_size,1,fp);
+    if(global_token.line_no==39 || global_token.line_no==40){
+        printf("\ninside getnextblock");
+    }
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){
     switch(flag){
         case 0:
         if(forward == buffer_size){
-
             getnextblock(fp,buff2);
             forward = 0;
             flag = 1;
@@ -121,7 +123,13 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
         break;
         case 3:
         if(forward == buffer_size){
+            if(global_token.line_no==39 || global_token.line_no==40)printf("\nFLag is 3 before\n");
             getnextblock(fp,buff1);
+
+            if(global_token.line_no==39 || global_token.line_no==40){
+            printf("\nFLag is 3\n");
+            printf("%c",buff1[forward]);
+            }
             forward = 0;
             flag = 2;
             return buff1[forward++]; 
@@ -244,8 +252,11 @@ void dfa(char input){
             state = 35;
         else if(input == ')')
             state = 36;
-        else if(input == ' ' || input == '\t')
-            state = 37;
+        else if(input == ' ' || input == '\t'){
+               state = 37;
+               if(input == ' ')begin++;
+               else begin+=4;
+        }    
         else if(input == '\n')
             state = 38;
         else
@@ -479,8 +490,9 @@ void dfa(char input){
         if(!(input==' ') && !(input=='\t')){
             state = 0;
             forward--;
-            begin++;
         }
+        else if(input==' ')begin++;
+        else if(input=='\t')begin+=4;
         break;
 
         case 38:
