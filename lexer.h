@@ -32,7 +32,7 @@ typedef struct token_info{
 TK_INFO global_token;
 
 // twin buffers
-#define buffer_size 40
+#define buffer_size 30
 char buff1[buffer_size];
 char buff2[buffer_size];
 

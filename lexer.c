@@ -70,6 +70,17 @@ void initHashTable(){
     }
 }
 
+void check_begin(){
+    if(flag==1 && begin == buffer_size){
+        begin = 0;
+        flag = 3;
+    }
+    else if(flag==2 && begin == buffer_size){
+        begin = 0;
+        flag = 0;
+    }
+}
+
 int check_keyword(char* lexeme){
     int hash_value = get_hash(lexeme);
     char string[21];
@@ -108,6 +119,7 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
             getnextblock(fp,buff2);
             forward = 0;
             flag = 1;
+            check_begin();
             return buff2[forward++]; 
         }
         return buff1[forward++];
@@ -124,6 +136,7 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
         
             forward = 0;
             flag = 2;
+            check_begin();
             return buff1[forward++]; 
         }
       
@@ -134,7 +147,7 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
 
 void error_handle(){
     //likha hai ye
-    printf("inside error handle");
+    printf("\n inside error handle, line number is %d, state is % d\n",current_line_no,state);
 }
 
 void copy_lexeme(char * str){
@@ -249,6 +262,7 @@ void dfa(char input){
                state = 37;
                if(input == ' ')begin++;
                else begin+=4;
+               check_begin();
         }    
         else if(input == '\n')
             state = 38;
@@ -485,6 +499,7 @@ void dfa(char input){
         }
         else if(input==' ')begin++;
         else if(input=='\t')begin+=4;
+        check_begin();
         break;
 
         case 38:
@@ -492,6 +507,7 @@ void dfa(char input){
         begin++;
         state = 0;
         forward--;
+        check_begin();
         break;
     }
 }
@@ -519,6 +535,7 @@ int main(){
     fread(buff1,buffer_size,1,fp);
     while(1){
             char input = getnextchar(fp,buff1,buff2);
+            // printf("\n Input is %c, begin is %d, forward is %d, flag is %d",input,begin,forward,flag);
             if(input == '$'){
                 break;
             }
