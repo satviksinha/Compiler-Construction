@@ -99,9 +99,6 @@ int check_keyword(char* lexeme){
 
 void getnextblock(FILE* fp,char * buff){
     fread(buff,buffer_size,1,fp);
-    if(global_token.line_no==39 || global_token.line_no==40){
-        printf("\ninside getnextblock");
-    }
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){
@@ -123,17 +120,13 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
         break;
         case 3:
         if(forward == buffer_size){
-            if(global_token.line_no==39 || global_token.line_no==40)printf("\nFLag is 3 before\n");
             getnextblock(fp,buff1);
-
-            if(global_token.line_no==39 || global_token.line_no==40){
-            printf("\nFLag is 3\n");
-            printf("%c",buff1[forward]);
-            }
+        
             forward = 0;
             flag = 2;
             return buff1[forward++]; 
         }
+      
         return buff2[forward++];
         break;
     }
@@ -182,35 +175,35 @@ void copy_lexeme(char * str){
         }
         str[i-begin] = '\0';
     }
-
 }
 //abc+-
 
 void tokenise(enum TOKEN tk_name){
-     global_token.line_no = current_line_no;
-     global_token.tk_name = tk_name;
-     //
-     if(tk_name == ID)
+     if(tk_name == ID){
         copy_lexeme(global_token.tk_data.lexeme);
+        printf("\n Lexeme is '%s'",global_token.tk_data.lexeme);
+     }
      else if(tk_name == NUM){
         char str[11];
         copy_lexeme(str);
         global_token.tk_data.val = atoi(str);
-        printf("\n value is %d",global_token.tk_data.val);
+        printf("\n Value of integer is %d",global_token.tk_data.val);
      }
      else if(tk_name == RNUM){
         char str[21];
         copy_lexeme(str);
         global_token.tk_data.realVal = atof(str);
-        printf("\n value is %f",global_token.tk_data.realVal);
+        printf("\n Value of real is %f",global_token.tk_data.realVal);
      }
+
+     global_token.line_no = current_line_no;
+     global_token.tk_name = tk_name;
      forward--;
      state = 0;
      begin = forward;
+     printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
      if(flag==1)flag=3;
-     if(flag==2)flag=0;
-     printf("\n token is %s, line no is %d \n \n",tokenName[global_token.tk_name],global_token.line_no);
-     token_found=1;
+     else if(flag==2)flag=0;
 }
 
 void dfa(char input){
@@ -268,7 +261,6 @@ void dfa(char input){
              // check if it is a keyword, call check_keyword
             char str[21];
             copy_lexeme(str);
-            printf("'%s':%d",str,(int)strlen(str));
             if(!check_keyword(str)){
                 tokenise(ID);
             }
