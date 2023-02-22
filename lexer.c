@@ -71,13 +71,24 @@ void initHashTable(){
 }
 
 void check_begin(){
-    if(flag==1 && begin == buffer_size){
-        begin = 0;
+    if(flag==1 && begin >= buffer_size){
+        begin=begin-buffer_size;
         flag = 3;
     }
-    else if(flag==2 && begin == buffer_size){
-        begin = 0;
+    else if(flag==2 && begin >= buffer_size){
+        begin = begin-buffer_size;
         flag = 0;
+    }
+}
+
+void check_forward(){
+    if(flag==1 && forward<0){
+        forward=buffer_size-1;
+        flag =0;
+    }
+    else if(flag==2 && forward<0){
+        forward=buffer_size-1;
+        flag =3;
     }
 }
 
@@ -109,7 +120,7 @@ int check_keyword(char* lexeme){
 }
 
 void getnextblock(FILE* fp,char * buff){
-    fread(buff,buffer_size,1,fp);
+        fread(buff,buffer_size,1,fp);
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){
@@ -125,15 +136,27 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
         return buff1[forward++];
         break;
         case 1:
+        if(forward == buffer_size){     // This case will only be possible for comments, hence begin pointr doesnt matter only forward pointer matters
+            getnextblock(fp,buff1);
+            forward = 0;
+            flag = 0;
+            return buff1[forward++]; 
+        }
         return buff2[forward++];
         break;
         case 2:
+        if(forward == buffer_size){     // This case will only be possible for comments, hence begin pointr doesnt matter only forward pointer matters
+            getnextblock(fp,buff2);
+            forward = 0;
+            flag = 3;
+            check_begin();
+            return buff2[forward++]; 
+        }
         return buff1[forward++];
         break;
         case 3:
         if(forward == buffer_size){
             getnextblock(fp,buff1);
-        
             forward = 0;
             flag = 2;
             check_begin();
@@ -147,13 +170,23 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
 
 void error_handle(){
     //likha hai ye
-    printf("\n inside error handle, line number is %d, state is % d\n",current_line_no,state);
+    printf("\n inside error handle, line number is %d, state is % d, breaking program here\n",current_line_no,state);
+    exit(0);
 }
 
 void copy_lexeme(char * str){
     // mark ending by '\0'
     int forward2=forward-1;
-    if(flag==0){
+    int flag2=flag;
+    if(flag2==1 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=0;
+    }
+    else if(flag2==2 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=3;
+    }
+    if(flag2==0){
         int i=0;
         for(i=begin;i<forward2;i++){
             str[i-begin]=buff1[i];
@@ -161,7 +194,7 @@ void copy_lexeme(char * str){
         str[i-begin] = '\0';
 
     }
-    else if(flag==1){
+    else if(flag2==1){
         int i=0;
         for(i=begin;i<buffer_size;i++){
             str[i-begin]=buff1[i];
@@ -171,7 +204,7 @@ void copy_lexeme(char * str){
         }
         str[buffer_size-begin+forward2]='\0';
     }
-    else if(flag==2){
+    else if(flag2==2){
         int i=0;
         for(i=begin;i<buffer_size;i++){
             str[i-begin]=buff2[i];
@@ -212,6 +245,7 @@ void tokenise(enum TOKEN tk_name){
      global_token.line_no = current_line_no;
      global_token.tk_name = tk_name;
      forward--;
+     check_forward();
      state = 0;
      begin = forward;
      printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
@@ -293,6 +327,7 @@ void dfa(char input){
             state = 4;
         else if(input == '.'){
             forward--;
+            check_forward();
             tokenise(NUM);
         }
         else
@@ -496,6 +531,7 @@ void dfa(char input){
         if(!(input==' ') && !(input=='\t')){
             state = 0;
             forward--;
+            check_forward();
         }
         else if(input==' ')begin++;
         else if(input=='\t')begin+=4;
@@ -508,6 +544,7 @@ void dfa(char input){
         state = 0;
         forward--;
         check_begin();
+        check_forward();
         break;
     }
 }
@@ -535,7 +572,7 @@ int main(){
     fread(buff1,buffer_size,1,fp);
     while(1){
             char input = getnextchar(fp,buff1,buff2);
-            // printf("\n Input is %c, begin is %d, forward is %d, flag is %d",input,begin,forward,flag);
+            // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
             if(input == '$'){
                 break;
             }
