@@ -122,8 +122,15 @@ int check_keyword(char* lexeme){
 }
 
 void getnextblock(FILE* fp,char * buff){
-        if(!do_not_refill)
-            fread(buff,buffer_size,1,fp);
+        if(!do_not_refill){
+           int p= fread(buff,1,buffer_size,fp);
+           if(p<buffer_size){
+            printf("\n value of p is %d\n",p);
+            for(int i=0;i<p;i++)printf("%c",buff[i]);
+
+           buff[p] = EOF;
+           }
+        }
         else do_not_refill=0;
 }
 
@@ -553,34 +560,23 @@ void dfa(char input){
     }
 }
 
-void initFile(){
-    FILE *fp = fopen("testcase.txt", "a");
-    if(fp == NULL){
-        printf("File not found");
-        return;
-    }
-    fputc('\n',fp);
-    fputc('$',fp);
-    fclose(fp);
-}
-
 
 int main(){
     initHashTable();
-    initFile(); // add $ character to end of file- temporary solution
     FILE *fp = fopen("testcase.txt", "r");
     if(fp == NULL){
         printf("File not found");
         return 0;
     }
-    fread(buff1,buffer_size,1,fp);
+    getnextblock(fp,buff1);
     while(1){
             char input = getnextchar(fp,buff1,buff2);
             // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
-            if(input == '$'){
+            
+            dfa(input);
+            if(input == EOF){
                 break;
             }
-            dfa(input);
         
     }
 
