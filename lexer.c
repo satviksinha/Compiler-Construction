@@ -10,7 +10,7 @@ int get_hash(char* str){
     for(int i=0;i<size;i++){
         sum+= str[i];
     }
-    return sum%97;
+    return sum % 97;
 }
 
 void initHashTable(){

@@ -2,16 +2,30 @@
 
 
 // hash function for non terminals
-int get_hash(const char* s) {
+int get_hash_nonTerminal(const char* s) 
+{
     int n = strlen(s);
-    long long p = 31, m = 1e9 + 7;
+    long long p = 31, m = 1157;
     long long hash = 0;
     long long p_pow = 1;
     for(int i = 0; i < n; i++) {
         hash = (hash + (s[i] - 'a' + 1) * p_pow) % m;
         p_pow = (p_pow * p) % m;
     }
-    return hash;
+    return abs(hash);
+}
+
+int get_hash_terminal(const char* s) 
+{
+    int n = strlen(s);
+    long long p = 31, m = 1457;
+    long long hash = 0;
+    long long p_pow = 1;
+    for(int i = 0; i < n; i++) {
+        hash = (hash + (s[i] - 'a' + 1) * p_pow) % m;
+        p_pow = (p_pow * p) % m;
+    }
+    return abs(hash);
 }
 
 // function for storing grammar rules in the form of linked list
@@ -53,7 +67,7 @@ void createParseTable()
         int j = 0;
         for(int j = 0; strcmp(firstAndFollow[i][j],"end") != 0; j++)
         {
-            parseTable[get_hash(grammar[i]->value)][get_hash(firstAndFollow[i][j])] = grammar[i];
+            parseTable[get_hash_nonTerminal(grammar[i]->value)][get_hash_terminal(firstAndFollow[i][j])] = grammar[i];
         }
     }   
 }
