@@ -10,6 +10,8 @@ CASE,BREAK,DEFAULT,WHILE,AND,OR,TRUE,FALSE,ID,NUM,RNUM,PLUS,MINUS,MUL,DIV,
 LT,LE,GE,GT,EQ,NE,DEF,ENDDEF,DRIVERDEF,DRIVERENDDEF,COLON,RANGEOP,SEMICOL,
 COMMA,ASSIGNOP,SQBO,SQBC,BO,BC,COMMENTMARK};
 
+
+int token_found=0;
 // union
 union Variant{
     char lexeme[21];
@@ -30,13 +32,13 @@ typedef struct token_info{
 TK_INFO global_token;
 
 // twin buffers
-#define buffer_size 512
+#define buffer_size 30
 char buff1[buffer_size];
 char buff2[buffer_size];
 
 // pointers to the buffer
 int forward=0,begin=0;
-
+int do_not_refill=0;
  /*0: both pointers in buff1
  1: begin in buff1 and forward in buff2
  2: forward in buff1 and begin in buff2

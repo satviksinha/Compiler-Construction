@@ -40,24 +40,8 @@ void bubbleSort(int *arr, int n)
  
 
 int main(){
-    char arr[30][11]={"integer","real","of","array","start","end","declare","module","driver","program","get_value","print","use","with","parameters","takes","input","returns","for","in","switch","case","break","default","while","AND","OR","true","false"};
-    int hash[30];
-    for(int i=0;i<30;i++){
-        int size = strlen(arr[i]);
-        int sum = 0;
-        for(int j=0;j<size;j++){
-            sum+= arr[i][j];
-        }
-        //printf("%s,%d \n",arr[i],sum%43);
-        hash[i] = sum%97;
-        if(!hash[i]){
-            printf("* %s *",arr[i]);
-        }
-    }
-    bubbleSort(hash,30);
-    for(int i=0;i<30;i++)
-        printf("%d ",hash[i]);
-    return 0;
+   char * arr = "hello";
+    printf("%s:%d",arr,(int)strlen(arr));
 }
 
 

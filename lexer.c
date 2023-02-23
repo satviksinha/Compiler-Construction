@@ -1,8 +1,41 @@
 #include"lexer.h"
 
-//hash function
-//initialise hash table for keywords - initHashTable()
-//check if a lexeme is present in the hash table - check_keyword
+char* tokenName[57] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
+"PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
+"CASE","BREAK","DEFAULT","WHILE","AND","OR","TRUE","FALSE","ID","NUM","RNUM","PLUS","MINUS","MUL","DIV",
+"LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
+"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK"};
+
+   // integer : 71 
+// real : 32
+// of : 19
+// array : 58
+// start : 73
+// end : 20
+// declare : 41
+// module : 64
+// driver : 70
+// program : 81
+// get_value : 83
+// print : 72
+// use : 42
+// with : 56
+// parameters : 9
+// takes : 51
+// input : 75
+// returns : 11
+// for : 36
+// in : 21
+// switch : 76
+// case : 24
+// break : 32
+// default : 62
+// while : 52
+// AND : 17
+// OR : 64
+// true : 60
+// false : 38
+//  : 0
 
 int get_hash(char* str){
     int size = strlen(str);
@@ -37,6 +70,30 @@ void initHashTable(){
     }
 }
 
+void check_begin(){
+    if(flag==1 && begin >= buffer_size){
+        begin=begin-buffer_size;
+        flag = 3;
+    }
+    else if(flag==2 && begin >= buffer_size){
+        begin = begin-buffer_size;
+        flag = 0;
+    }
+}
+
+void check_forward(){
+    if(flag==1 && forward<0){
+        forward=buffer_size-1;
+        flag =0;
+        do_not_refill=1;
+    }
+    else if(flag==2 && forward<0){
+        forward=buffer_size-1;
+        flag =3;
+        do_not_refill=1;
+    }
+}
+
 int check_keyword(char* lexeme){
     int hash_value = get_hash(lexeme);
     char string[21];
@@ -65,7 +122,16 @@ int check_keyword(char* lexeme){
 }
 
 void getnextblock(FILE* fp,char * buff){
-    fread(buff,buffer_size,1,fp);
+        if(!do_not_refill){
+           int p= fread(buff,1,buffer_size,fp);
+           if(p<buffer_size){
+            printf("\n value of p is %d\n",p);
+            for(int i=0;i<p;i++)printf("%c",buff[i]);
+
+           buff[p] = EOF;
+           }
+        }
+        else do_not_refill=0;
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){
@@ -75,14 +141,28 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
             getnextblock(fp,buff2);
             forward = 0;
             flag = 1;
+            check_begin();
             return buff2[forward++]; 
         }
         return buff1[forward++];
         break;
         case 1:
+        if(forward == buffer_size){     // This case will only be possible for comments, hence begin pointr doesnt matter only forward pointer matters
+            getnextblock(fp,buff1);
+            forward = 0;
+            flag = 0;
+            return buff1[forward++]; 
+        }
         return buff2[forward++];
         break;
         case 2:
+        if(forward == buffer_size){     // This case will only be possible for comments, hence begin pointr doesnt matter only forward pointer matters
+            getnextblock(fp,buff2);
+            forward = 0;
+            flag = 3;
+            check_begin();
+            return buff2[forward++]; 
+        }
         return buff1[forward++];
         break;
         case 3:
@@ -90,8 +170,10 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
             getnextblock(fp,buff1);
             forward = 0;
             flag = 2;
+            check_begin();
             return buff1[forward++]; 
         }
+      
         return buff2[forward++];
         break;
     }
@@ -99,69 +181,87 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
 
 void error_handle(){
     //likha hai ye
+    printf("\n inside error handle, line number is %d, state is % d, breaking program here\n",current_line_no,state);
+    exit(0);
 }
 
 void copy_lexeme(char * str){
     // mark ending by '\0'
-    if(flag==0){
+    int forward2=forward-1;
+    int flag2=flag;
+    if(flag2==1 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=0;
+    }
+    else if(flag2==2 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=3;
+    }
+    if(flag2==0){
         int i=0;
-        for(i=begin;i<forward;i++){
+        for(i=begin;i<forward2;i++){
             str[i-begin]=buff1[i];
         }
         str[i-begin] = '\0';
 
     }
-    else if(flag==1){
+    else if(flag2==1){
         int i=0;
         for(i=begin;i<buffer_size;i++){
             str[i-begin]=buff1[i];
         }
-        for(i=0;i<forward;i++){
+        for(i=0;i<forward2;i++){
             str[buffer_size-begin+i]=buff2[i];
         }
-        str[buffer_size-begin+forward]='\0';
+        str[buffer_size-begin+forward2]='\0';
     }
-    else if(flag==2){
+    else if(flag2==2){
         int i=0;
         for(i=begin;i<buffer_size;i++){
             str[i-begin]=buff2[i];
         }
-        for(i=0;i<forward;i++){
+        for(i=0;i<forward2;i++){
             str[buffer_size-begin+i]=buff1[i];
         }
-        str[buffer_size-begin+forward]='\0';
+        str[buffer_size-begin+forward2]='\0';
     }
     else{
         int i=0;
-        for(i=begin;i<forward;i++){
+        for(i=begin;i<forward2;i++){
             str[i-begin]=buff2[i];
         }
         str[i-begin] = '\0';
     }
-
 }
 //abc+-
 
 void tokenise(enum TOKEN tk_name){
-     global_token.line_no = current_line_no;
-     global_token.tk_name = tk_name;
-     //
-     forward--;
-     if(tk_name == ID)
+     if(tk_name == ID){
         copy_lexeme(global_token.tk_data.lexeme);
+        printf("\n Lexeme is '%s'",global_token.tk_data.lexeme);
+     }
      else if(tk_name == NUM){
         char str[11];
         copy_lexeme(str);
         global_token.tk_data.val = atoi(str);
+        printf("\n Value of integer is %d",global_token.tk_data.val);
      }
      else if(tk_name == RNUM){
         char str[21];
         copy_lexeme(str);
-        //satark rahe for E
         global_token.tk_data.realVal = atof(str);
+        printf("\n Value of real is %f",global_token.tk_data.realVal);
      }
+
+     global_token.line_no = current_line_no;
+     global_token.tk_name = tk_name;
+     forward--;
+     check_forward();
      state = 0;
      begin = forward;
+     printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
+     if(flag==1)flag=3;
+     else if(flag==2)flag=0;
 }
 
 void dfa(char input){
@@ -203,8 +303,12 @@ void dfa(char input){
             state = 35;
         else if(input == ')')
             state = 36;
-        else if(input == ' ' || input == '\t')
-            state = 37;
+        else if(input == ' ' || input == '\t'){
+               state = 37;
+               if(input == ' ')begin++;
+               else begin+=4;
+               check_begin();
+        }    
         else if(input == '\n')
             state = 38;
         else
@@ -214,7 +318,6 @@ void dfa(char input){
         case 1:
         if(!isdigit(input) && !isalpha(input) && input!='_'){
              // check if it is a keyword, call check_keyword
-             
             char str[21];
             copy_lexeme(str);
             if(!check_keyword(str)){
@@ -233,8 +336,11 @@ void dfa(char input){
         case 3:
         if(isdigit(input))
             state = 4;
-        else if(input == '.')
-            state = 39;
+        else if(input == '.'){
+            forward--;
+            check_forward();
+            tokenise(NUM);
+        }
         else
             error_handle();
         break;
@@ -433,19 +539,46 @@ void dfa(char input){
         break;
 
         case 37:
-        if(!input==' ' && !input=='\t'){
+        if(!(input==' ') && !(input=='\t')){
             state = 0;
+            forward--;
+            check_forward();
         }
+        else if(input==' ')begin++;
+        else if(input=='\t')begin+=4;
+        check_begin();
         break;
 
         case 38:
         current_line_no++;
+        begin++;
         state = 0;
+        forward--;
+        check_begin();
+        check_forward();
         break;
     }
 }
 
+
 int main(){
     initHashTable();
+    FILE *fp = fopen("testcase.txt", "r");
+    if(fp == NULL){
+        printf("File not found");
+        return 0;
+    }
+    getnextblock(fp,buff1);
+    while(1){
+            char input = getnextchar(fp,buff1,buff2);
+            // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
+            
+            dfa(input);
+            if(input == EOF){
+                break;
+            }
+        
+    }
+
     return 0;
 }
