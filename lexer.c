@@ -85,10 +85,12 @@ void check_forward(){
     if(flag==1 && forward<0){
         forward=buffer_size-1;
         flag =0;
+        do_not_refill=1;
     }
     else if(flag==2 && forward<0){
         forward=buffer_size-1;
         flag =3;
+        do_not_refill=1;
     }
 }
 
@@ -120,7 +122,9 @@ int check_keyword(char* lexeme){
 }
 
 void getnextblock(FILE* fp,char * buff){
-        fread(buff,buffer_size,1,fp);
+        if(!do_not_refill)
+            fread(buff,buffer_size,1,fp);
+        else do_not_refill=0;
 }
 
 char getnextchar(FILE *fp,char *buff1,char *buff2){

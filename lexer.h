@@ -38,6 +38,7 @@ char buff2[buffer_size];
 
 // pointers to the buffer
 int forward=0,begin=0;
+int do_not_refill=0;
  /*0: both pointers in buff1
  1: begin in buff1 and forward in buff2
  2: forward in buff1 and begin in buff2
