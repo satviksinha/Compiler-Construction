@@ -32,31 +32,37 @@ int get_hash_terminal(const char* s)
 void makeGrammar(FILE* fp)
 {
     char buff[1024];
-    int counter = 1;
-    char delim[] = {", "};
+    int counter = 0;
+    char delim[] = {", \n"};
     
     while(fgets(buff, 1024, fp))
     {
         char * token = strtok(buff, delim);
-        struct node* nonTerminal;
+        struct node* nonTerminal = (struct node*) malloc(sizeof(struct node));
         nonTerminal->isTerminal = 0;
-        nonTerminal->value = token;
+        //nonTerminal->value = token;
+        strcpy(nonTerminal->value,token);
         grammar[counter] = nonTerminal;
         struct node* curr_token = nonTerminal;
+        //printf("%s->",token);
 
         while((token = strtok(NULL, delim)) != NULL)
         {
-            struct node* temp;
+            struct node* temp = (struct node*) malloc(sizeof(struct node));
             if(islower(token[0])) 
                 temp->isTerminal = 0;  
             else
                 temp->isTerminal = 1;
 
-            temp->value = token;
+            // temp->value = token;
+            strcpy(temp->value,token);
             curr_token->link = temp;
             curr_token = temp;
+            //printf("%s,",token);
         }
+        curr_token->link = NULL;
         counter++;
+        //printf("\n");
     }
 }
 
@@ -74,5 +80,7 @@ void createParseTable()
 
 int main()
 {
+    FILE* fp = fopen("grammar.txt","r");
+    makeGrammar(fp);
     return 0;
 }

@@ -9,7 +9,7 @@ struct node
 {
     int isTerminal;
     struct node* link;
-    char* value;
+    char value[23];
 }; 
 
 char nonTerminals[67][23] = {"startprogram","program","moduleDeclarations","otherModules",
@@ -39,5 +39,7 @@ struct node* parseTable[100][100];
 void makeGrammar(FILE* fp);
 
 void createParseTable();
+
+
 
 

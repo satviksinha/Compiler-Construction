@@ -125,4 +125,4 @@ default, EPSILON
 iterativeStmt, FOR, BO, ID, IN ,range_for, BC, START, statements, END
 iterativeStmt, WHILE, BO, expression, BC, START, statements, END
 range_for, NUM, RANGEOP, NUM
-range, index, RANGEOP, ind
+range, index, RANGEOP, index
