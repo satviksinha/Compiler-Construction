@@ -32,7 +32,7 @@ char terminals[57][12] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END",
 
 struct node* grammar[128];
 // Doubt - how to declare array?
-char** firstAndFollow[128];
+char firstAndFollow[128][111];
 struct node* parseTable[100][100];
 
 // function for storing grammar rules in the form of linked list
