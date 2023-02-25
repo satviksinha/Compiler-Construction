@@ -58,7 +58,7 @@ newArithmeticExpr, startExpr
 startExpr, newTerm, newA1
 newA1, op1, newTerm, newA1
 newA1, EPSILON
-newTerm, newNext, newA2
+newTerm, newNextTerm, newA2
 newA2, op2, newNextTerm, newA2
 newA2, EPSILON
 newNextTerm, BO, startExpr, BC, var_id_num
