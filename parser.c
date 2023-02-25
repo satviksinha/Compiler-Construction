@@ -51,8 +51,10 @@ void makeGrammar(FILE* fp)
             struct node* temp = (struct node*) malloc(sizeof(struct node));
             if(islower(token[0])) 
                 temp->isTerminal = 0;  
+            else if(!strcmp(token,"EPSILON"))
+                temp->isTerminal = 0;
             else
-                temp->isTerminal = 1;
+                temp->isTerminal=1;
 
             // temp->value = token;
             strcpy(temp->value,token);
@@ -78,29 +80,42 @@ void makeGrammar(FILE* fp)
 //     }   
 // }
 int done[128];
+
+char temp_store[100];
+
 void computeFirst(struct node* curr,char* str,int i){
     done[i] = 1;
-    if(curr->isTerminal=1){
-        strcat(str,",");
+    if(curr->isTerminal==1){
+        if(strlen(str))strcat(str,",");
         strcat(str,curr->value);
         return ;
     }
     else{
         //go to curr in grammar, for all rules of curr populate first, then return.
+        // printf("\nIN HERE 3\n");
+        int seen = 0;
         for(int j=i+1;j<128;j++){
             struct node* temp = grammar[j];
+            // printf("\nIN HERE\n");
+            if(!strcmp(temp->value, curr->value)){
+            seen=1;
+            // printf("\nIN HERE 2\n");
             int flag = 0;
             while(!flag){
-            if(done[j]!=0){
-            if(!strcmp(temp->value, curr->value)){
-
+            if(done[j]!=1){
+                // printf("\n in here 4");
                 computeFirst(temp->link,firstAndFollow[j],j);
+                if(strlen(str))strcat(str,",");
                 strcat(str,firstAndFollow[j]);
-                char *token = strtok(firstAndFollow[i], ",");
+                strcpy(temp_store,firstAndFollow[j]);
+                printf("\n First and follow of rule no %d is %s \n",j,firstAndFollow[j]);
+                char *token = strtok(temp_store, ",");
                 int epsilon_found=0;
                 while (token != NULL)
-                {
+                { 
+
                     if(!strcmp(token,"EPSILON")){
+                        // printf("FOUND EPISLION \n");
                         epsilon_found=1;
                         temp = temp->link;
                         if(temp->link!=NULL){
@@ -114,8 +129,12 @@ void computeFirst(struct node* curr,char* str,int i){
                     token = strtok(NULL, ",");
                 }
                 if(!epsilon_found)flag=1;               
+            
             }
             }
+            }
+            else{
+                if(seen==1) return;
             }
         }
     }
@@ -125,18 +144,22 @@ void computeFollow(){
 
 }
 void computeFirstAndFollow(){
-    
     for(int i =0;i<128;i++){
         struct node* temp = grammar[i];
-        while(done[i]!=0){
+
+        if(done[i]!=1){
             int flag = 0;
-            while(!flag){           
+            while(!flag){ 
             computeFirst(temp->link,firstAndFollow[i],i);
-            char *token = strtok(firstAndFollow[i], ",");
+            printf("HERE");
+            printf("\n First and follow of rule no %d is %s \n",i,firstAndFollow[i]);
+            strcpy(temp_store,firstAndFollow[i]);
+            char *token = strtok(temp_store, ",");
             int epsilon_found=0;
             while (token != NULL)
             {
                 if(!strcmp(token,"EPSILON")){
+                    printf("\n found epsilon down\n");
                     epsilon_found=1;
                     temp = temp->link;
                     if(temp->link!=NULL){
@@ -160,6 +183,9 @@ int main()
 {
     FILE* fp = fopen("grammar.txt","r");
     makeGrammar(fp);
+    for(int i=0;i<128;i++){
+    done[i]=0;
+}
     computeFirstAndFollow();
     for(int i=0;i<128;i++){
         printf("%s \n",firstAndFollow[i]);
