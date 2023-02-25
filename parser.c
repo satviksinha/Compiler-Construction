@@ -51,8 +51,6 @@ void makeGrammar(FILE* fp)
             struct node* temp = (struct node*) malloc(sizeof(struct node));
             if(islower(token[0])) 
                 temp->isTerminal = 0;  
-            else if(!strcmp(token,"EPSILON"))
-                temp->isTerminal = 0;
             else
                 temp->isTerminal=1;
 
