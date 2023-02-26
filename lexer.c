@@ -1,4 +1,4 @@
-#include"lexer.h"
+#include"lexerDef.h"
 
 char* tokenName[57] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
 "PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
@@ -6,7 +6,7 @@ char* tokenName[57] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DE
 "LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
 "COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK"};
 
-   // integer : 71 
+// integer : 71 
 // real : 32
 // of : 19
 // array : 58
@@ -180,9 +180,10 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
 }
 
 void error_handle(){
-    //likha hai ye
-    printf("\n inside error handle, line number is %d, state is % d, breaking program here\n",current_line_no,state);
-    exit(0);
+    // //likha hai ye
+    // printf("\n inside error handle, line number is %d, state is % d, breaking program here\n",current_line_no,state);
+    // exit(0);
+    global_token.hasError = 1;
 }
 
 void copy_lexeme(char * str){
@@ -255,6 +256,7 @@ void tokenise(enum TOKEN tk_name){
 
      global_token.line_no = current_line_no;
      global_token.tk_name = tk_name;
+     global_token.hasError = 0;
      forward--;
      check_forward();
      state = 0;
@@ -262,6 +264,7 @@ void tokenise(enum TOKEN tk_name){
      printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
      if(flag==1)flag=3;
      else if(flag==2)flag=0;
+     generateToken = 0;
 }
 
 void dfa(char input){
@@ -560,6 +563,10 @@ void dfa(char input){
     }
 }
 
+// void getNextToken()
+// {
+//     generateToken = 1;  
+// }
 
 int main(){
     initHashTable();
@@ -569,7 +576,9 @@ int main(){
         return 0;
     }
     getnextblock(fp,buff1);
-    while(1){
+    // changes made here,check if error occurs
+    while(!feof(fp)){
+        while(generateToken){
             char input = getnextchar(fp,buff1,buff2);
             // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
             
@@ -577,7 +586,7 @@ int main(){
             if(input == EOF){
                 break;
             }
-        
+        }
     }
 
     return 0;

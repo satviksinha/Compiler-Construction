@@ -1,4 +1,48 @@
-# include "parser.h"
+#include "parserDef.h"
+#include "lexerDef.h"
+#include "tree.h"
+
+struct stack_node
+{
+    int isTerminal;
+    char value[23];
+    struct stack_node* link;
+};
+
+typedef struct stack_node stackElement;
+
+stackElement* s_top = NULL;
+
+void s_push(stackElement* element)
+{
+    //creating back link
+    element->link = s_top;
+    
+    // change top
+    s_top  = element;
+}
+
+void s_pop()
+{
+    stackElement* new_top = s_top;
+    //update top
+    s_top = s_top->link;
+    // remove the top
+    free(new_top);
+}
+
+int isEmpty()
+{
+    if(s_top == NULL)
+    {
+        return 1;
+    }
+
+    else
+    {
+        return 0;
+    }
+}
 
 
 // hash function for non terminals
@@ -28,6 +72,26 @@ int get_hash_terminal(const char* s)
     return abs(hash);
 }
 
+void getNextToken()
+{
+    generateToken = 1;  
+}
+
+//function for displaying error while parsing
+void display_error()
+{
+   if(global_token.hasError)
+   {
+        printf("Lexical error at line no. %d \n",global_token.line_no);
+   }
+
+   else
+   {
+        printf("Parsing error at line no. %d", global_token.line_no);
+   }
+    
+}
+
 // function for storing grammar rules in the form of linked list
 void makeGrammar(FILE* fp)
 {
@@ -40,6 +104,7 @@ void makeGrammar(FILE* fp)
         char * token = strtok(buff, delim);
         struct node* nonTerminal = (struct node*) malloc(sizeof(struct node));
         nonTerminal->isTerminal = 0;
+        nonTerminal->backward_link = NULL;
         //nonTerminal->value = token;
         strcpy(nonTerminal->value,token);
         grammar[counter] = nonTerminal;
@@ -56,11 +121,12 @@ void makeGrammar(FILE* fp)
 
             // temp->value = token;
             strcpy(temp->value,token);
-            curr_token->link = temp;
+            curr_token->forward_link = temp;
+            temp->backward_link = curr_token;
             curr_token = temp;
             //printf("%s,",token);
         }
-        curr_token->link = NULL;
+        curr_token->forward_link = NULL;
         counter++;
         //printf("\n");
     }
@@ -78,9 +144,84 @@ void createParseTable()
     }   
 }
 
+
+void runPDA()
+{
+    if(s_top == NULL)
+        display_error();
+
+    else if(global_token.hasError)
+    {
+        display_error();
+    }
+    else
+    {
+        if(s_top->isTerminal)
+        {
+            if(!strcmp(s_top->value,token_strings[global_token.tk_name]))
+            {
+                s_pop();
+                if(currExpand->nextSibling != NULL)
+                    currExpand = currExpand->nextSibling;
+                else
+                {
+                    while(currExpand->prevSibling != NULL)
+                        currExpand = currExpand->prevSibling;
+
+                    while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)
+                    {
+                        currExpand = currExpand->parent;
+                        while(currExpand->prevSibling != NULL)
+                            currExpand = currExpand->prevSibling;
+                    }
+
+                    if(currExpand->parent != root)
+                    {
+                        currExpand = currExpand->parent->nextSibling;
+                    }
+                }
+            }
+            else
+                display_error();
+        }
+        else
+        {
+            if(parseTable[get_hash_nonTerminal(s_top->value)][get_hash_terminal(token_strings[global_token.tk_name])] != NULL)
+            {
+                s_pop();
+                struct node* curr;
+                curr = parseTable[get_hash_nonTerminal(s_top->value)][get_hash_terminal(token_strings[global_token.tk_name])];
+                
+                //tree generation
+                addChild(currExpand,curr->forward_link);
+                currExpand = currExpand->children;
+
+                while(curr->forward_link != NULL)
+                {
+                    curr = curr->forward_link;
+                }
+                while(curr->backward_link != NULL)
+                {
+                    stackElement* stackNode = malloc(sizeof(stackElement));
+                    stackNode->isTerminal = curr->isTerminal;
+                    strcpy(stackNode->value,curr->value);
+                    s_push(stackNode);
+                    curr = curr->backward_link;
+                } 
+            }
+            else
+            {
+                display_error();
+            }
+        }
+    }
+}
+
+
 int main()
 {
     FILE* fp = fopen("grammar.txt","r");
     makeGrammar(fp);
     return 0;
 }
+
