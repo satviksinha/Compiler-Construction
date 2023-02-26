@@ -152,49 +152,56 @@ int createfirst(char *term)
     return isEpsilon[get_hash(term)];
 }
 
-void bubbleSort(char* arr[500],int n)
+void bubbleSort(char *arr[500], int n)
 {
     int i, j;
     for (i = 0; i < n - 1; i++)
-    // Last i elements are already in place
+        // Last i elements are already in place
         for (j = 0; j < n - i - 1; j++)
-            if (strcmp(arr[j],arr[j+1])>0){
-                char* temp;
+            if (strcmp(arr[j], arr[j + 1]) > 0)
+            {
+                char *temp;
                 temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1]=temp;
-
-            }      
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
 }
 
-void removeDuplicates(char* str){
-    char* arr[500];
-    char* token = strtok(str,",");
-    int i=0;
-    while(token!=NULL){
+void removeDuplicates(char *str)
+{
+    char *arr[500];
+    char *token = strtok(str, ",");
+    int i = 0;
+    while (token != NULL)
+    {
         arr[i] = token;
         i++;
-        token= strtok(NULL,","); 
+        token = strtok(NULL, ",");
     }
-    bubbleSort(arr,i);
-    int n=i;
+    bubbleSort(arr, i);
+    int n = i;
     char str1[2000] = {};
-    for(i=0;i<n;i++){
-        if(i!= n-1 && strcmp(arr[i],arr[i+1])){
-            if(strlen(str1)){
-                strcat(str1,",");
+    for (i = 0; i < n; i++)
+    {
+        if (i != n - 1 && strcmp(arr[i], arr[i + 1]))
+        {
+            if (strlen(str1))
+            {
+                strcat(str1, ",");
             }
-            strcat(str1,arr[i]);
+            strcat(str1, arr[i]);
         }
-        if(i == n-1){
-            if(strlen(str1)){
-                strcat(str1,",");
+        if (i == n - 1)
+        {
+            if (strlen(str1))
+            {
+                strcat(str1, ",");
             }
-            strcat(str1,arr[i]);
+            strcat(str1, arr[i]);
         }
     }
-    //printf("%s \n",str1);
-    strcpy(str,str1);
+    // printf("%s \n",str1);
+    strcpy(str, str1);
 }
 
 void createFollow(char *non_terminal)
@@ -212,7 +219,7 @@ void createFollow(char *non_terminal)
         if (temp != NULL)
         {
             temp = temp->link;
-            //printf("%s",temp->value);
+            // printf("%s",temp->value);
             while (temp != NULL && isEpsilon[get_hash(temp->value)])
             {
                 if (strlen(ntFollow[get_hash(non_terminal)]) && ntFollow[get_hash(non_terminal)][strlen(ntFollow[get_hash(non_terminal)]) - 1] != ',')
@@ -234,10 +241,10 @@ void createFollow(char *non_terminal)
             }
             else
             {
-                //printf("%s",temp->value);
+                // printf("%s",temp->value);
                 if (strlen(ntFollow[get_hash(non_terminal)]) && ntFollow[get_hash(non_terminal)][strlen(ntFollow[get_hash(non_terminal)]) - 1] != ',')
                     strcat(ntFollow[get_hash(non_terminal)], ",");
-                //printf("%s",ntFirst[get_hash(temp->value)]);
+                // printf("%s",ntFirst[get_hash(temp->value)]);
                 strcat(ntFollow[get_hash(non_terminal)], ntFirst[get_hash(temp->value)]);
             }
         }
@@ -246,30 +253,32 @@ void createFollow(char *non_terminal)
 
 void computeFirstAndFollow()
 {
-    for(int i = 0; i < 129; i++)
+    for (int i = 0; i < 129; i++)
     {
         int j = 0;
-        char* first;
-        char* follow;
-        char* token;
-        struct node* temp = grammar[i]->link;
-        while(temp != NULL && isEpsilon[get_hash(temp->value)])
+        char *first;
+        char *follow;
+        char *token;
+        struct node *temp = grammar[i]->link;
+        while (temp != NULL && isEpsilon[get_hash(temp->value)])
         {
-            first = ntFirst[get_hash(temp->value)];
-            token = strtok(first,",");
-            firstAndFollow[i][j++] = token;
-            while((token = strtok(NULL, ",")) != NULL)
-            {
+            if(strcmp(temp->value,"EPSILON")){
+                first = ntFirst[get_hash(temp->value)];
+                token = strtok(first, ",");
                 firstAndFollow[i][j++] = token;
+                while ((token = strtok(NULL, ",")) != NULL)
+                {
+                    firstAndFollow[i][j++] = token;
+                }
             }
             temp = temp->link;
         }
-        if(temp == NULL)
+        if (temp == NULL)
         {
             follow = ntFollow[get_hash(grammar[i]->value)];
-            token = strtok(first,",");
+            token = strtok(follow, ",");
             firstAndFollow[i][j++] = token;
-            while((token = strtok(NULL, ",")) != NULL)
+            while ((token = strtok(NULL, ",")) != NULL)
             {
                 firstAndFollow[i][j++] = token;
             }
@@ -277,16 +286,15 @@ void computeFirstAndFollow()
         else
         {
             first = ntFirst[get_hash(temp->value)];
-            token = strtok(first,",");
+            token = strtok(first, ",");
             firstAndFollow[i][j++] = token;
-            while((token = strtok(NULL, ",")) != NULL)
+            while ((token = strtok(NULL, ",")) != NULL)
             {
                 firstAndFollow[i][j++] = token;
             }
-        }  
+        }
     }
 }
-
 
 int main()
 {
@@ -299,6 +307,7 @@ int main()
         char *non_terminal = nonTerminals[i];
         createfirst(non_terminal); // calculate first of lhs
     }
+    isEpsilon[get_hash("EPSILON")] = 1;
     // createfirst("arithmeticOrBooleanExpr");
     // for (int i = 0; i < 126; i++)
     //     printf("%s:%s\n", nonTerminals[i], ntFirst[get_hash(nonTerminals[i])]);
@@ -321,11 +330,15 @@ int main()
     // }
     // printf("%s", ntFirst[get_hash("arithmeticOrBooleanExpr")]);
     computeFirstAndFollow();
-    for(int i=0;i<129;i++){
-        printf("RULE:%d  ",i);
-        for(int j=0;firstAndFollow[i][j]!=NULL;j++)
-            printf("%s,",firstAndFollow[i][j]);
+    for (int i = 0; i < 129; i++)
+    {
+        printf("RULE:%d  ", i+1);
+        for (int j = 0; firstAndFollow[i][j] != NULL; j++)
+            printf("%s ", firstAndFollow[i][j]);
         printf("\n");
     }
+
+    //printf("%s \n", ntFirst[get_hash("moduleDeclaration")]);
+
     return 0;
 }
