@@ -37,7 +37,7 @@ char* tokenName[57] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DE
 // false : 38
 //  : 0
 
-int get_hash(char* str){
+int get_hash_lexer(char* str){
     int size = strlen(str);
     int sum = 0;
     for(int i=0;i<size;i++){
@@ -53,19 +53,19 @@ void initHashTable(){
                             CASE,BREAK,DEFAULT,WHILE,AND,OR,TRUE,FALSE};    
     int flag1=0,flag2=0;
     for(int i=0;i<30;i++){
-        if(get_hash(arr[i]) == 32 && flag1 == 0){
+        if(get_hash_lexer(arr[i]) == 32 && flag1 == 0){
             flag1=1;
             strcpy(hashTable[33].str,arr[i]);
             hashTable[33].tk = tokens[i];
         }
-        else if(get_hash(arr[i]) == 64 && flag2 == 0){
+        else if(get_hash_lexer(arr[i]) == 64 && flag2 == 0){
             flag2=1;
             strcpy(hashTable[65].str,arr[i]);
             hashTable[65].tk = tokens[i];
         }
         else{
-            strcpy(hashTable[get_hash(arr[i])].str,arr[i]);
-            hashTable[get_hash(arr[i])].tk = tokens[i];
+            strcpy(hashTable[get_hash_lexer(arr[i])].str,arr[i]);
+            hashTable[get_hash_lexer(arr[i])].tk = tokens[i];
         }
     }
 }
@@ -95,7 +95,7 @@ void check_forward(){
 }
 
 int check_keyword(char* lexeme){
-    int hash_value = get_hash(lexeme);
+    int hash_value = get_hash_lexer(lexeme);
     char string[21];
     if(hash_value == 32 || hash_value == 64){
         strcpy(string,hashTable[hash_value].str);
@@ -561,24 +561,24 @@ void dfa(char input){
 }
 
 
-int main(){
-    initHashTable();
-    FILE *fp = fopen("testcase.txt", "r");
-    if(fp == NULL){
-        printf("File not found");
-        return 0;
-    }
-    getnextblock(fp,buff1);
-    while(1){
-            char input = getnextchar(fp,buff1,buff2);
-            // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
+// int main(){
+//     initHashTable();
+//     FILE *fp = fopen("testcase.txt", "r");
+//     if(fp == NULL){
+//         printf("File not found");
+//         return 0;
+//     }
+//     getnextblock(fp,buff1);
+//     while(1){
+//             char input = getnextchar(fp,buff1,buff2);
+//             // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
             
-            dfa(input);
-            if(input == EOF){
-                break;
-            }
+//             dfa(input);
+//             if(input == EOF){
+//                 break;
+//             }
         
-    }
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

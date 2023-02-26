@@ -80,4 +80,4 @@ void error_handle();
 void copy_lexeme(char * str);
 
 //get the hash value for a string
-int get_hash(char* str);
+int get_hash_lexer(char* str);

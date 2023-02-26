@@ -18,7 +18,7 @@ typedef struct node stackElement;
 stackElement* top = NULL;
 
 //stack functions
-void push(stackElement element);
+void push(stackElement *element);
 void pop();
 int isEmpty();
 

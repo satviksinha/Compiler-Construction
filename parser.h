@@ -23,7 +23,9 @@ struct node
 // "declareStmt","conditionalStmt","caseStmt","post","value","default","iterativeStmt",
 // "range_for","range"};
 
-char nonTerminals[125][24] = {"startprogram","program","moduleDeclarations","moduleDeclaration","otherModules",
+//both non-terminals and terminals
+//non terminals = 68
+char nonTerminals[126][24] = {"startprogram","program","moduleDeclarations","moduleDeclaration","otherModules",
 "driverModule","module","ret","input_plist","moreList","output_plist","moreOutput",
 "dataType","type","moduleDef","statements","statement","ioStmt","print_var","whichId2",
 "boolvar","whichId","index","sign","aVar","var_id_num","newArithmeticExpr","startExpr",
@@ -36,24 +38,28 @@ char nonTerminals[125][24] = {"startprogram","program","moduleDeclarations","mod
 "PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
 "CASE","BREAK","DEFAULT","WHILE","AND","OR","TRUE","FALSE","ID","NUM","RNUM","PLUS","MINUS","MUL","DIV",
 "LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
-"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK"};
+"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK","DOLLAR"};
 
-char terminals[57][12] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
+char terminals[58][12] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
 "PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
 "CASE","BREAK","DEFAULT","WHILE","AND","OR","TRUE","FALSE","ID","NUM","RNUM","PLUS","MINUS","MUL","DIV",
 "LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
-"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK"};
+"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK","DOLLAR"};
 
 
 struct node* grammar[129];
 // Doubt - how to declare array?
-char firstAndFollow[129][111];
+char* firstAndFollow[129][111];
 struct node* parseTable[100][100];
 
 // function for storing grammar rules in the form of linked list
 void makeGrammar(FILE* fp);
-
+// function for populating parse table with grammar rules
 void createParseTable();
+//gives first and follow for each rule
+void computeFirstAndFollow();
+//removes duplicates in follow sets
+void removeDuplicates();
 
 
 
