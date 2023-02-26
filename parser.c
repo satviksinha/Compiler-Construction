@@ -32,7 +32,7 @@ int get_hash_terminal(const char *s)
 int get_hash(const char *s)
 {
     int n = strlen(s);
-    long long p = 31, m = 10e4;
+    long long p = 31, m = 10e9+7;
     long long hash = 0;
     long long p_pow = 1;
     for (int i = 0; i < n; i++)
@@ -40,7 +40,7 @@ int get_hash(const char *s)
         hash = (hash + (s[i] - 'a' + 1) * p_pow) % m;
         p_pow = (p_pow * p) % m;
     }
-    return abs(hash);
+    return abs(hash)%1521;
 }
 
 // function for storing grammar rules in the form of linked list
@@ -81,23 +81,22 @@ void makeGrammar(FILE *fp)
     }
 }
 
-// void createParseTable()
-// {
-//     for(int i = 0; i < 128; i++)
-//     {
-//         int j = 0;
-//         for(int j = 0; strcmp(firstAndFollow[i][j],"end") != 0; j++)
-//         {
-//             parseTable[get_hash_nonTerminal(grammar[i]->value)][get_hash_terminal(firstAndFollow[i][j])] = grammar[i];
-//         }
-//     }
-// }
+void createParseTable()
+{
+    for(int i = 0; i < 129; i++)
+    {
+        for(int j = 0; firstAndFollow[i][j] != NULL; j++)
+        {
+            parseTable[get_hash(grammar[i]->value)][get_hash(firstAndFollow[i][j])] = grammar[i];
+        }
+    }
+}
 
 // int already_visited[128];
-char ntFirst[99500][300];  // size to be changed later
-char ntFollow[99500][300]; // size to be changed later
+char ntFirst[1519][300];  // size to be changed later
+char ntFollow[1519][300]; // size to be changed later
 
-int isEpsilon[99500];
+int isEpsilon[1519];
 int cnt = 0;
 int createfirst(char *term)
 { // returns 0 if first contains epsilon,otherwise returns 1
@@ -337,8 +336,7 @@ int main()
             printf("%s ", firstAndFollow[i][j]);
         printf("\n");
     }
-
+    createParseTable();
     //printf("%s \n", ntFirst[get_hash("moduleDeclaration")]);
-
     return 0;
 }

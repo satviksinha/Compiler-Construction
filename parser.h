@@ -50,7 +50,7 @@ char terminals[59][12] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END",
 struct node* grammar[129];
 // Doubt - how to declare array?
 char* firstAndFollow[129][111];
-struct node* parseTable[100][100];
+struct node* parseTable[1519][1519];
 
 // function for storing grammar rules in the form of linked list
 void makeGrammar(FILE* fp);
