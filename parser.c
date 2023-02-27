@@ -170,21 +170,84 @@ void runPDA()
     else
     {
         // printf("%d",s_top->isTerminal);
+        if(!strcmp(currExpand->value,"EPSILON")){
+            while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)
+            {
+                currExpand = currExpand->parent;
+                while(currExpand->prevSibling != NULL)
+                    currExpand = currExpand->prevSibling;
+            }
+
+            if(currExpand->parent != root)
+            {
+                currExpand = currExpand->parent->nextSibling;
+            }
+        }
         if(s_top->isTerminal)
         {
             if(!strcmp(s_top->value,token_strings[global_token.tk_name]))
             {
-                printf("match,%s\n",s_top->value);
+                //match
+                //printf("match,%s\n",s_top->value);
                 s_pop();
                 //tree-code
 
-                // if(currExpand->nextSibling != NULL)
-                //     currExpand = currExpand->nextSibling;
-                // else
-                // {
-                //     while(currExpand->prevSibling != NULL)
-                //         currExpand = currExpand->prevSibling;
+                printf("%s\n",currExpand->value);
+                if(currExpand->nextSibling != NULL){
+                    //printf("%s\n",currExpand->value);
+                    currExpand = currExpand->nextSibling;
+                }
+                else
+                {
+                    while(currExpand->prevSibling != NULL){
+                        currExpand = currExpand->prevSibling;
+                    }
 
+                    while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)
+                    {
+                        currExpand = currExpand->parent;
+                        while(currExpand->prevSibling != NULL)
+                            currExpand = currExpand->prevSibling;
+                    }
+
+                    if(currExpand->parent != root)
+                    {
+                        currExpand = currExpand->parent->nextSibling;
+                    }
+                }
+            }
+            else{
+                // printf("not match");
+                display_error();
+            }
+        }
+        else
+        {   
+            
+            if(parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])] != NULL)
+            {
+                struct node* curr;
+                curr = parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])];
+                s_pop();
+                //tree generation
+                //printf("Before add child");
+                if(!strcmp(currExpand->value,"EPSILON")){
+                     while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)
+                    {
+                        currExpand = currExpand->parent;
+                        while(currExpand->prevSibling != NULL)
+                            currExpand = currExpand->prevSibling;
+                    }
+
+                    if(currExpand->parent != root)
+                    {
+                        currExpand = currExpand->parent->nextSibling;
+                    }
+                }
+                printf("%s\n",currExpand->value);
+                addChild(currExpand,curr->forward_link);
+                    // printf("%s\n",currExpand->value);
+                // else{
                 //     while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)
                 //     {
                 //         currExpand = currExpand->parent;
@@ -195,28 +258,11 @@ void runPDA()
                 //     if(currExpand->parent != root)
                 //     {
                 //         currExpand = currExpand->parent->nextSibling;
+                //         printf("%s",currExpand->value);
                 //     }
                 // }
-            }
-            else{
-                printf("not match");
-                display_error();
-            }
-        }
-        else
-        {   
-            //printf("%d,%d",get_hash(s_top->value),get_hash("ID"));
-            if(parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])] != NULL)
-            {
-                struct node* curr;
-                //printf("Before curr");
-                curr = parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])];
-                s_pop();
-                //tree generation
-                //printf("Before add child");
-                // addChild(currExpand,curr->forward_link);
-                //  printf("After add child");
-                // currExpand = currExpand->children;
+                //printf("After add child");.................
+                currExpand = currExpand->children;
                 //printf("After curr expand");
                 while(curr->forward_link != NULL)
                 {
@@ -224,13 +270,13 @@ void runPDA()
                 }
                 while(curr->backward_link != NULL)
                 {
-                    //printf("inside while loop\n");
+                    
                     stackElement* stackNode = malloc(sizeof(stackElement));
                     stackNode->isTerminal = curr->isTerminal;
                     strcpy(stackNode->value,curr->value);
                     if(strcmp(stackNode->value,"EPSILON"))
                         s_push(stackNode);
-                    //printf("%s,%d\n",s_top->value,s_top->isTerminal);
+                    
                     curr = curr->backward_link;
                 }
                 runPDA();
@@ -253,14 +299,14 @@ int isEpsilon[1519];
 int cnt = 0;
 int createfirst(char *term)
 { // returns 0 if first contains epsilon,otherwise returns 1
-  // printf("%s",term);
+  
 
     if (strlen(ntFirst[get_hash(term)]))
     {
-        // printf("%s",term);
+        
         return isEpsilon[get_hash(term)];
     }
-    // printf("%d:%s \n", isupper(term[0]), term);
+    
     if (isupper(term[0]))
     { // if term is a terminal
         if (strcmp(term, "EPSILON"))
@@ -296,7 +342,7 @@ int createfirst(char *term)
             {
                 if (strlen(ntFirst[get_hash(term)]) && ntFirst[get_hash(term)][strlen(ntFirst[get_hash(term)]) - 1] != ',') // if ntFirst of that term isnt empty
                     strcat(ntFirst[get_hash(term)], ",");
-                // printf("%s\n",ntFirst[get_hash(temp->value)]);
+                
                 strcat(ntFirst[get_hash(term)], ntFirst[get_hash(temp->value)]);
             }
         }
@@ -352,7 +398,7 @@ void removeDuplicates(char *str)
             strcat(str1, arr[i]);
         }
     }
-    // printf("%s \n",str1);
+    
     strcpy(str, str1);
 }
 
@@ -371,7 +417,7 @@ void createFollow(char *non_terminal)
         if (temp != NULL)
         {
             temp = temp->forward_link;
-            // printf("%s",temp->value);
+            
             while (temp != NULL && isEpsilon[get_hash(temp->value)])
             {
                 if (strlen(ntFollow[get_hash(non_terminal)]) && ntFollow[get_hash(non_terminal)][strlen(ntFollow[get_hash(non_terminal)]) - 1] != ',')
@@ -393,10 +439,10 @@ void createFollow(char *non_terminal)
             }
             else
             {
-                // printf("%s",temp->value);
+                
                 if (strlen(ntFollow[get_hash(non_terminal)]) && ntFollow[get_hash(non_terminal)][strlen(ntFollow[get_hash(non_terminal)]) - 1] != ',')
                     strcat(ntFollow[get_hash(non_terminal)], ",");
-                // printf("%s",ntFirst[get_hash(temp->value)]);
+                
                 strcat(ntFollow[get_hash(non_terminal)], ntFirst[get_hash(temp->value)]);
             }
         }
@@ -452,7 +498,6 @@ int main()
 {
     FILE *fp = fopen("grammar.txt", "r");
     makeGrammar(fp);
-    // memset(ntFirst,'-',1157*300);
     memset(isEpsilon, 0, sizeof(isEpsilon));
     for (int i = 0; i < 126; i++)
     {
@@ -498,11 +543,24 @@ int main()
     //     }
     // }
     
+    //stack initialisation
     stackElement* element = malloc(sizeof(stackElement));
     element->isTerminal = 0;
     strcpy(element->value,"startprogram");
     s_push(element);
-    // printf("%s\n",s_top->value);
+
+    //root element of tree creation
+    struct treeNode* tree_node = malloc(sizeof(struct treeNode));
+    tree_node->children = NULL;
+    tree_node->isTerminal = 0;
+    tree_node->parent = NULL;
+    tree_node->nextSibling = NULL;
+    tree_node->prevSibling = NULL;
+    strcpy(tree_node->value,"startprogram");
+
+    //setting root and currentExpand
+    root = tree_node;
+    currExpand = tree_node;
 
     global_token.hasError = 0;
     global_token.line_no = 1;
@@ -539,56 +597,13 @@ int main()
 
     runPDA();
 
-
     global_token.hasError = 0;
     global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,"a");
-    global_token.tk_name = ID;
-
-    runPDA();
-
-    global_token.hasError = 0;
-    global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,"=");
-    global_token.tk_name = ASSIGNOP;
-
-    runPDA();
-
-    global_token.hasError = 0;
-    global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,"b");
-    global_token.tk_name = ID;
-
-    runPDA();
-
-    global_token.tk_name = PLUS;
-    global_token.hasError = 0;
-    global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,"+");
-
-    runPDA();
-
-    global_token.tk_name = ID;
-    global_token.hasError = 0;
-    global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,"c");
-
-    runPDA();
-
-    global_token.tk_name = SEMICOL;
-    global_token.hasError = 0;
-    global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,";");
-
-    runPDA();
-
-    
-    global_token.hasError = 0;
-    global_token.line_no = 6;
     strcpy(global_token.tk_data.lexeme,"end");
     global_token.tk_name = END;
 
     runPDA();
+    //printf("%s",currExpand->value);
     
     return 0;
 }

@@ -46,6 +46,101 @@ int get_hash(char* str){
     return sum % 97;
 }
 
+
+void check_forward(){
+    if(flag==1 && forward<0){
+        forward=buffer_size-1;
+        flag =0;
+        do_not_refill=1;
+    }
+    else if(flag==2 && forward<0){
+        forward=buffer_size-1;
+        flag =3;
+        do_not_refill=1;
+    }
+}
+
+void copy_lexeme(char * str){
+    // mark ending by '\0'
+    int forward2=forward-1;
+    int flag2=flag;
+    if(flag2==1 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=0;
+    }
+    else if(flag2==2 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=3;
+    }
+    if(flag2==0){
+        int i=0;
+        for(i=begin;i<forward2;i++){
+            str[i-begin]=buff1[i];
+        }
+        str[i-begin] = '\0';
+
+    }
+    else if(flag2==1){
+        int i=0;
+        for(i=begin;i<buffer_size;i++){
+            str[i-begin]=buff1[i];
+        }
+        for(i=0;i<forward2;i++){
+            str[buffer_size-begin+i]=buff2[i];
+        }
+        str[buffer_size-begin+forward2]='\0';
+    }
+    else if(flag2==2){
+        int i=0;
+        for(i=begin;i<buffer_size;i++){
+            str[i-begin]=buff2[i];
+        }
+        for(i=0;i<forward2;i++){
+            str[buffer_size-begin+i]=buff1[i];
+        }
+        str[buffer_size-begin+forward2]='\0';
+    }
+    else{
+        int i=0;
+        for(i=begin;i<forward2;i++){
+            str[i-begin]=buff2[i];
+        }
+        str[i-begin] = '\0';
+    }
+}
+
+void tokenise(enum TOKEN tk_name){
+     if(tk_name == ID){
+        copy_lexeme(global_token.tk_data.lexeme);
+        if(strlen)
+        printf("\n Lexeme is '%s'",global_token.tk_data.lexeme);
+     }
+     else if(tk_name == NUM){
+        char str[11];
+        copy_lexeme(str);
+        global_token.tk_data.val = atoi(str);
+        printf("\n Value of integer is %d",global_token.tk_data.val);
+     }
+     else if(tk_name == RNUM){
+        char str[21];
+        copy_lexeme(str);
+        global_token.tk_data.realVal = atof(str);
+        printf("\n Value of real is %f",global_token.tk_data.realVal);
+     }
+     
+     global_token.line_no = current_line_no;
+     global_token.tk_name = tk_name;
+     global_token.hasError = 0;
+     forward--;
+     check_forward();
+     state = 0;
+     begin = forward;
+     printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
+     if(flag==1)flag=3;
+     else if(flag==2)flag=0;
+     generateToken = 0;
+}
+
 void initHashTable(){
     char arr[30][11]={"integer","real","boolean","of","array","start","end","declare","module","driver","program","get_value","print","use","with","parameters","takes","input","returns","for","in","switch","case","break","default","while","AND","OR","true","false"};
     enum TOKEN tokens[30] = {INTEGER,REAL,BOOLEAN,OF,ARRAY,START,END,DECLARE,MODULE,DRIVER,
@@ -81,18 +176,6 @@ void check_begin(){
     }
 }
 
-void check_forward(){
-    if(flag==1 && forward<0){
-        forward=buffer_size-1;
-        flag =0;
-        do_not_refill=1;
-    }
-    else if(flag==2 && forward<0){
-        forward=buffer_size-1;
-        flag =3;
-        do_not_refill=1;
-    }
-}
 
 int check_keyword(char* lexeme){
     int hash_value = get_hash(lexeme);
@@ -125,9 +208,8 @@ void getnextblock(FILE* fp,char * buff){
         if(!do_not_refill){
            int p= fread(buff,1,buffer_size,fp);
            if(p<buffer_size){
-            printf("\n value of p is %d\n",p);
-            for(int i=0;i<p;i++)printf("%c",buff[i]);
-
+            // printf("\n value of p is %d\n",p);
+            // for(int i=0;i<p;i++)printf("%c",buff[i]);
            buff[p] = EOF;
            }
         }
@@ -181,91 +263,26 @@ char getnextchar(FILE *fp,char *buff1,char *buff2){
 
 void error_handle(){
     // //likha hai ye
-    // printf("\n inside error handle, line number is %d, state is % d, breaking program here\n",current_line_no,state);
-    // exit(0);
     global_token.hasError = 1;
+    char str[21];
+    copy_lexeme(str);
+
+
+    printf("\n This is an lexical error, line number is %d, state is % d, erroneous lexeme is '%s', l: %d\n",current_line_no,state,str,strlen(str));
+    forward--;
+    
+    check_forward();
+    begin = forward;
+    
+    if(flag==1)flag=3;
+    else if(flag==2)flag=0;
+    state=0;
 }
 
-void copy_lexeme(char * str){
-    // mark ending by '\0'
-    int forward2=forward-1;
-    int flag2=flag;
-    if(flag2==1 && forward2<0){
-        forward2=buffer_size-1;
-        flag2=0;
-    }
-    else if(flag2==2 && forward2<0){
-        forward2=buffer_size-1;
-        flag2=3;
-    }
-    if(flag2==0){
-        int i=0;
-        for(i=begin;i<forward2;i++){
-            str[i-begin]=buff1[i];
-        }
-        str[i-begin] = '\0';
 
-    }
-    else if(flag2==1){
-        int i=0;
-        for(i=begin;i<buffer_size;i++){
-            str[i-begin]=buff1[i];
-        }
-        for(i=0;i<forward2;i++){
-            str[buffer_size-begin+i]=buff2[i];
-        }
-        str[buffer_size-begin+forward2]='\0';
-    }
-    else if(flag2==2){
-        int i=0;
-        for(i=begin;i<buffer_size;i++){
-            str[i-begin]=buff2[i];
-        }
-        for(i=0;i<forward2;i++){
-            str[buffer_size-begin+i]=buff1[i];
-        }
-        str[buffer_size-begin+forward2]='\0';
-    }
-    else{
-        int i=0;
-        for(i=begin;i<forward2;i++){
-            str[i-begin]=buff2[i];
-        }
-        str[i-begin] = '\0';
-    }
-}
 //abc+-
 
-void tokenise(enum TOKEN tk_name){
-     if(tk_name == ID){
-        copy_lexeme(global_token.tk_data.lexeme);
-        printf("\n Lexeme is '%s'",global_token.tk_data.lexeme);
-     }
-     else if(tk_name == NUM){
-        char str[11];
-        copy_lexeme(str);
-        global_token.tk_data.val = atoi(str);
-        printf("\n Value of integer is %d",global_token.tk_data.val);
-     }
-     else if(tk_name == RNUM){
-        char str[21];
-        copy_lexeme(str);
-        global_token.tk_data.realVal = atof(str);
-        printf("\n Value of real is %f",global_token.tk_data.realVal);
-     }
 
-     global_token.line_no = current_line_no;
-     global_token.tk_name = tk_name;
-     global_token.hasError = 0;
-     forward--;
-     check_forward();
-     state = 0;
-     begin = forward;
-     printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
-     if(flag==1)flag=3;
-     else if(flag==2)flag=0;
-     generateToken = 0;
-}
 
 void dfa(char input){
     switch(state){
@@ -568,7 +585,7 @@ void dfa(char input){
 //     generateToken = 1;  
 // }
 
-int Lexermain(){
+int main(){
     initHashTable();
     FILE *fp = fopen("testcase.txt", "r");
     if(fp == NULL){
@@ -577,16 +594,21 @@ int Lexermain(){
     }
     getnextblock(fp,buff1);
     // changes made here,check if error occurs
-    while(!feof(fp)){
-        while(generateToken){
+    
+    int flag = 0;
+    while(!flag){ // DO not use this, fp can reach EOF but elements could still be there in the buffer
+        // while(generateToken){
             char input = getnextchar(fp,buff1,buff2);
             // printf("\n Input is %c, begin is %d, forward is %d, flag is %d, state is %d",input,begin,forward,flag,state);
-            
+            // printf("\n in main\n");
             dfa(input);
             if(input == EOF){
+                flag=1;
                 break;
             }
-        }
+
+            
+        // }
     }
 
     return 0;
