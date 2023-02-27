@@ -1,6 +1,6 @@
 #include"lexerDef.h"
 
-char* tokenName[57] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
+char tokenName[57][30] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
 "PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
 "CASE","BREAK","DEFAULT","WHILE","AND","OR","TRUE","FALSE","ID","NUM","RNUM","PLUS","MINUS","MUL","DIV",
 "LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
@@ -568,7 +568,7 @@ void dfa(char input){
 //     generateToken = 1;  
 // }
 
-int main(){
+int Lexermain(){
     initHashTable();
     FILE *fp = fopen("testcase.txt", "r");
     if(fp == NULL){
