@@ -28,15 +28,15 @@ void addChild(struct treeNode* parent, struct node* child)
 }
 
 
-int main()
-{
-    //creation of root node
-    root = malloc(sizeof(struct treeNode));
-    root->isTerminal = 0;
-    root->parent = NULL;
-    root->nextSibling = NULL;
-    root->prevSibling = NULL;
-    strcpy(root->value,"startprogram");
-    currExpand = root;
-    return 0;
-}
+// int main()
+// {
+//     //creation of root node
+//     root = malloc(sizeof(struct treeNode));
+//     root->isTerminal = 0;
+//     root->parent = NULL;
+//     root->nextSibling = NULL;
+//     root->prevSibling = NULL;
+//     strcpy(root->value,"startprogram");
+//     currExpand = root;
+//     return 0;
+// }

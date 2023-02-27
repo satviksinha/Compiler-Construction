@@ -1,76 +1,7 @@
 #include "parserDef.h"
 #include "lexerDef.h"
-#include "treeDef.h"
-
-struct stack_node
-{
-    int isTerminal;
-    char value[23];
-    struct stack_node* link;
-};
-
-typedef struct stack_node stackElement;
-
-stackElement* s_top = NULL;
-
-void s_push(stackElement* element)
-{
-    //creating back link
-    element->link = s_top;
-    
-    // change top
-    s_top  = element;
-}
-
-void s_pop()
-{
-    stackElement* new_top = s_top;
-    //update top
-    s_top = s_top->link;
-    // remove the top
-    free(new_top);
-}
-
-int isEmpty()
-{
-    if(s_top == NULL)
-    {
-        return 1;
-    }
-
-    else
-    {
-        return 0;
-    }
-}
-
-//to be imported from tree.c
-void addChild(struct treeNode* parent, struct node* child)
-{
-    struct treeNode* temp = malloc(sizeof(struct treeNode));
-    strcpy(temp->value,child->value);
-    temp->isTerminal = child->isTerminal;
-    temp->parent = parent;
-    temp->prevSibling = NULL;
-
-    parent->children = temp;
-
-    child = child->forward_link;
-    
-    while(child != NULL)
-    {
-        struct treeNode* temp2 = malloc(sizeof(struct treeNode));
-        strcpy(temp2->value,child->value);
-        temp2->isTerminal = child->isTerminal;
-        temp2->parent = NULL;
-        temp2->prevSibling = temp;
-        temp->nextSibling = temp2;
-        temp = temp2;
-        child = child->forward_link;
-    }
-
-    temp->nextSibling = NULL;
-}
+#include "tree.c"
+#include "stackAdt.c"
 
 //hash function for terminals and non-terminals
 int get_hash(const char *s)
@@ -188,7 +119,7 @@ void runPDA()
             if(!strcmp(s_top->value,token_strings[global_token.tk_name]))
             {
                 //match
-                //printf("match,%s\n",s_top->value);
+                printf("match,%s\n",s_top->value);
                 s_pop();
                 //tree-code
 
@@ -217,7 +148,7 @@ void runPDA()
                 }
             }
             else{
-                // printf("not match");
+                 printf("not match");
                 display_error();
             }
         }
@@ -494,117 +425,117 @@ void computeFirstAndFollow()
     }
 }
 
-int main()
-{
-    FILE *fp = fopen("grammar.txt", "r");
-    makeGrammar(fp);
-    memset(isEpsilon, 0, sizeof(isEpsilon));
-    for (int i = 0; i < 126; i++)
-    {
-        char *non_terminal = nonTerminals[i];
-        createfirst(non_terminal); // calculate first of lhs
-    }
-    isEpsilon[get_hash("EPSILON")] = 1;
-    // createfirst("arithmeticOrBooleanExpr");
-    // for (int i = 0; i < 126; i++)
-    //     printf("%s:%s\n", nonTerminals[i], ntFirst[get_hash(nonTerminals[i])]);
-    for (int i = 0; i < 68; i++)
-    {
-        char *non_terminal = nonTerminals[i];
-        // printf("%s\n", non_terminal);
-        createFollow(non_terminal); // calculate first of lhs
-        removeDuplicates(ntFollow[get_hash(non_terminal)]);
-    }
-    // createFollow("whichId");
+// int main()
+// {
+//     FILE *fp = fopen("grammar.txt", "r");
+//     makeGrammar(fp);
+//     memset(isEpsilon, 0, sizeof(isEpsilon));
+//     for (int i = 0; i < 126; i++)
+//     {
+//         char *non_terminal = nonTerminals[i];
+//         createfirst(non_terminal); // calculate first of lhs
+//     }
+//     isEpsilon[get_hash("EPSILON")] = 1;
+//     // createfirst("arithmeticOrBooleanExpr");
+//     // for (int i = 0; i < 126; i++)
+//     //     printf("%s:%s\n", nonTerminals[i], ntFirst[get_hash(nonTerminals[i])]);
+//     for (int i = 0; i < 68; i++)
+//     {
+//         char *non_terminal = nonTerminals[i];
+//         // printf("%s\n", non_terminal);
+//         createFollow(non_terminal); // calculate first of lhs
+//         removeDuplicates(ntFollow[get_hash(non_terminal)]);
+//     }
+//     // createFollow("whichId");
 
-    // //printf("%s\n\n",ntFollow[get_hash("whichId")]);
-    // removeDuplicates(ntFollow[get_hash("whichId")]);
-    // printf("%s",ntFollow[get_hash("whichId")]);
+//     // //printf("%s\n\n",ntFollow[get_hash("whichId")]);
+//     // removeDuplicates(ntFollow[get_hash("whichId")]);
+//     // printf("%s",ntFollow[get_hash("whichId")]);
 
-    // for (int i = 0; i < 68; i++)
-    // {
-    //     printf("%s:%s\n", nonTerminals[i], ntFollow[get_hash(nonTerminals[i])]);
-    // }
-    // printf("%s", ntFirst[get_hash("arithmeticOrBooleanExpr")]);
-    computeFirstAndFollow();
-    // for (int i = 0; i < 129; i++)
-    // {
-    //     printf("RULE:%d  ", i+1);
-    //     for (int j = 0; firstAndFollow[i][j] != NULL; j++)
-    //         printf("%s ", firstAndFollow[i][j]);
-    //     printf("\n");
-    // }
-    //printf("%s*",firstAndFollow[11][0]);
-    createParseTable();
-    // for(int i=0;i<1519;i++){
-    //     for(int j=0;j<1519;j++){
-    //         if(parseTable[i][j]!=NULL)
-    //             printf("%d,%d:%s\n",i,j,parseTable[i][j]->value);
-    //     }
-    // }
+//     // for (int i = 0; i < 68; i++)
+//     // {
+//     //     printf("%s:%s\n", nonTerminals[i], ntFollow[get_hash(nonTerminals[i])]);
+//     // }
+//     // printf("%s", ntFirst[get_hash("arithmeticOrBooleanExpr")]);
+//     computeFirstAndFollow();
+//     // for (int i = 0; i < 129; i++)
+//     // {
+//     //     printf("RULE:%d  ", i+1);
+//     //     for (int j = 0; firstAndFollow[i][j] != NULL; j++)
+//     //         printf("%s ", firstAndFollow[i][j]);
+//     //     printf("\n");
+//     // }
+//     //printf("%s*",firstAndFollow[11][0]);
+//     createParseTable();
+//     // for(int i=0;i<1519;i++){
+//     //     for(int j=0;j<1519;j++){
+//     //         if(parseTable[i][j]!=NULL)
+//     //             printf("%d,%d:%s\n",i,j,parseTable[i][j]->value);
+//     //     }
+//     // }
     
-    //stack initialisation
-    stackElement* element = malloc(sizeof(stackElement));
-    element->isTerminal = 0;
-    strcpy(element->value,"startprogram");
-    s_push(element);
+//     //stack initialisation
+//     stackElement* element = malloc(sizeof(stackElement));
+//     element->isTerminal = 0;
+//     strcpy(element->value,"startprogram");
+//     s_push(element);
 
-    //root element of tree creation
-    struct treeNode* tree_node = malloc(sizeof(struct treeNode));
-    tree_node->children = NULL;
-    tree_node->isTerminal = 0;
-    tree_node->parent = NULL;
-    tree_node->nextSibling = NULL;
-    tree_node->prevSibling = NULL;
-    strcpy(tree_node->value,"startprogram");
+//     //root element of tree creation
+//     struct treeNode* tree_node = malloc(sizeof(struct treeNode));
+//     tree_node->children = NULL;
+//     tree_node->isTerminal = 0;
+//     tree_node->parent = NULL;
+//     tree_node->nextSibling = NULL;
+//     tree_node->prevSibling = NULL;
+//     strcpy(tree_node->value,"startprogram");
 
-    //setting root and currentExpand
-    root = tree_node;
-    currExpand = tree_node;
+//     //setting root and currentExpand
+//     root = tree_node;
+//     currExpand = tree_node;
 
-    global_token.hasError = 0;
-    global_token.line_no = 1;
-    strcpy(global_token.tk_data.lexeme,"<<<");
-    global_token.tk_name = DRIVERDEF;
+//     global_token.hasError = 0;
+//     global_token.line_no = 1;
+//     strcpy(global_token.tk_data.lexeme,"<<<");
+//     global_token.tk_name = DRIVERDEF;
 
-    runPDA();
+//     runPDA();
 
-    global_token.hasError = 0;
-    global_token.line_no = 1;
-    strcpy(global_token.tk_data.lexeme,"driver");
-    global_token.tk_name = DRIVER;
+//     global_token.hasError = 0;
+//     global_token.line_no = 1;
+//     strcpy(global_token.tk_data.lexeme,"driver");
+//     global_token.tk_name = DRIVER;
 
-    runPDA();
+//     runPDA();
 
-    global_token.hasError = 0;
-    global_token.line_no = 1;
-    strcpy(global_token.tk_data.lexeme,"program");
-    global_token.tk_name = PROGRAM ;
+//     global_token.hasError = 0;
+//     global_token.line_no = 1;
+//     strcpy(global_token.tk_data.lexeme,"program");
+//     global_token.tk_name = PROGRAM ;
 
-    runPDA();
+//     runPDA();
 
-     global_token.hasError = 0;
-    global_token.line_no = 1;
-    strcpy(global_token.tk_data.lexeme,">>>");
-    global_token.tk_name = DRIVERENDDEF;
+//     global_token.hasError = 0;
+//     global_token.line_no = 1;
+//     strcpy(global_token.tk_data.lexeme,">>>");
+//     global_token.tk_name = DRIVERENDDEF;
 
-    runPDA();
+//     runPDA();
 
-    global_token.hasError = 0;
-    global_token.line_no = 2;
-    strcpy(global_token.tk_data.lexeme,"start");
-    global_token.tk_name = START;
+//     global_token.hasError = 0;
+//     global_token.line_no = 2;
+//     strcpy(global_token.tk_data.lexeme,"start");
+//     global_token.tk_name = START;
 
-    runPDA();
+//     runPDA();
 
-    global_token.hasError = 0;
-    global_token.line_no = 3;
-    strcpy(global_token.tk_data.lexeme,"end");
-    global_token.tk_name = END;
+//     global_token.hasError = 0;
+//     global_token.line_no = 3;
+//     strcpy(global_token.tk_data.lexeme,"end");
+//     global_token.tk_name = END;
 
-    runPDA();
-    //printf("%s",currExpand->value);
+//     runPDA();
+//     //printf("%s",currExpand->value);
     
-    return 0;
-}
+//     return 0;
+// }
 

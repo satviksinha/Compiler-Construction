@@ -37,7 +37,7 @@ char tokenName[57][30] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END",
 // false : 38
 //  : 0
 
-int get_hash(char* str){
+int get_hash_lexer(char* str){
     int size = strlen(str);
     int sum = 0;
     for(int i=0;i<size;i++){
@@ -45,6 +45,8 @@ int get_hash(char* str){
     }
     return sum % 97;
 }
+
+
 
 
 void check_forward(){
@@ -57,6 +59,64 @@ void check_forward(){
         forward=buffer_size-1;
         flag =3;
         do_not_refill=1;
+    }
+}
+
+void check_length(){
+    char str[21];
+    int forward2=forward-1;
+    int flag2=flag;
+    if(flag2==1 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=0;
+    }
+    else if(flag2==2 && forward2<0){
+        forward2=buffer_size-1;
+        flag2=3;
+    }
+    if(flag2==0){
+        int i=0;
+        for(i=begin;i<forward2;i++){
+            str[i-begin]=buff1[i];
+        }
+        str[i-begin] = '\0';
+
+    }
+    else if(flag2==1){
+        int i=0;
+        for(i=begin;i<buffer_size;i++){
+            str[i-begin]=buff1[i];
+        }
+        for(i=0;i<forward2;i++){
+            str[buffer_size-begin+i]=buff2[i];
+        }
+        str[buffer_size-begin+forward2]='\0';
+    }
+    else if(flag2==2){
+        int i=0;
+        for(i=begin;i<buffer_size;i++){
+            str[i-begin]=buff2[i];
+        }
+        for(i=0;i<forward2;i++){
+            str[buffer_size-begin+i]=buff1[i];
+        }
+        str[buffer_size-begin+forward2]='\0';
+    }
+    else{
+        int i=0;
+        for(i=begin;i<forward2;i++){
+            str[i-begin]=buff2[i];
+        }
+        str[i-begin] = '\0';
+    }
+    if(strlen(str)>21 && state!=11 && state!=12){
+        printf("lexical error, max length allowed is 20, erroneous lexeme is %s, line no:%d\n",str,global_token.line_no);
+        forward--;
+        check_forward();
+        begin=forward;
+        if(flag==1)flag=3;
+        else if(flag==2)flag=0;
+
     }
 }
 
@@ -107,11 +167,13 @@ void copy_lexeme(char * str){
         }
         str[i-begin] = '\0';
     }
+    printf("\n in copy lexeme string is '%s' \n",str);
 }
 
 void tokenise(enum TOKEN tk_name){
      if(tk_name == ID){
         copy_lexeme(global_token.tk_data.lexeme);
+        // check_length();
         if(strlen)
         printf("\n Lexeme is '%s'",global_token.tk_data.lexeme);
      }
@@ -135,7 +197,7 @@ void tokenise(enum TOKEN tk_name){
      check_forward();
      state = 0;
      begin = forward;
-     printf("\n token is %s, line no is %d \n\n",tokenName[global_token.tk_name],global_token.line_no);
+     printf("\n token is %s, line no is %d \n \n",tokenName[global_token.tk_name],global_token.line_no);
      if(flag==1)flag=3;
      else if(flag==2)flag=0;
      generateToken = 0;
@@ -148,19 +210,19 @@ void initHashTable(){
                             CASE,BREAK,DEFAULT,WHILE,AND,OR,TRUE,FALSE};    
     int flag1=0,flag2=0;
     for(int i=0;i<30;i++){
-        if(get_hash(arr[i]) == 32 && flag1 == 0){
+        if(get_hash_lexer(arr[i]) == 32 && flag1 == 0){
             flag1=1;
             strcpy(hashTable[33].str,arr[i]);
             hashTable[33].tk = tokens[i];
         }
-        else if(get_hash(arr[i]) == 64 && flag2 == 0){
+        else if(get_hash_lexer(arr[i]) == 64 && flag2 == 0){
             flag2=1;
             strcpy(hashTable[65].str,arr[i]);
             hashTable[65].tk = tokens[i];
         }
         else{
-            strcpy(hashTable[get_hash(arr[i])].str,arr[i]);
-            hashTable[get_hash(arr[i])].tk = tokens[i];
+            strcpy(hashTable[get_hash_lexer(arr[i])].str,arr[i]);
+            hashTable[get_hash_lexer(arr[i])].tk = tokens[i];
         }
     }
 }
@@ -178,7 +240,7 @@ void check_begin(){
 
 
 int check_keyword(char* lexeme){
-    int hash_value = get_hash(lexeme);
+    int hash_value = get_hash_lexer(lexeme);
     char string[21];
     if(hash_value == 32 || hash_value == 64){
         strcpy(string,hashTable[hash_value].str);
@@ -340,6 +402,7 @@ void dfa(char input){
              // check if it is a keyword, call check_keyword
             char str[21];
             copy_lexeme(str);
+            printf("\n string is str %s\n",str);
             if(!check_keyword(str)){
                 tokenise(ID);
             }
@@ -347,6 +410,7 @@ void dfa(char input){
         break;
 
         case 2:
+        
         if(input == '.')
             state = 3;
         else if(!isdigit(input))
@@ -557,7 +621,7 @@ void dfa(char input){
         case 36:
         tokenise(BC);
         break;
-
+        
         case 37:
         if(!(input==' ') && !(input=='\t')){
             state = 0;
@@ -587,7 +651,7 @@ void dfa(char input){
 
 int main(){
     initHashTable();
-    FILE *fp = fopen("testcase.txt", "r");
+    FILE *fp = fopen("testcase2.txt", "r");
     if(fp == NULL){
         printf("File not found");
         return 0;
