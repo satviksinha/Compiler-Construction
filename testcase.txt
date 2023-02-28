@@ -1,21 +1,36 @@
-** This test case is meant only to test your lexical analyzer 
-   and is not correct syntactically. Use this to verify your lexical analyzer **
+** This testcase demonstrates correctness of module structure with declaration and simple statements**
+<<<driver program>>>
+start
+	declare v_1_2_3:integer;
+	get_value(v_1_2_3);
+	declare result_:integer;
+	[result_]:=use module square with parameters 1.2, A[k], -2, - j, -A[v], _1_2_3; 
+        ** Modify rule for <actual_para_list>**
+	print(result);
+end
 
-var_1_, var_2_, var_3_:integer+AND+declare..-23.7e+12um16789+**18.043**
-123abc123.23-/*+while)for(begin--12.03e+a2<<<<<===>=value_123___16FJKHDSFSDjshd547637__4234_3423mdfndf+342543.dfsf+case-case1/
+<<module square>>
+takes input [x:integer];
+returns [value:integer];
+start
+	value:= x*x;
+end
 
-/true
+**notice that this test case does not declare the module before the driver module, still it is syntactically correct as moduleDeclarations is optional. Testing whether a module is declared before its use is a matter of semantic analysis**
 
-;default<=1876..2098+12.....::=30 switch 
-
-    break [A..19] get_value,print,use, boolean 10..in for++array[187.e+12 1.0E-12e34
-
-**ID, COMMA, ID, COMMA, ID, COLON, INTEGER,PLUS, AND, PLUS, DECLARE, RANGEOP, MINUS, RNUM, ID, PLUS, COMMENT(NOT TO BE TOKENIZED), NUM, ID, LEXICAL ERROR(.) , NUM, MINUS, DIV, MUL, PLUS, WHILE, CP, FOR, OP, BEGIN, MINUS, MINUS, LEXICAL ERROR (12.03e+), ID, DRIVERDEF, DEF, EQ, LEXICAL ERROR (=), GE, ID, LEXICAL ERROR (MORE THAN 20 CHARACTERS IN ID), PLUS, LEXICAL ERROR (342543.), ID, PLUS, CASE, MINUS, ID, DIV, DIV, TRUE, SEMCOL, DEFAULT, LE, NUM, RANGEOP, NUM, PLUS, NUM, RANGEOP, RANGEOP, LEXICAL ERROR (.), COLON, ASSIGNOP, NUM, SWITCH, BREAK,SQBO, ID, RANGEOP, NUM, SQBC, GET_VALUE, COMMA, PRINT, COMMA, USE, COMMA, BOOLEAN, NUM, RANGEOP, IN, FOR, PLUS, PLUS, ARRAY, SQBO , LEXICAL ERROR (187.), ID, PLUS, NUM, RNUM, ID **
-
-**Try to print these in each line on the console in the following format
-      line no         lexeme        token name
-    4         var_1_          ID
+** test the correctness of all lexemes and parse tree created
+and print the following message on successful compilation on the console
+      " Input source code is syntactically correct.........."
 **
-**print also the lexeme for lexical error **
+**
+Modification for the rule for actual parameters list
 
-**add more complex combinations and test your lexical analyzer**
+<actual_para_list> --> <actual_para_list> COMMA <K> | <K> | <sign> <K>
+<K> --> NUM | RNUM | <boolConstt> | ID <N_11> 
+<N_11> --> SQBO <element_index_with_expression> SQBC | epsilon
+
+Resolve the left recursion in the above rules. 
+
+**
+**make sure to produce only relevant output of your compiler code...
+Also remove all unnecessary printf statements and make the code more professional before submitting**

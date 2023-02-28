@@ -25,8 +25,14 @@ int main(){
     {
         char *non_terminal = nonTerminals[i];
         createfirst(non_terminal); // calculate first of lhs
+        if(ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)])-1]==',')
+            ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)])-1] = '\0';
     }
     isEpsilon[get_hash("EPSILON")] = 1;
+   // printf("%s\n",ntFirst[get_hash("op1")]);
+
+    //  for (int i = 0; i < 126; i++)
+    //       printf("%s:%s\n", nonTerminals[i], ntFirst[get_hash(nonTerminals[i])]);
 
     //create follow
     for (int i = 0; i < 68; i++)
@@ -39,9 +45,25 @@ int main(){
 
     //compute first and follow
     computeFirstAndFollow();
+    //  for (int i = 0; i < 126; i++)
+    //       printf("%s:%s\n", nonTerminals[i], ntFirst[get_hash(nonTerminals[i])]);
+    // for (int i = 0; i < 129; i++)
+    // {
+    //     printf("RULE:%d  ", i+1);
+    //     for (int j = 0; firstAndFollow[i][j] != NULL; j++){
+    //         printf("%s ",firstAndFollow[i][j]);
+    //     }
+    //     printf("\n");
+    // }
 
     //create parse table
     createParseTable();
+    // for(int i=0;i<1519;i++){
+    //     for(int j=0;j<1519;j++){
+    //         if(parseTable[i][j]!=NULL)
+    //             printf("%d,%d:%s\n",i,j,parseTable[i][j]->value);
+    //     }
+    // }
 
     //stack initialisations
     stackElement* element = malloc(sizeof(stackElement));
@@ -72,11 +94,12 @@ int main(){
             char input = getnextchar(fp,buff1,buff2);
             dfa(input);
             if(input==EOF){
+            //   printf("input over\n");
               flag=1;
               break;
             }
         }
-        if(global_token.tk_name!=COMMENTMARK)
+        if(!flag && global_token.tk_name!=COMMENTMARK)
             runPDA();
     }
     while(isEpsilon[get_hash(s_top->value)])

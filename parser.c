@@ -1,3 +1,4 @@
+
 #include "parserDef.h"
 #include "lexerDef.h"
 #include "tree.c"
@@ -15,7 +16,7 @@ int get_hash(const char *s)
         hash = (hash + (s[i] - 'a' + 1) * p_pow) % m;
         p_pow = (p_pow * p) % m;
     }
-    return abs(hash)%1521;
+    return abs(hash)%HASH_MOD;
 }
 
 void getNextToken()
@@ -35,7 +36,7 @@ void display_error()
    {
         printf("Parsing error at line no. %d\n", global_token.line_no);
    }
-    
+    exit(0);
 }
 
 // function for storing grammar rules in the form of linked list
@@ -80,7 +81,7 @@ void makeGrammar(FILE* fp)
 
 void createParseTable()
 {
-    for(int i = 0; i < 129; i++)
+    for(int i = 0; i < NUM_RULES; i++)
     {
         for(int j = 0; firstAndFollow[i][j] != NULL; j++)
         {
@@ -112,6 +113,8 @@ void runPDA()
             if(currExpand->parent != root)
             {
                 currExpand = currExpand->parent->nextSibling;
+                // printf("**%s**\n",currExpand->value);
+                // printf("//%s,%d//",s_top->value,global_token.tk_name);
             }
         }
         if(s_top->isTerminal)
@@ -154,9 +157,14 @@ void runPDA()
         }
         else
         {   
-            
+            if(!strcmp(s_top->value,"a1")){
+                printf("a1 pushed\n");
+                printf("**%s**",parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])]->value);
+            }
             if(parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])] != NULL)
             {
+                if(!strcmp(s_top->value,"a1"))
+                    printf("%s",parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])]->value);
                 struct node* curr;
                 curr = parseTable[get_hash(s_top->value)][get_hash(token_strings[global_token.tk_name])];
                 s_pop();
@@ -205,8 +213,11 @@ void runPDA()
                     stackElement* stackNode = malloc(sizeof(stackElement));
                     stackNode->isTerminal = curr->isTerminal;
                     strcpy(stackNode->value,curr->value);
-                    if(strcmp(stackNode->value,"EPSILON"))
+                    if(strcmp(stackNode->value,"EPSILON")){
                         s_push(stackNode);
+                        // if(!strcmp(stackNode->value,"a1"))
+                        //     printf("****");
+                    }
                     
                     curr = curr->backward_link;
                 }
@@ -214,7 +225,7 @@ void runPDA()
             }
             else
             {
-                printf("lol");
+                printf("lol,%d",global_token.tk_name);
                 display_error();
             }
         }
@@ -223,10 +234,10 @@ void runPDA()
 
 
 // int already_visited[128];
-char ntFirst[1519][300];  // size to be changed later
-char ntFollow[1519][300]; // size to be changed later
+char ntFirst[HASH_MOD][300];  // size to be changed later
+char ntFollow[HASH_MOD][300]; // size to be changed later
 
-int isEpsilon[1519];
+int isEpsilon[HASH_MOD];
 int cnt = 0;
 int createfirst(char *term)
 { // returns 0 if first contains epsilon,otherwise returns 1
@@ -255,7 +266,7 @@ int createfirst(char *term)
     }
 
     // if term is a non terminal,find first
-    for (int i = 0; i < 129; i++)
+    for (int i = 0; i < NUM_RULES; i++)
     {
         if (!strcmp(grammar[i]->value, term))
         {                                         // matching nt found
@@ -337,7 +348,7 @@ void createFollow(char *non_terminal)
 {
     if (strlen(ntFollow[get_hash(non_terminal)]))
         return;
-    for (int i = 0; i < 129; i++)
+    for (int i = 0; i < NUM_RULES; i++)
     {
         struct node *temp = grammar[i]->forward_link;
         while (temp != NULL && strcmp(temp->value, non_terminal))
@@ -382,46 +393,72 @@ void createFollow(char *non_terminal)
 
 void computeFirstAndFollow()
 {
-    for (int i = 0; i < 129; i++)
+    for (int i = 0; i < NUM_RULES; i++)
     {
         int j = 0;
         char *first;
         char *follow;
         char *token;
+        char temp2[300];
         struct node *temp = grammar[i]->forward_link;
+        //printf("%s\n",ntFirst[get_hash(temp->value)]);
         while (temp != NULL && isEpsilon[get_hash(temp->value)])
         {
             if(strcmp(temp->value,"EPSILON")){
                 first = ntFirst[get_hash(temp->value)];
-                token = strtok(first, ",");
-                firstAndFollow[i][j++] = token;
-                while ((token = strtok(NULL, ",")) != NULL)
+                strcpy(temp2,ntFirst[get_hash(temp->value)]);
+                token = strtok(temp2, comma); 
+                //printf("%s\n",token);
+                firstAndFollow[i][j++]=strdup(token);
+                while ((token = strtok(NULL, comma)) != NULL) 
                 {
-                    firstAndFollow[i][j++] = token;
+                    firstAndFollow[i][j++]=strdup(token);
                 }
             }
+            //strcpy(ntFirst[get_hash(temp->value)],temp2);
             temp = temp->forward_link;
         }
         if (temp == NULL)
         {
             follow = ntFollow[get_hash(grammar[i]->value)];
-            token = strtok(follow, ",");
-            firstAndFollow[i][j++] = token;
-            while ((token = strtok(NULL, ",")) != NULL)
+            strcpy(temp2,ntFollow[get_hash(grammar[i]->value)]);
+            token = strtok(temp2, comma);
+            //printf("%s\n",token);
+            firstAndFollow[i][j++]=strdup(token);
+            while ((token = strtok(NULL, comma)) != NULL)
             {
-                firstAndFollow[i][j++] = token;
+                firstAndFollow[i][j++]=strdup(token);
             }
+            //strcpy(ntFollow[get_hash(grammar[i]->value)],temp2);
         }
         else
         {
+            //printf("***%s****",temp->value);
+            // printf("%s",ntFirst[get_hash(temp->value)]);
             first = ntFirst[get_hash(temp->value)];
-            token = strtok(first, ",");
-            firstAndFollow[i][j++] = token;
-            while ((token = strtok(NULL, ",")) != NULL)
+            strcpy(temp2,ntFirst[get_hash(temp->value)]);
+            //printf("%s\n",temp2);
+            token = strtok(temp2, comma);
+            //printf("%s,%d\n",token,i+1);
+            firstAndFollow[i][j++] = strdup(token);
+            while ((token = strtok(NULL, comma)) != NULL)
             {
-                firstAndFollow[i][j++] = token;
+                // if(!strcmp(temp->value,"op1"))
+                //       printf("**RULE NO.,%d**\n",i+1);
+                firstAndFollow[i][j++] = strdup(token);
             }
+            //strcpy(ntFirst[get_hash(temp->value)],temp2);
+            // for(int k=0;firstAndFollow[i][k]!=NULL;k++)
+            // printf("%s ",firstAndFollow[i][k]);
+            // printf("\n");
+            // if(!strcmp(temp->value,"op1"))
+            //     printf("%s\n",ntFirst[get_hash(temp->value)]);
         }
+        // printf("RULE %d:",i+1);
+        // for(int k=0;firstAndFollow[i][k]!=NULL;k++){
+        //     printf(" %s ",firstAndFollow[i][k]);
+        // }
+        // printf("\n");
     }
 }
 
@@ -458,7 +495,7 @@ void computeFirstAndFollow()
 //     // }
 //     // printf("%s", ntFirst[get_hash("arithmeticOrBooleanExpr")]);
 //     computeFirstAndFollow();
-//     // for (int i = 0; i < 129; i++)
+//     // for (int i = 0; i <NUM_RULES; i++)
 //     // {
 //     //     printf("RULE:%d  ", i+1);
 //     //     for (int j = 0; firstAndFollow[i][j] != NULL; j++)
@@ -467,8 +504,8 @@ void computeFirstAndFollow()
 //     // }
 //     //printf("%s*",firstAndFollow[11][0]);
 //     createParseTable();
-//     // for(int i=0;i<1519;i++){
-//     //     for(int j=0;j<1519;j++){
+//     // for(int i=0;i<HASH_MOD;i++){
+//     //     for(int j=0;j<HASH_MOD;j++){
 //     //         if(parseTable[i][j]!=NULL)
 //     //             printf("%d,%d:%s\n",i,j,parseTable[i][j]->value);
 //     //     }

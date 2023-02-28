@@ -37,14 +37,15 @@ print_var,ID,whichId2
 print_var,boolvar
 print_var,NUM
 print_var,RNUM
-whichId2,SQBO,index,SQBC
+whichId2,SQBO,sign,index,SQBC
 whichId2,EPSILON
 boolvar,TRUE
 boolvar,FALSE
 whichId,SQBO,newArithmeticExpr,SQBC
 whichId,EPSILON
-index,sign,NUM
+index,NUM
 index,ID
+sign,PLUS
 sign,MINUS
 sign,EPSILON
 aVar,ID,whichId
@@ -77,9 +78,11 @@ lvalueARRStmt,SQBO,newArithmeticExpr,SQBC,ASSIGNOP,expression,SEMICOL
 moduleReuseStmt,optional,USE,MODULE,ID,WITH,PARAMETERS,idList,SEMICOL
 optional,SQBO,idList,SQBC,ASSIGNOP
 optional,EPSILON
-idList,ID,moreId
-moreId,COMMA,ID,moreId
+idList,actualParameter,moreId
+moreId,COMMA,actualParameter,moreId
 moreId,EPSILON
+actualParameter,sign,aVar
+actualParameter,boolvar
 expression,arithmeticOrBooleanExpr
 expression,u
 arithmeticOrBooleanExpr,anyTerm,ab1
@@ -116,7 +119,7 @@ relationalOp,NE
 declareStmt,DECLARE,idList,COLON,dataType,SEMICOL
 conditionalStmt,SWITCH,BO,ID,BC,START,caseStmt,default,END
 caseStmt,CASE,value,COLON,statements,BREAK,SEMICOL,post
-post,caseStmt,post
+post,caseStmt
 post,EPSILON
 value,NUM
 value,TRUE
@@ -126,4 +129,4 @@ default,EPSILON
 iterativeStmt,FOR,BO,ID,IN,range_for,BC,START,statements,END
 iterativeStmt,WHILE,BO,expression,BC,START,statements,END
 range_for,sign,NUM,RANGEOP,sign,NUM
-range,index,RANGEOP,index
+range,sign,index,RANGEOP,sign,index
