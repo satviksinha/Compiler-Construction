@@ -1,4 +1,3 @@
-
 #include "parserDef.h"
 #include "lexerDef.h"
 #include "tree.c"
@@ -25,18 +24,31 @@ void getNextToken()
 }
 
 //function for displaying error while parsing
-void display_error()
+void display_error(int type)
 {
-   if(global_token.hasError)
+   errorToken = 1;
+   generateToken = 0;
+   // type = 0,terminal mismatch
+   // type = 1,rule missing
+   if(type == 0)
    {
-        printf("Lexical error at line no. %d \n",global_token.line_no);
+        if(strcmp(s_top->value,"SEMICOL")&&strcmp(s_top->value,"BC")&&strcmp(s_top->value,"SQBC")&&strcmp(s_top->value,"END")){
+            s_pop();
+            runPDA();
+        } 
    }
-
-   else
+   else if(type == 1)
    {
-        printf("Parsing error at line no. %d\n", global_token.line_no);
+        s_pop();
+        runPDA();
    }
-    exit(0);
+   else{
+        printf("Input not finished but stack empty\n");
+        exit(0);
+   }
+   printf("Parsing error at line no. %d\n", global_token.line_no);
+   //runPDA();
+   //exit(0);
 }
 
 // function for storing grammar rules in the form of linked list
@@ -93,16 +105,17 @@ void createParseTable()
 }
 
 
-void runPDA()
-{
+void runPDA(){
     if(s_top == NULL)
-        display_error();
-    else if(global_token.hasError)
-        display_error();
+        display_error(2);
+    // else if(global_token.hasError)
+    //     display_error();
     else
     {
         // printf("%d",s_top->isTerminal);
         if(!strcmp(currExpand->value,"EPSILON")){
+            //set NULL
+            currExpand->children = NULL;
             while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)
             {
                 currExpand = currExpand->parent;
@@ -121,10 +134,16 @@ void runPDA()
         {
             if(!strcmp(s_top->value,token_strings[global_token.tk_name]))
             {
+                //equating unions(setting leafNode's lexeme)
+                currExpand->tk_data = global_token.tk_data;
+                // printf("LEAF NODE:::%s\n",currExpand->tk_data.lexeme);
                 //match
                 printf("match,%s\n",s_top->value);
                 s_pop();
                 //tree-code
+
+                //set NULL
+                currExpand->children = NULL;
 
                 printf("%s\n",currExpand->value);
                 if(currExpand->nextSibling != NULL){
@@ -151,8 +170,8 @@ void runPDA()
                 }
             }
             else{
-                 printf("not match");
-                display_error();
+                printf("not match");
+                display_error(0);
             }
         }
         else
@@ -226,7 +245,7 @@ void runPDA()
             else
             {
                 printf("lol,%d",global_token.tk_name);
-                display_error();
+                display_error(1);
             }
         }
     }

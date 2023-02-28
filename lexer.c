@@ -64,9 +64,9 @@ void check_forward()
     }
 }
 
-void check_length()
+int check_length()
 {
-    char str[21];
+    char str[22];
     int forward2 = forward - 1;
     int flag2 = flag;
     if (flag2 == 1 && forward2 < 0)
@@ -123,16 +123,27 @@ void check_length()
         }
         str[i - begin] = '\0';
     }
-    if (strlen(str) > 21 && state != 11 && state != 12)
+    if (strlen(str) > 21)
     {
-        printf("lexical error, max length allowed is 20, erroneous lexeme is %s, line no:%d\n", str, global_token.line_no);
+        generateToken = 0;
+        global_token.line_no = current_line_no;
+        global_token.hasError = 1;
+        strcpy(global_token.tk_data.lexeme, "LEXEME LENGTH > 20");
+        // printf("lexical error, max length allowed is 20, erroneous lexeme is %s, line no:%d\n", str, global_token.line_no);
         forward--;
+        state  =0 ;
         check_forward();
         begin = forward;
         if (flag == 1)
             flag = 3;
         else if (flag == 2)
             flag = 0;
+
+        return 1;
+    }
+    else
+    {
+        return 0;
     }
 }
 
@@ -199,10 +210,13 @@ void copy_lexeme(char *str)
 }
 
 void tokenise(enum TOKEN tk_name)
-{
+{ 
+
+    // if(check_length) return;
     if (tk_name == ID)
     {
         copy_lexeme(global_token.tk_data.lexeme);
+
         if (strlen)
             printf("\n Lexeme is '%s'", global_token.tk_data.lexeme);
     }
@@ -220,9 +234,10 @@ void tokenise(enum TOKEN tk_name)
         global_token.tk_data.realVal = atof(str);
         printf("\n Value of real is %f", global_token.tk_data.realVal);
     }
-    // else{ if(tk_name!=COMMENTMARK)
-    //     copy_lexeme(global_token.tk_data.lexeme);
-    // }
+    else if (tk_name != COMMENTMARK)
+    {
+        copy_lexeme(global_token.tk_data.lexeme);
+    }
 
     global_token.line_no = current_line_no;
     global_token.tk_name = tk_name;
@@ -386,11 +401,13 @@ char getnextchar(FILE *fp, char *buff1, char *buff2)
 void error_handle()
 {
     // //likha hai ye
+    generateToken = 0;
     global_token.hasError = 1;
     global_token.line_no = current_line_no;
     copy_lexeme(global_token.tk_data.lexeme);
 
-    // printf("\n This is an lexical error, line number is %d, state is % d, erroneous lexeme is '%s', l: %d\n",current_line_no,state,str,strlen(str));
+    // // printf("\n This is an lexical error, line number
+    //  is %d, state is % d, erroneous lexeme is '%s', l: %d, global has error value %d \n",current_line_no,state,global_token.tk_data.lexeme,strlen(global_token.tk_data.lexeme),global_token.hasError);
     forward--;
 
     check_forward();

@@ -12,7 +12,8 @@ struct node
     int isTerminal;
     struct node* forward_link;
     struct node* backward_link;
-    char value[23];
+    char value[23]; // token
+    // union Variant tk_data;
 }; 
 
 //both non-terminals and terminals
@@ -44,6 +45,8 @@ struct node* grammar[NUM_RULES];
 char* firstAndFollow[NUM_RULES][NUM_RULES];
 //parseTable
 struct node* parseTable[HASH_MOD][HASH_MOD];
-//
+//comma
 const char* comma = ",";
+//errorToken
+int errorToken = 0;
 #endif

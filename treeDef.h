@@ -15,6 +15,7 @@ struct treeNode
     struct treeNode* parent;
     struct treeNode* nextSibling;
     struct treeNode* prevSibling;
+    union Variant tk_data;
 };
 
 struct treeNode* root = NULL;

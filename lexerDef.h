@@ -44,6 +44,12 @@ TK_INFO global_token;
 char buff1[buffer_size];
 char buff2[buffer_size];
 
+
+// When getting buffer size from input
+// int buffer_size=30
+// char *buff1;
+// char *buff2;
+
 // pointers to the buffer
 int forward=0,begin=0;
 int do_not_refill=0;

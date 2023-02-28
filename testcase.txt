@@ -10,7 +10,7 @@ start
 end
 
 <<module square>>
-takes input [x:integer];
+takes input [x:.integer];
 returns [value:integer];
 start
 	value:= x*x;
