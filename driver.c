@@ -1,5 +1,5 @@
 #include "parser.c"
-#include "lexer.c"
+// #include "lexer.c"
 
 void printParseTree(struct treeNode *node,FILE* outfile)
 {
@@ -50,7 +50,7 @@ int main()
     // buff2 = (char*)malloc(buffer_size * sizeof(char));
 
     initHashTable();
-    FILE *fp = fopen("testcase2.txt", "r");
+    fp = fopen("testcase2.txt", "r");
     if (fp == NULL)
     {
         printf("File not found");
@@ -130,23 +130,23 @@ int main()
     currExpand = tree_node;
 
     getnextblock(fp, buff1);
-    int flag = 0;
-    while (!flag)
+    driverFlag =0;
+    while (!driverFlag)
     {
         // global_token.hasError = 0;
         getNextToken();
-        while (generateToken)
-        {
-            char input = getnextchar(fp, buff1, buff2);
-            dfa(input);
-            if (input == EOF)
-            {
-                //   printf("input over\n");
-                flag = 1;
-                break;
-            }
-        }
-        if (!flag && global_token.tk_name != COMMENTMARK && global_token.hasError==0)
+        // while (generateToken)
+        // {
+        //     char input = getnextchar(fp, buff1, buff2);
+        //     dfa(input);
+        //     if (input == EOF)
+        //     {
+        //         //   printf("input over\n");
+        //         flag = 1;
+        //         break;
+        //     }
+        // }
+        // if (!driverFlag && global_token.tk_name != COMMENTMARK && global_token.hasError==0)
             runPDA();
     }
     while (isEpsilon[get_hash(s_top->value)])
@@ -154,13 +154,15 @@ int main()
 
     if (!strcmp(s_top->value, "DOLLAR") && !errorToken)
         printf("Parsing successful");
+    else if(errorToken)
+        printf("Syntax Error\n");
     else
     {
         printf("Input finish but stack not empty");
-        // while(s_top!=NULL){
-        //     printf("%s\n",s_top->value);
-        //     s_pop();
-        // }
+        while(s_top!=NULL){
+            printf("%s\n",s_top->value);
+            s_pop();
+        }
     }
 
     // printf("\n%s\n",root->value);

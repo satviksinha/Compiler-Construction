@@ -1,5 +1,6 @@
 #include "parserDef.h"
-#include "lexerDef.h"
+// #include "lexerDef.h"
+#include "lexer.c"
 #include "tree.c"
 #include "stackAdt.c"
 
@@ -20,25 +21,59 @@ int get_hash(const char *s)
 
 void getNextToken()
 {
-    generateToken = 1;  
+    if(!driverFlag){
+        generateToken = 1; 
+        while (generateToken)
+        {
+            char input = getnextchar(fp, buff1, buff2);
+            dfa(input);
+            if (input == EOF)
+            {
+                //   printf("input over\n");
+                driverFlag = 1;
+                break;
+            }
+        } 
+    }
+}
+
+int checkFollow(){
+    char temp[300];
+    printf("****%s****\n",s_top->value);
+    strcpy(temp,ntFollow[get_hash(s_top->value)]);
+    char* token = strtok(temp,comma);
+    printf("%s ",token);
+    while(token!=NULL){
+        printf("%s ",token);
+        if(!strcmp(strdup(token),token_strings[global_token.tk_name]))
+            return 1;
+        token = strtok(NULL,comma);
+    }
+    return 0;
 }
 
 //function for displaying error while parsing
 void display_error(int type)
 {
+   printf("ERRORRRRRRR,%d\n",type);
    errorToken = 1;
    generateToken = 0;
    // type = 0,terminal mismatch
    // type = 1,rule missing
+//    printf("*****%s******",s_top->value);
    if(type == 0)
    {
-        if(strcmp(s_top->value,"SEMICOL")&&strcmp(s_top->value,"BC")&&strcmp(s_top->value,"SQBC")&&strcmp(s_top->value,"END")){
+        printf("1\n");
+        //if(strcmp(s_top->value,"SEMICOL")&&strcmp(s_top->value,"BC")&&strcmp(s_top->value,"SQBC")&&strcmp(s_top->value,"END")){
             s_pop();
             runPDA();
-        } 
+        //} 
    }
    else if(type == 1)
    {
+        printf("2\n");
+        while(!checkFollow())
+            getNextToken();
         s_pop();
         runPDA();
    }
@@ -46,8 +81,10 @@ void display_error(int type)
         printf("Input not finished but stack empty\n");
         exit(0);
    }
-   printf("Parsing error at line no. %d\n", global_token.line_no);
+   printf("************Parsing error at line no. %d\n", global_token.line_no);
+   printf("3\n");
    //runPDA();
+   //to be commented
    //exit(0);
 }
 
@@ -106,6 +143,8 @@ void createParseTable()
 
 
 void runPDA(){
+    if (driverFlag || global_token.tk_name == COMMENTMARK || global_token.hasError==1)
+        return;
     if(s_top == NULL)
         display_error(2);
     // else if(global_token.hasError)
@@ -145,7 +184,7 @@ void runPDA(){
                 //set NULL
                 currExpand->children = NULL;
 
-                printf("%s\n",currExpand->value);
+                //printf("%s\n",currExpand->value);
                 if(currExpand->nextSibling != NULL){
                     //printf("%s\n",currExpand->value);
                     currExpand = currExpand->nextSibling;
@@ -251,12 +290,6 @@ void runPDA(){
     }
 }
 
-
-// int already_visited[128];
-char ntFirst[HASH_MOD][300];  // size to be changed later
-char ntFollow[HASH_MOD][300]; // size to be changed later
-
-int isEpsilon[HASH_MOD];
 int cnt = 0;
 int createfirst(char *term)
 { // returns 0 if first contains epsilon,otherwise returns 1

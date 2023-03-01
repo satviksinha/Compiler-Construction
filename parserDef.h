@@ -39,6 +39,8 @@ char terminals[58][12] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END",
 "LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
 "COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK","DOLLAR"};
 
+FILE* fp;
+
 //stores lhs of rules
 struct node* grammar[NUM_RULES];
 //first and follow for all rules
@@ -49,4 +51,12 @@ struct node* parseTable[HASH_MOD][HASH_MOD];
 const char* comma = ",";
 //errorToken
 int errorToken = 0;
+
+// int already_visited[128];
+char ntFirst[HASH_MOD][300];  // size to be changed later
+char ntFollow[HASH_MOD][300]; // size to be changed later
+
+int isEpsilon[HASH_MOD];
+
+int driverFlag;
 #endif
