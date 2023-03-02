@@ -1,1 +1,2 @@
-gcc -o stage1exe driver2.c
+All:
+	gcc -o stage1exe driver.c
