@@ -222,22 +222,22 @@ void tokenise(enum TOKEN tk_name)
     {
         copy_lexeme(global_token.tk_data.lexeme);
 
-        if (strlen)
-            printf("\n Lexeme is '%s'", global_token.tk_data.lexeme);
+        // if (strlen)
+        //     printf("\n Lexeme is '%s'", global_token.tk_data.lexeme);
     }
     else if (tk_name == NUM)
     {
         char str[11];
         copy_lexeme(str);
         global_token.tk_data.val = atoi(str);
-        printf("\n Value of integer is %d", global_token.tk_data.val);
+        //printf("\n Value of integer is %d", global_token.tk_data.val);
     }
     else if (tk_name == RNUM)
     {
         char str[21];
         copy_lexeme(str);
         global_token.tk_data.realVal = atof(str);
-        printf("\n Value of real is %f", global_token.tk_data.realVal);
+        //printf("\n Value of real is %f", global_token.tk_data.realVal);
     }
     else if (tk_name != COMMENTMARK)
     {
@@ -251,7 +251,7 @@ void tokenise(enum TOKEN tk_name)
     check_forward();
     state = 0;
     begin = forward;
-    printf("\n token is %s, line no is %d \n \n", tokenName[global_token.tk_name], global_token.line_no);
+    //printf("\n token is %s, line no is %d \n \n", tokenName[global_token.tk_name], global_token.line_no);
     if (flag == 1)
         flag = 3;
     else if (flag == 2)

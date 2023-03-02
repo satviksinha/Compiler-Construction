@@ -23,7 +23,6 @@ void addChild(struct treeNode* parent, struct node* child)
         temp = temp2;
         child = child->forward_link;
     }
-    //temp->parent = parent;
     temp->nextSibling = NULL;
 }
 

@@ -197,12 +197,12 @@ void printParseTree(struct treeNode *node, FILE *outfile)
     return;
 }
 
-void runParser(FILE *source_code, FILE *fp2)
+void runParser(FILE *fp2)
 {
 
     // lexer initialisations
 
-    if (source_code == NULL)
+    if (fp == NULL)
     {
         printf("Source code file path incorrect \n");
         return;
@@ -233,7 +233,7 @@ void runParser(FILE *source_code, FILE *fp2)
     root = tree_node;
     currExpand = tree_node;
 
-    getnextblock(source_code, buff1);
+    getnextblock(fp, buff1);
     driverFlag = 0;
     while (!driverFlag)
     {
@@ -378,11 +378,11 @@ int main(int argc, char *argv[])
 
         case 3:
         {
-            FILE *source_code = fopen(argv[1], "r");
+            fp = fopen(argv[1], "r");
             FILE *fp2 = fopen(argv[2], "w");
-            runParser(source_code, fp2);
+            runParser(fp2);
             printf("\n Parse Tree printed in txt file \n");
-            fclose(source_code);
+            fclose(fp);
             fclose(fp2);
         }
         break;
