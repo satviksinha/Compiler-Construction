@@ -487,6 +487,7 @@ void dfa(char input)
         if (!isdigit(input) && !isalpha(input) && input != '_')
         {
             // check if it is a keyword, call check_keyword
+            if(check_length())return;
             char str[21];
             copy_lexeme(str);
             // printf("\n string is str %s\n",str);

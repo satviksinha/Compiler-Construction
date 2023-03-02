@@ -87,11 +87,11 @@ void print_choices()
     printf("\n 4. Print total time taken by the stage 1 code: \n *********** \n");
 }
 
-void totalTime(FILE *source_code)
+void totalTime()
 {
 
     // lexer initialisations
-    if (source_code == NULL)
+    if (fp == NULL)
     {
         printf("Source File not found");
         return;
@@ -119,7 +119,7 @@ void totalTime(FILE *source_code)
     root = tree_node;
     currExpand = tree_node;
 
-    getnextblock(source_code, buff1);
+    getnextblock(fp, buff1);
     driverFlag = 0;
     while (!driverFlag)
     {
@@ -186,6 +186,10 @@ void printParseTree(struct treeNode *node, FILE *outfile)
     // fprintf(outfile,"%s\n", node->value);
 
     // print other children
+    if(node->children==NULL)
+        return;
+
+
     struct treeNode *temp;
     temp = node->children->nextSibling;
 
@@ -208,7 +212,7 @@ void runParser(FILE *fp2)
         return;
     }
 
-    // parser initialisations
+        // parser initialisations
 
     // grammar generate in main
 
@@ -276,8 +280,12 @@ int main(int argc, char *argv[])
     int option;
 
     buffer_size = atoi(argv[3]);
-
     fp = fopen(argv[1], "r");
+
+    clock_t t1_start, t1_end;
+    double t1, t1_in_seconds;
+    t1_start = clock();
+
     initHashTable();
     FILE *fp1 = fopen("grammar.txt", "r");
     makeGrammar(fp1);
@@ -306,6 +314,10 @@ int main(int argc, char *argv[])
     // compute first and follow
     computeFirstAndFollow();
     createParseTable();
+
+    t1_end = clock();
+    t1 = (double)(t1_end - t1_start);
+    t1_in_seconds = t1 / CLOCKS_PER_SEC;
 
     print_choices();
     scanf("%d", &option);
@@ -380,8 +392,11 @@ int main(int argc, char *argv[])
         {
             fp = fopen(argv[1], "r");
             FILE *fp2 = fopen(argv[2], "w");
+            if(fp2 == NULL){
+                printf("Output file not created, exit the program and start again.\n");
+            }
             runParser(fp2);
-            printf("\n Parse Tree printed in txt file \n");
+            printf("\nParse Tree printed in txt file \n");
             fclose(fp);
             fclose(fp2);
         }
@@ -394,15 +409,15 @@ int main(int argc, char *argv[])
             start_time = clock();
 
             // invoke your lexer and parser here
-            FILE *source_code = fopen(argv[1], "r");
-            totalTime(source_code);
-            fclose(source_code);
+            fp = fopen(argv[1], "r");
+            totalTime();
+            fclose(fp);
 
             end_time = clock();
             total_CPU_time = (double)(end_time - start_time);
             total_CPU_time_in_seconds = total_CPU_time / CLOCKS_PER_SEC;
             // Print both total_CPU_time and total_CPU_time_in_seconds
-            printf("Total CPU Time is: %f, totoal cpu time in seconds is %f \n", total_CPU_time, total_CPU_time_in_seconds);
+            printf("Total CPU Time is: %f, totoal cpu time in seconds is %f \n", total_CPU_time + t1, total_CPU_time_in_seconds + t1_in_seconds);
         }
         break;
         default:
