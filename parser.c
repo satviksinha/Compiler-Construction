@@ -40,6 +40,9 @@ void getNextToken()
             }
         } 
     }
+    if(global_token.hasError==1){
+        printf("Lexical Error at line no. %d\n", global_token.line_no);
+    }
 }
 
 int checkFollow(){
@@ -57,6 +60,7 @@ int checkFollow(){
 //function for displaying error while parsing
 void display_error(int type)
 {
+   printf("Parsing error at line no. %d\n", global_token.line_no);
    errorToken = 1;
    generateToken = 0;
    if(type == 0)
@@ -66,16 +70,22 @@ void display_error(int type)
    }
    else if(type == 1)
    {
-        while(!checkFollow())
+        while(!checkFollow() && !driverFlag){
             getNextToken();
+        }
+        //printf("\n after while\n");
         s_pop();
         runPDA();
    }
    else{
-        printf("Input not finished but stack empty\n");
+        if(!driverFlag)
+            printf("Input not finished but stack empty\n");
+        else
+            printf("parsing unsuccesful\n");
         exit(0);
+        //return;
    }
-   printf("Parsing error at line no. %d\n", global_token.line_no);
+//    printf("Parsing error at line no. %d\n", global_token.line_no);
    //to test errors
    //exit(0);
 }
@@ -128,10 +138,11 @@ void createParseTable()
 
 
 void runPDA(){
-    if (driverFlag || global_token.tk_name == COMMENTMARK || global_token.hasError==1)
-        return;
-    if(s_top == NULL)
+    if(s_top == NULL){
         display_error(2);
+    }
+    else if (driverFlag || global_token.tk_name == COMMENTMARK || global_token.hasError==1)
+        return;
     else
     {
         if(!strcmp(currExpand->value,"EPSILON")){

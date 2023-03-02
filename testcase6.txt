@@ -12,7 +12,7 @@ start
 		t:= index<=n;
 		switch(t)
 		start
-			case true: print(list[index]);
+			case true: print(list[list[index]]);
 				   sum:=sum list[index];			**ERROR 4**
 				   break;
 			case false: print(sum);

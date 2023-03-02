@@ -230,6 +230,7 @@ void runParser(FILE *fp2)
     // stack initialisations
     stackElement *element = malloc(sizeof(stackElement));
     element->isTerminal = 0;
+    element->link = NULL;
     strcpy(element->value, "startprogram");
     s_push(element);
 
