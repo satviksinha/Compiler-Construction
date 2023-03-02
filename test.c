@@ -20,11 +20,11 @@
 //  or = 15
 // false = 13
 
-char nonTerminals[127][24] = {"startprogram","program","moduleDeclarations","moduleDeclaration","otherModules",
+char nonTerminals[128][24] = {"startprogram","program","moduleDeclarations","moduleDeclaration","otherModules",
 "driverModule","module","ret","input_plist","moreList","output_plist","moreOutput",
 "dataType","type","moduleDef","statements","statement","ioStmt","print_var","whichId2",
 "boolvar","whichId","index","sign","aVar","var_id_num","newArithmeticExpr","startExpr",
-"newA1","newA2","newTerm","newNextTerm","u1","after_u1","simpleStmt","assignmentStmt",
+"newA1","newA2","newTerm","newNextTerm","u1","after_u1","var_id_num2","simpleStmt","assignmentStmt",
 "whichStmt","lvalueIDStmt","lvalueARRStmt","moduleReuseStmt","optional","idList",
 "moreId","actualParameter","expression","arithmeticOrBooleanExpr","ab1","anyTerm","ab2","u","after_unary",
 "arithmeticExpr","a1","term","a2","nextTerm","op1","op2","bop","relationalOp",
@@ -72,7 +72,7 @@ void bubbleSort(int *arr, int n)
 
 int main()
 {
-    int arr[127];
+    int arr[128];
     // for (int i = 0; i < 124; i++)
     // {
     //     arr[i] = get_hash_terminal(nonTerminals[i]);
@@ -82,10 +82,10 @@ int main()
     // // for (int num = 100; num < 3000; num++)
     // // {
     // //     int count = 0;
-        for (int i = 0; i < 127; i++)
+        for (int i = 0; i < 128; i++)
             arr[i] = get_hash_terminal(nonTerminals[i], 1619);
-        bubbleSort(arr, 127);
-        for (int i = 0; i < 126; i++)
+        bubbleSort(arr, 128);
+        for (int i = 0; i < 128; i++)
         {
             printf("%d ", arr[i]);
             if (arr[i] == arr[i + 1])

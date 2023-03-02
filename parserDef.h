@@ -5,7 +5,9 @@
 #include<stdlib.h>
 #include<string.h>
 #define HASH_MOD 1619
-#define NUM_RULES 132
+#define NUM_RULES 134
+#define NON_TERM 70
+#define TOTAL_TERM 128
 
 struct node
 {
@@ -13,16 +15,16 @@ struct node
     struct node* forward_link;
     struct node* backward_link;
     char value[23]; // token
-    // union Variant tk_data;
+   
 }; 
 
 //both non-terminals and terminals
-//non terminals = 69
-char nonTerminals[127][24] = {"startprogram","program","moduleDeclarations","moduleDeclaration","otherModules",
+//non terminals = 70
+char nonTerminals[128][24] = {"startprogram","program","moduleDeclarations","moduleDeclaration","otherModules",
 "driverModule","module","ret","input_plist","moreList","output_plist","moreOutput",
 "dataType","type","moduleDef","statements","statement","ioStmt","print_var","whichId2",
 "boolvar","whichId","index","sign","aVar","var_id_num","newArithmeticExpr","startExpr",
-"newA1","newA2","newTerm","newNextTerm","u1","after_u1","simpleStmt","assignmentStmt",
+"newA1","newA2","newTerm","newNextTerm","u1","after_u1","var_id_num2","simpleStmt","assignmentStmt",
 "whichStmt","lvalueIDStmt","lvalueARRStmt","moduleReuseStmt","optional","idList",
 "moreId","actualParameter","expression","arithmeticOrBooleanExpr","ab1","anyTerm","ab2","u","after_unary",
 "arithmeticExpr","a1","term","a2","nextTerm","op1","op2","bop","relationalOp",
@@ -51,10 +53,8 @@ struct node* parseTable[HASH_MOD][HASH_MOD];
 const char* comma = ",";
 //errorToken
 int errorToken = 0;
-
-// int already_visited[128];
-char ntFirst[HASH_MOD][300];  // size to be changed later
-char ntFollow[HASH_MOD][300]; // size to be changed later
+char ntFirst[HASH_MOD][300];  
+char ntFollow[HASH_MOD][300]; 
 
 int isEpsilon[HASH_MOD];
 

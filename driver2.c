@@ -1,31 +1,32 @@
-#include "lexer.c"
+// #include "lexer.c"
 #include "parser.c"
 #include <time.h>
 
-void removeComments(char *name){
-    FILE *fp = fopen(name, "r");
-    if (fp == NULL)
+void removeComments(char *name)
+{
+    FILE *cfp = fopen(name, "r");
+    if (cfp == NULL)
     {
         printf("File not found");
         return;
     }
     int flag = 0;
-    while (!feof(fp))
+    while (!feof(cfp))
     {
-        char c = fgetc(fp);
+        char c = fgetc(cfp);
         int flag2 = 0;
         if (c == '*' && flag == 0)
         {
-            char d = fgetc(fp);
+            char d = fgetc(cfp);
             if (d == '*')
             {
                 flag = 1;
             }
-            fseek(fp, -1, SEEK_CUR);
+            fseek(cfp, -1, SEEK_CUR);
         }
         else if (c == '*' && flag == 1)
         {
-            char d = fgetc(fp);
+            char d = fgetc(cfp);
             if (d == '*')
             {
                 flag = 0;
@@ -33,7 +34,7 @@ void removeComments(char *name){
                 flag2 = 1;
             }
             else
-                fseek(fp, -1, SEEK_CUR);
+                fseek(cfp, -1, SEEK_CUR);
         }
         if (!flag2)
         {
@@ -43,10 +44,11 @@ void removeComments(char *name){
                 printf(" ");
         }
     }
-    fclose(fp);
+    fclose(cfp);
 }
 
-void print_token(){
+void print_token()
+{
     if (global_token.hasError == 1)
     {
         printf("\n %d \t \t %s \t \t LEXICAL ERROR \n", global_token.line_no, global_token.tk_data.lexeme);
@@ -65,29 +67,31 @@ void print_token(){
         {
             printf("%d \t \t %f \t \t %s \n", global_token.line_no, global_token.tk_data.realVal, token_strings[global_token.tk_name]);
         }
+        else if (global_token.tk_name == COMMENTMARK)
+        {
+            printf("%d \t \t %s \t \t %s \n", global_token.line_no, "", token_strings[global_token.tk_name]);
+        }
         else
         {
             printf("%d \t \t %s \t \t %s \n", global_token.line_no, global_token.tk_data.lexeme, token_strings[global_token.tk_name]);
         }
     }
 }
-void print_choices(){
+void print_choices()
+{
     printf("\n Enter one option out of below: \n ***********");
     printf("\n 0. Exit");
     printf("\n 1. Print comment free code on terminal:");
-    printf("\n 2. Print token list");
-    printf("\n 3. Print parse tree on terminal:");
+    printf("\n 2. Print token list on terminal");
+    printf("\n 3. Print parse tree in text file :");
     printf("\n 4. Print total time taken by the stage 1 code: \n *********** \n");
 }
 
-void totalTime(char* name){
-
+void totalTime(FILE *source_code)
+{
 
     // lexer initialisations
-
-    initHashTable();
-    FILE *fp=fopen(name,"r");
-    if (fp == NULL)
+    if (source_code == NULL)
     {
         printf("Source File not found");
         return;
@@ -96,37 +100,6 @@ void totalTime(char* name){
     // parser initialisations
 
     // grammar generate
-    FILE *fp1 = fopen("grammar.txt", "r");
-    makeGrammar(fp1);
-    fclose(fp1);
-    memset(isEpsilon, 0, sizeof(isEpsilon));
-
-    // create first
-    for (int i = 0; i < 126; i++)
-    {
-        char *non_terminal = nonTerminals[i];
-        createfirst(non_terminal); // calculate first of lhs
-        if (ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)]) - 1] == ',')
-            ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)]) - 1] = '\0';
-    }
-    isEpsilon[get_hash("EPSILON")] = 1;
-    
-    for (int i = 0; i < 68; i++)
-    {
-        char *non_terminal = nonTerminals[i];
-        // printf("%s\n", non_terminal);
-        createFollow(non_terminal); // calculate first of lhs
-        removeDuplicates(ntFollow[get_hash(non_terminal)]);
-    }
-
-    // compute first and follow
-    computeFirstAndFollow();
-   
-
-    // create parse table
-    createParseTable();
-    
-
     // stack initialisations
     stackElement *element = malloc(sizeof(stackElement));
     element->isTerminal = 0;
@@ -146,60 +119,71 @@ void totalTime(char* name){
     root = tree_node;
     currExpand = tree_node;
 
-    getnextblock(fp, buff1);
-    int flag = 0;
-    while (!flag)
+    getnextblock(source_code, buff1);
+    driverFlag = 0;
+    while (!driverFlag)
     {
-        // global_token.hasError = 0;
         getNextToken();
-        while (generateToken)
-        {
-            char input = getnextchar(fp, buff1, buff2);
-            dfa(input);
-            if (input == EOF)
-            {
-                flag = 1;
-                break;
-            }
-        }
-        if (!flag && global_token.tk_name != COMMENTMARK && global_token.hasError==0)
-            runPDA();
+        runPDA();
     }
     while (isEpsilon[get_hash(s_top->value)])
         s_pop();
 
     if (!strcmp(s_top->value, "DOLLAR") && !errorToken)
-        printf("Parsing successful");
+        printf("Parsing successful \n");
+    else if (errorToken)
+        printf("Syntax Error\n");
     else
     {
         printf("Input finish but stack not empty");
-        // while(s_top!=NULL){
-        //     printf("%s\n",s_top->value);
-        //     s_pop();
-        // }
+        while (s_top != NULL)
+        {
+            printf("%s\n", s_top->value);
+            s_pop();
+        }
     }
-    fclose(fp);
+
+    free(element);
+    free(tree_node);
     return;
 }
 
-void printParseTree(struct treeNode *node,FILE* outfile)
+void printParseTree(struct treeNode *node, FILE *outfile)
 {
-    if (node == NULL || !strcmp(node->value,"EPSILON"))
+    if (node == NULL || !strcmp(node->value, "EPSILON"))
     {
         return;
     }
+
+    // if(!strcmp(node->value,"DOLLAR")){
+    //     printf("DOLLAR\n");
+    //     return;
+    // }
+
+    // printf("%s\n",node->value);
+
     if (node->children == NULL)
-    {
-        // print node
-        fprintf(outfile,"%s\n", node->value);
+    { // fprintf(outfile,"getlost");
+      // printf("*********%s,%d,%s,-,%s,YES,%s*********\n",node->tk_data.lexeme,node->line_no,node->value,node->parent->value,node->value);
+        if (!strcmp(node->value, "NUM"))
+            fprintf(outfile, "Lexeme: ----, Line no: %d, Tk name: %s, ValueIfNumber: %d, Parent: %s, isLeaf: YES, NodeSymbol: ----\n", node->line_no, node->value, node->tk_data.val, node->parent->value);
+        else if (!strcmp(node->value, "RNUM"))
+            fprintf(outfile, "Lexeme: ----, Line no: %d, Tk name: %s, ValueIfNumber: %f, Parent: %s, isLeaf: YES, NodeSymbol: ----\n", node->line_no, node->value, node->tk_data.realVal, node->parent->value);
+        else
+            fprintf(outfile, "Lexeme: %s, Line no: %d, Tk_name: %s, ValueIfNumber: ----, Parent: %s, YES, NodeSymbol: ----\n", node->tk_data.lexeme, node->line_no, node->value, node->parent->value);
+        // printf("%s\n", node->value);
         return;
     }
 
     // print left child
-    printParseTree(node->children,outfile);
+    printParseTree(node->children, outfile);
 
     // print node
-    fprintf(outfile,"%s\n", node->value);
+    if (node->parent != NULL)
+        fprintf(outfile, "Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: %s, IsLeaf: NO, NodeSymbol: %s\n", node->parent->value, node->value);
+    else
+        fprintf(outfile, "Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ROOT, IsLeaf: NO, Node Symbol: %s\n", node->value);
+    // fprintf(outfile,"%s\n", node->value);
 
     // print other children
     struct treeNode *temp;
@@ -207,18 +191,18 @@ void printParseTree(struct treeNode *node,FILE* outfile)
 
     while (temp != NULL)
     {
-        printParseTree(temp,outfile);
+        printParseTree(temp, outfile);
         temp = temp->nextSibling;
     }
     return;
 }
 
-void runParser(FILE* parsetree, FILE* fp){
-        
+void runParser(FILE *source_code, FILE *fp2)
+{
+
     // lexer initialisations
 
-    initHashTable();
-    if (fp == NULL)
+    if (source_code == NULL)
     {
         printf("Source code file path incorrect \n");
         return;
@@ -226,37 +210,9 @@ void runParser(FILE* parsetree, FILE* fp){
 
     // parser initialisations
 
-    // grammar generate
-    FILE *fp1 = fopen("grammar.txt", "r");
-    makeGrammar(fp1);
-    fclose(fp1);
-    memset(isEpsilon, 0, sizeof(isEpsilon));
+    // grammar generate in main
 
-    // create first
-    for (int i = 0; i < 126; i++)
-    {
-        char *non_terminal = nonTerminals[i];
-        createfirst(non_terminal); // calculate first of lhs
-        if (ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)]) - 1] == ',')
-            ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)]) - 1] = '\0';
-    }
-    isEpsilon[get_hash("EPSILON")] = 1;
-    
-    for (int i = 0; i < 68; i++)
-    {
-        char *non_terminal = nonTerminals[i];
-        // printf("%s\n", non_terminal);
-        createFollow(non_terminal); // calculate first of lhs
-        removeDuplicates(ntFollow[get_hash(non_terminal)]);
-    }
-
-    // compute first and follow
-    computeFirstAndFollow();
-   
-
-    // create parse table
-    createParseTable();
-    
+    // create parse table in main
 
     // stack initialisations
     stackElement *element = malloc(sizeof(stackElement));
@@ -277,58 +233,98 @@ void runParser(FILE* parsetree, FILE* fp){
     root = tree_node;
     currExpand = tree_node;
 
-    getnextblock(fp, buff1);
-    int flag = 0;
-    while (!flag)
+    getnextblock(source_code, buff1);
+    driverFlag = 0;
+    while (!driverFlag)
     {
-        // global_token.hasError = 0;
         getNextToken();
-        while (generateToken)
-        {
-            char input = getnextchar(fp, buff1, buff2);
-            dfa(input);
-            if (input == EOF)
-            {
-                flag = 1;
-                break;
-            }
-        }
-        if (!flag && global_token.tk_name != COMMENTMARK && global_token.hasError==0)
-            runPDA();
+        runPDA();
     }
     while (isEpsilon[get_hash(s_top->value)])
         s_pop();
 
-    if (!strcmp(s_top->value, "DOLLAR"))
+    if (!strcmp(s_top->value, "DOLLAR") && !errorToken)
         printf("Parsing successful");
+    else if (errorToken)
+        printf("Syntax Error\n");
     else
     {
         printf("Input finish but stack not empty");
-        // while(s_top!=NULL){
-        //     printf("%s\n",s_top->value);
-        //     s_pop();
-        // }
+        while (s_top != NULL)
+        {
+            printf("%s\n", s_top->value);
+            s_pop();
+        }
     }
-    fprintf(parsetree,"PARSE TREE:\n");
-    printParseTree(root,parsetree);
+    fprintf(fp2, "PARSE TREE:\n");
+    printParseTree(root, fp2);
+    free(element);
+    free(tree_node);
     return;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
+
+    if (argc != 4)
+    {
+        printf("\n there must be three arguments- SourceCode ParsetreeOutput Buffer_size");
+        return 0;
+    }
 
     printf("\nImplementation Details\n(a) FIRST and FOLLOW set automated\n(b)Both lexical and syntax analysis modules implemented and work properly\n(c) modules pass all test cases\n(d) parse tree printed into file\n");
     int option;
 
-    // buffer_size=atoi(argv[3]);
-    // buff1 = (char*)malloc(buffer_size * sizeof(char));
-    // buff2 = (char*)malloc(buffer_size * sizeof(char));
+    buffer_size = atoi(argv[3]);
+
+    fp = fopen(argv[1], "r");
+    initHashTable();
+    FILE *fp1 = fopen("grammar.txt", "r");
+    makeGrammar(fp1);
+    fclose(fp1);
+
+    memset(isEpsilon, 0, sizeof(isEpsilon));
+
+    // create first
+    for (int i = 0; i < TOTAL_TERM; i++)
+    {
+        char *non_terminal = nonTerminals[i];
+        createfirst(non_terminal); // calculate first of lhs
+        if (ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)]) - 1] == ',')
+            ntFirst[get_hash(non_terminal)][strlen(ntFirst[get_hash(non_terminal)]) - 1] = '\0';
+    }
+    isEpsilon[get_hash("EPSILON")] = 1;
+
+    for (int i = 0; i < NON_TERM; i++)
+    {
+        char *non_terminal = nonTerminals[i];
+        // printf("%s\n", non_terminal);
+        createFollow(non_terminal); // calculate first of lhs
+        removeDuplicates(ntFollow[get_hash(non_terminal)]);
+    }
+
+    // compute first and follow
+    computeFirstAndFollow();
+    createParseTable();
 
     print_choices();
     scanf("%d", &option);
 
     while (1)
     {
+        buff1 = (char *)malloc(buffer_size * sizeof(char));
+        buff2 = (char *)malloc(buffer_size * sizeof(char));
+        state = 0;
+        forward =0;
+        begin=0;
+        do_not_refill=0;
+        flag=0;
+        current_line_no=1;
+        generateToken=0;
+        token_found=0;
+        errorToken=0;
         
+
         switch (option)
         {
         case 0:
@@ -349,7 +345,6 @@ int main(int argc, char *argv[]){
 
         case 2:
         {
-            initHashTable();
             FILE *source_code = fopen(argv[1], "r");
             if (source_code == NULL)
             {
@@ -362,7 +357,7 @@ int main(int argc, char *argv[]){
             while (!flag)
             {
                 // global_token.hasError = 0;
-                getNextToken();
+                generateToken = 1;
                 while (generateToken)
                 {
                     char input = getnextchar(source_code, buff1, buff2);
@@ -374,21 +369,21 @@ int main(int argc, char *argv[]){
                         break;
                     }
                 }
-                print_token();
+
+                if(!generateToken)print_token();
             }
+            fclose(source_code);
         }
         break;
 
         case 3:
         {
-            FILE* parseTreeFile = fopen(argv[2],"w");
-            FILE* fp = fopen(argv[1],"r");
-            
-            runParser(parseTreeFile,fp);
-            fclose(fp);
-            fclose(parseTreeFile);
+            FILE *source_code = fopen(argv[1], "r");
+            FILE *fp2 = fopen(argv[2], "w");
+            runParser(source_code, fp2);
             printf("\n Parse Tree printed in txt file \n");
-
+            fclose(source_code);
+            fclose(fp2);
         }
         break;
 
@@ -399,18 +394,23 @@ int main(int argc, char *argv[]){
             start_time = clock();
 
             // invoke your lexer and parser here
-             totalTime(argv[1]);
+            FILE *source_code = fopen(argv[1], "r");
+            totalTime(source_code);
+            fclose(source_code);
 
             end_time = clock();
             total_CPU_time = (double)(end_time - start_time);
             total_CPU_time_in_seconds = total_CPU_time / CLOCKS_PER_SEC;
             // Print both total_CPU_time and total_CPU_time_in_seconds
-            printf("Total CPU Time is: %f, totoal cpu time in seconds is %f \n",total_CPU_time,total_CPU_time_in_seconds);
-            
+            printf("Total CPU Time is: %f, totoal cpu time in seconds is %f \n", total_CPU_time, total_CPU_time_in_seconds);
         }
         break;
+        default:
+            printf("\n choose one of the given options\n");
+            break;
         }
-
+        free(buff1);
+        free(buff2);
         print_choices();
         scanf("%d", &option);
     }

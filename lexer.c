@@ -66,7 +66,7 @@ void check_forward()
 
 int check_length()
 {
-    char str[22];
+    int size;
     int forward2 = forward - 1;
     int flag2 = flag;
     if (flag2 == 1 && forward2 < 0)
@@ -81,49 +81,54 @@ int check_length()
     }
     if (flag2 == 0)
     {
-        int i = 0;
-        for (i = begin; i < forward2; i++)
-        {
-            str[i - begin] = buff1[i];
-        }
-        str[i - begin] = '\0';
+        // int i = 0;
+        // for (i = begin; i < forward2; i++)
+        // {
+        //     str[i - begin] = buff1[i];
+        // }
+        // str[i - begin] = '\0';
+        size = forward2-begin;
     }
     else if (flag2 == 1)
     {
-        int i = 0;
-        for (i = begin; i < buffer_size; i++)
-        {
-            str[i - begin] = buff1[i];
-        }
-        for (i = 0; i < forward2; i++)
-        {
-            str[buffer_size - begin + i] = buff2[i];
-        }
-        str[buffer_size - begin + forward2] = '\0';
+        // int i = 0;
+        // for (i = begin; i < buffer_size; i++)
+        // {
+        //     str[i - begin] = buff1[i];
+        // }
+        // for (i = 0; i < forward2; i++)
+        // {
+        //     str[buffer_size - begin + i] = buff2[i];
+        // }
+        // str[buffer_size - begin + forward2] = '\0';
+        size=buffer_size-begin+1+forward2-0+1;
     }
     else if (flag2 == 2)
     {
-        int i = 0;
-        for (i = begin; i < buffer_size; i++)
-        {
-            str[i - begin] = buff2[i];
-        }
-        for (i = 0; i < forward2; i++)
-        {
-            str[buffer_size - begin + i] = buff1[i];
-        }
-        str[buffer_size - begin + forward2] = '\0';
+        // int i = 0;
+        // for (i = begin; i < buffer_size; i++)
+        // {
+        //     str[i - begin] = buff2[i];
+        // }
+        // for (i = 0; i < forward2; i++)
+        // {
+        //     str[buffer_size - begin + i] = buff1[i];
+        // }
+        // str[buffer_size - begin + forward2] = '\0';
+        
+        size=buffer_size-begin+1+forward2-0+1;
     }
     else
     {
-        int i = 0;
-        for (i = begin; i < forward2; i++)
-        {
-            str[i - begin] = buff2[i];
-        }
-        str[i - begin] = '\0';
+        // int i = 0;
+        // for (i = begin; i < forward2; i++)
+        // {
+        //     str[i - begin] = buff2[i];
+        // }
+        // str[i - begin] = '\0';
+        size = forward2-begin;
     }
-    if (strlen(str) > 21)
+    if (size>20 && state!=13)
     {
         generateToken = 0;
         global_token.line_no = current_line_no;
@@ -212,7 +217,7 @@ void copy_lexeme(char *str)
 void tokenise(enum TOKEN tk_name)
 { 
 
-    // if(check_length) return;
+    if(check_length()) return;
     if (tk_name == ID)
     {
         copy_lexeme(global_token.tk_data.lexeme);

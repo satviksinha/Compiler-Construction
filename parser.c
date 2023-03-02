@@ -39,12 +39,12 @@ void getNextToken()
 
 int checkFollow(){
     char temp[300];
-    printf("****%s****\n",s_top->value);
+    //printf("****%s****\n",s_top->value);
     strcpy(temp,ntFollow[get_hash(s_top->value)]);
     char* token = strtok(temp,comma);
-    printf("%s ",token);
+    //printf("%s ",token);
     while(token!=NULL){
-        printf("%s ",token);
+        //printf("%s ",token);
         if(!strcmp(strdup(token),token_strings[global_token.tk_name]))
             return 1;
         token = strtok(NULL,comma);
@@ -102,7 +102,7 @@ void makeGrammar(FILE* fp)
         nonTerminal->isTerminal = 0;
         nonTerminal->backward_link = NULL;
         //nonTerminal->value = token;
-        strcpy(nonTerminal->value,token);
+        strcpy(nonTerminal->value,strdup(token));
         grammar[counter] = nonTerminal;
         struct node* curr_token = nonTerminal;
         //printf("%s->",token);
@@ -116,8 +116,10 @@ void makeGrammar(FILE* fp)
                 temp->isTerminal = 1;
 
             // temp->value = token;
-            strcpy(temp->value,token);
+            strcpy(temp->value,strdup(token));
             curr_token->forward_link = temp;
+            // if(!strcmp("otherModules",curr_token->value))
+            //     printf("\n\n\n\n%s\n\n\n\n",curr_token->forward_link->value);
             temp->backward_link = curr_token;
             curr_token = temp;
             //printf("%s,",token);
@@ -175,6 +177,10 @@ void runPDA(){
             {
                 //equating unions(setting leafNode's lexeme)
                 currExpand->tk_data = global_token.tk_data;
+
+                //set line number for leaf node
+                currExpand->line_no = global_token.line_no;
+
                 // printf("LEAF NODE:::%s\n",currExpand->tk_data.lexeme);
                 //match
                 printf("match,%s\n",s_top->value);
@@ -243,6 +249,11 @@ void runPDA(){
                 }
                 printf("%s\n",currExpand->value);
                 addChild(currExpand,curr->forward_link);
+                // if(!strcmp(currExpand->value,"otherModules") && !strcmp(curr->forward_link->value,"EPSILON")){
+                //     //printf("hi");
+                //     printf("%s\n",curr->forward_link->value);
+                //     exit(0);
+                // }
                     // printf("%s\n",currExpand->value);
                 // else{
                 //     while(currExpand->parent->nextSibling == NULL && currExpand->parent != root)

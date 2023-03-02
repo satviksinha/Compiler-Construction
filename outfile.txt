@@ -1,581 +1,567 @@
 PARSE TREE:
-DECLARE
-moduleDeclaration
-MODULE
-ID
-SEMICOL
-moduleDeclarations
-moduleDeclarations
-program
-DEF
-module
-MODULE
-ID
-ENDDEF
-TAKES
-INPUT
-SQBO
-ID
-input_plist
-COLON
-ARRAY
-dataType
-SQBO
-sign
-range
-NUM
-index
-RANGEOP
-sign
-NUM
-index
-SQBC
-OF
-REAL
-type
-COMMA
-moreList
-ID
-INTEGER
-COLON
-dataType
-moreList
-SQBC
-RETURNS
-SEMICOL
-SQBO
-ID
-output_plist
-COLON
-REAL
-type
-moreOutput
-SQBC
-SEMICOL
-START
-ret
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-INTEGER
-dataType
-SEMICOL
-statement
-statements
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-BOOLEAN
-dataType
-SEMICOL
-statement
-statements
-ID
-assignmentStmt
-FOR
-iterativeStmt
-BO
-ID
-IN
-range_for
-ID
-assignmentStmt
-ASSIGNOP
-lvalueIDStmt
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-anyTerm
-LE
-relationalOp
-ab2
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-ab2
-arithmeticOrBooleanExpr
-ab1
-expression
-SEMICOL
-whichStmt
-simpleStmt
-statement
-BC
-SWITCH
-conditionalStmt
-BO
-ID
-BC
-START
-CASE
-caseStmt
-TRUE
-value
-COLON
-PRINT
-ioStmt
-BO
-ID
-print_var
-SQBO
-whichId2
-sign
-ID
-index
-SQBC
-BC
-SEMICOL
-statement
-statements
-ID
-assignmentStmt
-ASSIGNOP
-lvalueIDStmt
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-anyTerm
-ab2
-arithmeticOrBooleanExpr
-ab1
-expression
-SEMICOL
-whichStmt
-simpleStmt
-statement
-statements
-statements
-CASE
-caseStmt
-FALSE
-value
-COLON
-PRINT
-ioStmt
-BO
-ID
-print_var
-whichId2
-BC
-SEMICOL
-statement
-statements
-PRINT
-ioStmt
-BO
-ID
-print_var
-whichId2
-BC
-SEMICOL
-statement
-statements
-statements
-BREAK
-SEMICOL
-post
-BREAK
-SEMICOL
-post
-default
-END
-statement
-statements
-PRINT
-ioStmt
-BO
-print_var
-BC
-SEMICOL
-statement
-statements
-statements
-START
-DRIVERDEF
-statements
-DRIVER
-PROGRAM
-DRIVERENDDEF
-START
-moduleDef
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-ARRAY
-dataType
-SQBO
-sign
-range
-NUM
-index
-RANGEOP
-sign
-NUM
-index
-SQBC
-OF
-REAL
-type
-SEMICOL
-statement
-statements
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-INTEGER
-dataType
-SEMICOL
-statement
-statements
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-REAL
-dataType
-SEMICOL
-statement
-statements
-GET_VALUE
-ioStmt
-BO
-ID
-BC
-SEMICOL
-statement
-statements
-optional
-moduleReuseStmt
-USE
-MODULE
-ID
-WITH
-SQBO
-optional
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-SQBC
-ASSIGNOP
-moduleReuseStmt
-USE
-MODULE
-ID
-WITH
-PARAMETERS
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-COMMA
-moreId
-sign
-actualParameter
-ID
-aVar
-whichId
-moreId
-SEMICOL
-simpleStmt
-statement
-PARAMETERS
-ID
-assignmentStmt
-ASSIGNOP
-lvalueIDStmt
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-anyTerm
-LE
-relationalOp
-ab2
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-GE
-relationalOp
-ab2
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-ab2
-arithmeticOrBooleanExpr
-ab1
-expression
-SEMICOL
-whichStmt
-simpleStmt
-statement
-statements
-PRINT
-ioStmt
-BO
-ID
-print_var
-whichId2
-BC
-SEMICOL
-statement
-statements
-statements
-DEF
-module
-MODULE
-ID
-ENDDEF
-TAKES
-INPUT
-SQBO
-ID
-input_plist
-COLON
-ARRAY
-dataType
-SQBO
-sign
-range
-NUM
-index
-RANGEOP
-sign
-NUM
-index
-SQBC
-OF
-REAL
-type
-COMMA
-moreList
-ID
-COLON
-INTEGER
-dataType
-moreList
-SQBC
-SEMICOL
-ret
-START
-moduleDef
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-dataType
-DECLARE
-declareStmt
-sign
-actualParameter
-ID
-aVar
-whichId
-idList
-moreId
-COLON
-INTEGER
-dataType
-SEMICOL
-statement
-SEMICOL
-ID
-assignmentStmt
-ASSIGNOP
-lvalueIDStmt
-NUM
-aVar
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-anyTerm
-ab2
-arithmeticOrBooleanExpr
-ab1
-expression
-SEMICOL
-whichStmt
-simpleStmt
-statement
-statements
-WHILE
-iterativeStmt
-BO
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-anyTerm
-LE
-relationalOp
-ab2
-ID
-aVar
-whichId
-nextTerm
-term
-a2
-arithmeticExpr
-a1
-ab2
-arithmeticOrBooleanExpr
-ab1
-expression
-BC
-START
-GET_VALUE
-ioStmt
-BO
-ID
-BC
-SEMICOL
-statement
-statements
-ID
-assignmentStmt
-SQBO
-lvalueARRStmt
-ID
-var_id_num
-newNextTerm
-newTerm
-newA2
-startExpr
-newA1
-newArithmeticExpr
-SQBC
-ASSIGNOP
-expression
-PRINT
-ioStmt
-BO
-ID
-print_var
-SQBO
-whichId2
-sign
-ID
-index
-SQBC
-BC
-SEMICOL
-statement
-SEMICOL
-statements
-whichStmt
-simpleStmt
-statement
-statements
-statements
-END
-statement
-statements
-statements
-statement
-statements
-statements
-END
-idList
-otherModules
-SEMICOL
-simpleStmt
-statement
-statements
-statements
-END
-END
-statement
-whichStmt
-statements
-simpleStmt
-statement
-statements
-statements
-END
-moduleDef
-otherModules
-otherModules
-driverModule
-otherModules
-startprogram
-DOLLAR
+Lexeme: declare, Line no: 1, Tk_name: DECLARE, ValueIfNumber: ----, Parent: moduleDeclaration, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleDeclarations, IsLeaf: NO, NodeSymbol: moduleDeclaration
+Lexeme: module, Line no: 1, Tk_name: MODULE, ValueIfNumber: ----, Parent: moduleDeclaration, YES, NodeSymbol: ----
+Lexeme: readArr, Line no: 1, Tk_name: ID, ValueIfNumber: ----, Parent: moduleDeclaration, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 1, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: moduleDeclaration, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: program, IsLeaf: NO, NodeSymbol: moduleDeclarations
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleDeclarations, IsLeaf: NO, NodeSymbol: moduleDeclarations
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: startprogram, IsLeaf: NO, NodeSymbol: program
+Lexeme: <<, Line no: 3, Tk_name: DEF, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: otherModules, IsLeaf: NO, NodeSymbol: module
+Lexeme: module, Line no: 3, Tk_name: MODULE, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: arraySum, Line no: 3, Tk_name: ID, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: >>, Line no: 3, Tk_name: ENDDEF, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: takes, Line no: 4, Tk_name: TAKES, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: input, Line no: 4, Tk_name: INPUT, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: [, Line no: 4, Tk_name: SQBO, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: list, Line no: 4, Tk_name: ID, ValueIfNumber: ----, Parent: input_plist, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: module, IsLeaf: NO, NodeSymbol: input_plist
+Lexeme: :, Line no: 4, Tk_name: COLON, ValueIfNumber: ----, Parent: input_plist, YES, NodeSymbol: ----
+Lexeme: array, Line no: 4, Tk_name: ARRAY, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: input_plist, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: [, Line no: 4, Tk_name: SQBO, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: dataType, IsLeaf: NO, NodeSymbol: range
+Lexeme: ----, Line no: 4, Tk name: NUM, ValueIfNumber: 1, Parent: index, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: index
+Lexeme: .., Line no: 4, Tk_name: RANGEOP, ValueIfNumber: ----, Parent: range, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: 4, Tk name: NUM, ValueIfNumber: 15, Parent: index, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: index
+Lexeme: ], Line no: 4, Tk_name: SQBC, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: of, Line no: 4, Tk_name: OF, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: real, Line no: 4, Tk_name: REAL, ValueIfNumber: ----, Parent: type, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: dataType, IsLeaf: NO, NodeSymbol: type
+Lexeme: ,, Line no: 4, Tk_name: COMMA, ValueIfNumber: ----, Parent: moreList, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: input_plist, IsLeaf: NO, NodeSymbol: moreList
+Lexeme: n, Line no: 4, Tk_name: ID, ValueIfNumber: ----, Parent: moreList, YES, NodeSymbol: ----
+Lexeme: integer, Line no: 4, Tk_name: INTEGER, ValueIfNumber: ----, Parent: COLON, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moreList, IsLeaf: NO, NodeSymbol: COLON
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moreList, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ], Line no: 4, Tk_name: moreList, ValueIfNumber: ----, Parent: moreList, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 4, Tk_name: SQBC, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: returns, Line no: 5, Tk_name: RETURNS, ValueIfNumber: ----, Parent: SEMICOL, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: module, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: [, Line no: 5, Tk_name: SQBO, ValueIfNumber: ----, Parent: SEMICOL, YES, NodeSymbol: ----
+Lexeme: sum, Line no: 5, Tk_name: ID, ValueIfNumber: ----, Parent: output_plist, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: SEMICOL, IsLeaf: NO, NodeSymbol: output_plist
+Lexeme: :, Line no: 5, Tk_name: COLON, ValueIfNumber: ----, Parent: output_plist, YES, NodeSymbol: ----
+Lexeme: real, Line no: 5, Tk_name: REAL, ValueIfNumber: ----, Parent: type, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: output_plist, IsLeaf: NO, NodeSymbol: type
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: output_plist, IsLeaf: NO, NodeSymbol: moreOutput
+Lexeme: ], Line no: 5, Tk_name: SQBC, ValueIfNumber: ----, Parent: SEMICOL, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 5, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: SEMICOL, YES, NodeSymbol: ----
+Lexeme: start, Line no: 6, Tk_name: START, ValueIfNumber: ----, Parent: ret, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: module, IsLeaf: NO, NodeSymbol: ret
+Lexeme: declare, Line no: 7, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: index, Line no: 7, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 7, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: integer, Line no: 7, Tk_name: INTEGER, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ;, Line no: 7, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ret, IsLeaf: NO, NodeSymbol: statements
+Lexeme: declare, Line no: 8, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: t, Line no: 8, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 8, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: boolean, Line no: 8, Tk_name: BOOLEAN, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ;, Line no: 8, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: sum, Line no: 9, Tk_name: ID, ValueIfNumber: ----, Parent: assignmentStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: assignmentStmt
+Lexeme: for, Line no: 10, Tk_name: FOR, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: iterativeStmt
+Lexeme: (, Line no: 10, Tk_name: BO, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: index, Line no: 10, Tk_name: ID, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: ), Line no: 10, Tk_name: IN, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: start, Line no: 11, Tk_name: range_for, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: t, Line no: 12, Tk_name: ID, ValueIfNumber: ----, Parent: assignmentStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: assignmentStmt
+Lexeme: :=, Line no: 12, Tk_name: ASSIGNOP, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichStmt, IsLeaf: NO, NodeSymbol: lvalueIDStmt
+Lexeme: index, Line no: 12, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: anyTerm
+Lexeme: <=, Line no: 12, Tk_name: LE, ValueIfNumber: ----, Parent: relationalOp, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ab2, IsLeaf: NO, NodeSymbol: relationalOp
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: ab2
+Lexeme: n, Line no: 12, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ab2, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: expression, IsLeaf: NO, NodeSymbol: arithmeticOrBooleanExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: ab1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueIDStmt, IsLeaf: NO, NodeSymbol: expression
+Lexeme: ;, Line no: 12, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: assignmentStmt, IsLeaf: NO, NodeSymbol: whichStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: BC, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: iterativeStmt, IsLeaf: NO, NodeSymbol: BC
+Lexeme: switch, Line no: 13, Tk_name: SWITCH, ValueIfNumber: ----, Parent: conditionalStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: conditionalStmt
+Lexeme: (, Line no: 13, Tk_name: BO, ValueIfNumber: ----, Parent: conditionalStmt, YES, NodeSymbol: ----
+Lexeme: t, Line no: 13, Tk_name: ID, ValueIfNumber: ----, Parent: conditionalStmt, YES, NodeSymbol: ----
+Lexeme: ), Line no: 13, Tk_name: BC, ValueIfNumber: ----, Parent: conditionalStmt, YES, NodeSymbol: ----
+Lexeme: start, Line no: 14, Tk_name: START, ValueIfNumber: ----, Parent: conditionalStmt, YES, NodeSymbol: ----
+Lexeme: case, Line no: 15, Tk_name: CASE, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: conditionalStmt, IsLeaf: NO, NodeSymbol: caseStmt
+Lexeme: true, Line no: 15, Tk_name: TRUE, ValueIfNumber: ----, Parent: value, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: value
+Lexeme: :, Line no: 15, Tk_name: COLON, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: print, Line no: 15, Tk_name: PRINT, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 15, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: list, Line no: 15, Tk_name: ID, ValueIfNumber: ----, Parent: print_var, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: print_var
+Lexeme: [, Line no: 15, Tk_name: SQBO, ValueIfNumber: ----, Parent: whichId2, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: print_var, IsLeaf: NO, NodeSymbol: whichId2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichId2, IsLeaf: NO, NodeSymbol: sign
+Lexeme: index, Line no: 15, Tk_name: ID, ValueIfNumber: ----, Parent: index, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichId2, IsLeaf: NO, NodeSymbol: index
+Lexeme: ], Line no: 15, Tk_name: SQBC, ValueIfNumber: ----, Parent: whichId2, YES, NodeSymbol: ----
+Lexeme: ), Line no: 15, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 15, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: statements
+Lexeme: sum, Line no: 16, Tk_name: ID, ValueIfNumber: ----, Parent: assignmentStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: assignmentStmt
+Lexeme: :=, Line no: 16, Tk_name: ASSIGNOP, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichStmt, IsLeaf: NO, NodeSymbol: lvalueIDStmt
+Lexeme: sum, Line no: 16, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: anyTerm
+Lexeme: ;, Line no: 16, Tk_name: ab2, ValueIfNumber: ----, Parent: anyTerm, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: expression, IsLeaf: NO, NodeSymbol: arithmeticOrBooleanExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: ab1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueIDStmt, IsLeaf: NO, NodeSymbol: expression
+Lexeme: break, Line no: 17, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: assignmentStmt, IsLeaf: NO, NodeSymbol: whichStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: ;, Line no: 17, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: case, Line no: 18, Tk_name: CASE, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: BREAK, IsLeaf: NO, NodeSymbol: caseStmt
+Lexeme: false, Line no: 18, Tk_name: FALSE, ValueIfNumber: ----, Parent: value, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: value
+Lexeme: :, Line no: 18, Tk_name: COLON, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: print, Line no: 18, Tk_name: PRINT, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 18, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: sum, Line no: 18, Tk_name: ID, ValueIfNumber: ----, Parent: print_var, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: print_var
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: print_var, IsLeaf: NO, NodeSymbol: whichId2
+Lexeme: ), Line no: 18, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 18, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: statements
+Lexeme: print, Line no: 19, Tk_name: PRINT, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 19, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: index, Line no: 19, Tk_name: ID, ValueIfNumber: ----, Parent: print_var, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: print_var
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: print_var, IsLeaf: NO, NodeSymbol: whichId2
+Lexeme: ), Line no: 19, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 19, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: break, Line no: 21, Tk_name: BREAK, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 21, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: post
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: BREAK
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: caseStmt, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: end, Line no: 22, Tk_name: post, ValueIfNumber: ----, Parent: caseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: conditionalStmt, IsLeaf: NO, NodeSymbol: default
+Lexeme: end, Line no: 24, Tk_name: END, ValueIfNumber: ----, Parent: conditionalStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: BC, IsLeaf: NO, NodeSymbol: statements
+Lexeme: print, Line no: 25, Tk_name: PRINT, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 25, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ), Line no: 25, Tk_name: print_var, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 25, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: end, Line no: 26, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: iterativeStmt, IsLeaf: NO, NodeSymbol: START
+Lexeme: <<<, Line no: 27, Tk_name: DRIVERDEF, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: iterativeStmt, IsLeaf: NO, NodeSymbol: statements
+Lexeme: driver, Line no: 27, Tk_name: DRIVER, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: program, Line no: 27, Tk_name: PROGRAM, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: >>>, Line no: 27, Tk_name: DRIVERENDDEF, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: start, Line no: 28, Tk_name: START, ValueIfNumber: ----, Parent: moduleDef, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: moduleDef
+Lexeme: declare, Line no: 29, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: A, Line no: 29, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 29, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: array, Line no: 29, Tk_name: ARRAY, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: [, Line no: 29, Tk_name: SQBO, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: dataType, IsLeaf: NO, NodeSymbol: range
+Lexeme: ----, Line no: 29, Tk name: NUM, ValueIfNumber: 1, Parent: index, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: index
+Lexeme: .., Line no: 29, Tk_name: RANGEOP, ValueIfNumber: ----, Parent: range, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: 29, Tk name: NUM, ValueIfNumber: 15, Parent: index, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: index
+Lexeme: ], Line no: 29, Tk_name: SQBC, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: of, Line no: 29, Tk_name: OF, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: real, Line no: 29, Tk_name: REAL, ValueIfNumber: ----, Parent: type, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: dataType, IsLeaf: NO, NodeSymbol: type
+Lexeme: ;, Line no: 29, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleDef, IsLeaf: NO, NodeSymbol: statements
+Lexeme: declare, Line no: 30, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: k, Line no: 30, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 30, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: integer, Line no: 30, Tk_name: INTEGER, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ;, Line no: 30, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: declare, Line no: 31, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: s, Line no: 31, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 31, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: real, Line no: 31, Tk_name: REAL, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ;, Line no: 31, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: get_value, Line no: 32, Tk_name: GET_VALUE, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 32, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: k, Line no: 32, Tk_name: ID, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ), Line no: 32, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 32, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleReuseStmt, IsLeaf: NO, NodeSymbol: optional
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: moduleReuseStmt
+Lexeme: use, Line no: 33, Tk_name: USE, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: module, Line no: 33, Tk_name: MODULE, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: readArr, Line no: 33, Tk_name: ID, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 33, Tk_name: WITH, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: [, Line no: 34, Tk_name: SQBO, ValueIfNumber: ----, Parent: optional, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleReuseStmt, IsLeaf: NO, NodeSymbol: optional
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: s, Line no: 34, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: optional, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: ], Line no: 34, Tk_name: SQBC, ValueIfNumber: ----, Parent: optional, YES, NodeSymbol: ----
+Lexeme: :=, Line no: 34, Tk_name: ASSIGNOP, ValueIfNumber: ----, Parent: optional, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: moduleReuseStmt
+Lexeme: use, Line no: 34, Tk_name: USE, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: module, Line no: 34, Tk_name: MODULE, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: arraySum, Line no: 34, Tk_name: ID, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: with, Line no: 34, Tk_name: WITH, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: parameters, Line no: 34, Tk_name: PARAMETERS, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: A, Line no: 34, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleReuseStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ,, Line no: 34, Tk_name: COMMA, ValueIfNumber: ----, Parent: moreId, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moreId, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: k, Line no: 34, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moreId, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: ;, Line no: 34, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: PARAMETERS, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleReuseStmt, IsLeaf: NO, NodeSymbol: PARAMETERS
+Lexeme: s, Line no: 35, Tk_name: ID, ValueIfNumber: ----, Parent: assignmentStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: assignmentStmt
+Lexeme: :=, Line no: 35, Tk_name: ASSIGNOP, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichStmt, IsLeaf: NO, NodeSymbol: lvalueIDStmt
+Lexeme: s, Line no: 35, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: anyTerm
+Lexeme: <=, Line no: 35, Tk_name: LE, ValueIfNumber: ----, Parent: relationalOp, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ab2, IsLeaf: NO, NodeSymbol: relationalOp
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: ab2
+Lexeme: n, Line no: 35, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ab2, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: expression, IsLeaf: NO, NodeSymbol: arithmeticOrBooleanExpr
+Lexeme: ;, Line no: 35, Tk_name: ab1, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueIDStmt, IsLeaf: NO, NodeSymbol: expression
+Lexeme: print, Line no: 36, Tk_name: PRINT, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 36, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: s, Line no: 36, Tk_name: ID, ValueIfNumber: ----, Parent: print_var, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: print_var
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: print_var, IsLeaf: NO, NodeSymbol: whichId2
+Lexeme: ), Line no: 36, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: SEMICOL, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueIDStmt, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: end, Line no: 37, Tk_name: statements, ValueIfNumber: ----, Parent: SEMICOL, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: assignmentStmt, IsLeaf: NO, NodeSymbol: whichStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: PARAMETERS, IsLeaf: NO, NodeSymbol: statements
+Lexeme: <<, Line no: 44, Tk_name: DEF, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: module
+Lexeme: module, Line no: 44, Tk_name: MODULE, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: readArr, Line no: 44, Tk_name: ID, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: >>, Line no: 44, Tk_name: ENDDEF, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: takes, Line no: 45, Tk_name: TAKES, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: input, Line no: 45, Tk_name: INPUT, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: [, Line no: 45, Tk_name: SQBO, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: arr1, Line no: 45, Tk_name: ID, ValueIfNumber: ----, Parent: input_plist, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: module, IsLeaf: NO, NodeSymbol: input_plist
+Lexeme: :, Line no: 45, Tk_name: COLON, ValueIfNumber: ----, Parent: input_plist, YES, NodeSymbol: ----
+Lexeme: array, Line no: 45, Tk_name: ARRAY, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: input_plist, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: [, Line no: 45, Tk_name: SQBO, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: dataType, IsLeaf: NO, NodeSymbol: range
+Lexeme: ----, Line no: 45, Tk name: NUM, ValueIfNumber: 1, Parent: index, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: index
+Lexeme: .., Line no: 45, Tk_name: RANGEOP, ValueIfNumber: ----, Parent: range, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: 45, Tk name: NUM, ValueIfNumber: 15, Parent: index, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: range, IsLeaf: NO, NodeSymbol: index
+Lexeme: ], Line no: 45, Tk_name: SQBC, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: of, Line no: 45, Tk_name: OF, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: real, Line no: 45, Tk_name: REAL, ValueIfNumber: ----, Parent: type, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: dataType, IsLeaf: NO, NodeSymbol: type
+Lexeme: ,, Line no: 45, Tk_name: COMMA, ValueIfNumber: ----, Parent: moreList, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: input_plist, IsLeaf: NO, NodeSymbol: moreList
+Lexeme: k, Line no: 45, Tk_name: ID, ValueIfNumber: ----, Parent: moreList, YES, NodeSymbol: ----
+Lexeme: :, Line no: 45, Tk_name: COLON, ValueIfNumber: ----, Parent: moreList, YES, NodeSymbol: ----
+Lexeme: integer, Line no: 45, Tk_name: INTEGER, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moreList, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moreList, IsLeaf: NO, NodeSymbol: moreList
+Lexeme: ], Line no: 45, Tk_name: SQBC, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 45, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: module, IsLeaf: NO, NodeSymbol: ret
+Lexeme: start, Line no: 46, Tk_name: START, ValueIfNumber: ----, Parent: moduleDef, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: module, IsLeaf: NO, NodeSymbol: moduleDef
+Lexeme: declare, Line no: 47, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: tempvar, Line no: 47, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 47, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 47, Tk_name: dataType, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: declare, Line no: 48, Tk_name: DECLARE, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: declareStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: sign
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: actualParameter
+Lexeme: i, Line no: 48, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: actualParameter, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: idList
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: idList, IsLeaf: NO, NodeSymbol: moreId
+Lexeme: :, Line no: 48, Tk_name: COLON, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: integer, Line no: 48, Tk_name: INTEGER, ValueIfNumber: ----, Parent: dataType, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: dataType
+Lexeme: ;, Line no: 48, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: declareStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: SEMICOL, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: declareStmt, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: i, Line no: 49, Tk_name: ID, ValueIfNumber: ----, Parent: assignmentStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: assignmentStmt
+Lexeme: :=, Line no: 49, Tk_name: ASSIGNOP, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichStmt, IsLeaf: NO, NodeSymbol: lvalueIDStmt
+Lexeme: ----, Line no: 49, Tk name: NUM, ValueIfNumber: 1, Parent: aVar, isLeaf: YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: anyTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: ab2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: expression, IsLeaf: NO, NodeSymbol: arithmeticOrBooleanExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: ab1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueIDStmt, IsLeaf: NO, NodeSymbol: expression
+Lexeme: ;, Line no: 49, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: lvalueIDStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: assignmentStmt, IsLeaf: NO, NodeSymbol: whichStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: SEMICOL, IsLeaf: NO, NodeSymbol: statements
+Lexeme: while, Line no: 50, Tk_name: WHILE, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: iterativeStmt
+Lexeme: (, Line no: 50, Tk_name: BO, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: i, Line no: 50, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: anyTerm
+Lexeme: <=, Line no: 50, Tk_name: LE, ValueIfNumber: ----, Parent: relationalOp, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ab2, IsLeaf: NO, NodeSymbol: relationalOp
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: anyTerm, IsLeaf: NO, NodeSymbol: ab2
+Lexeme: k, Line no: 50, Tk_name: ID, ValueIfNumber: ----, Parent: aVar, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: nextTerm, IsLeaf: NO, NodeSymbol: aVar
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: aVar, IsLeaf: NO, NodeSymbol: whichId
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: nextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: term
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: term, IsLeaf: NO, NodeSymbol: a2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ab2, IsLeaf: NO, NodeSymbol: arithmeticExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticExpr, IsLeaf: NO, NodeSymbol: a1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: expression, IsLeaf: NO, NodeSymbol: arithmeticOrBooleanExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: arithmeticOrBooleanExpr, IsLeaf: NO, NodeSymbol: ab1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: iterativeStmt, IsLeaf: NO, NodeSymbol: expression
+Lexeme: ), Line no: 50, Tk_name: BC, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: start, Line no: 51, Tk_name: START, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: get_value, Line no: 52, Tk_name: GET_VALUE, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 52, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: tempvar, Line no: 52, Tk_name: ID, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ), Line no: 52, Tk_name: BC, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 52, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: iterativeStmt, IsLeaf: NO, NodeSymbol: statements
+Lexeme: arr1, Line no: 53, Tk_name: ID, ValueIfNumber: ----, Parent: assignmentStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: simpleStmt, IsLeaf: NO, NodeSymbol: assignmentStmt
+Lexeme: [, Line no: 53, Tk_name: SQBO, ValueIfNumber: ----, Parent: lvalueARRStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichStmt, IsLeaf: NO, NodeSymbol: lvalueARRStmt
+Lexeme: i, Line no: 53, Tk_name: ID, ValueIfNumber: ----, Parent: var_id_num2, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: newNextTerm, IsLeaf: NO, NodeSymbol: var_id_num2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: newTerm, IsLeaf: NO, NodeSymbol: newNextTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: startExpr, IsLeaf: NO, NodeSymbol: newTerm
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: newTerm, IsLeaf: NO, NodeSymbol: newA2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: newArithmeticExpr, IsLeaf: NO, NodeSymbol: startExpr
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: startExpr, IsLeaf: NO, NodeSymbol: newA1
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueARRStmt, IsLeaf: NO, NodeSymbol: newArithmeticExpr
+Lexeme: ], Line no: 53, Tk_name: SQBC, ValueIfNumber: ----, Parent: lvalueARRStmt, YES, NodeSymbol: ----
+Lexeme: :=, Line no: 53, Tk_name: ASSIGNOP, ValueIfNumber: ----, Parent: lvalueARRStmt, YES, NodeSymbol: ----
+Lexeme: ;, Line no: 53, Tk_name: expression, ValueIfNumber: ----, Parent: lvalueARRStmt, YES, NodeSymbol: ----
+Lexeme: print, Line no: 54, Tk_name: PRINT, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: ioStmt
+Lexeme: (, Line no: 54, Tk_name: BO, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: list, Line no: 54, Tk_name: ID, ValueIfNumber: ----, Parent: print_var, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: print_var
+Lexeme: [, Line no: 54, Tk_name: SQBO, ValueIfNumber: ----, Parent: whichId2, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: print_var, IsLeaf: NO, NodeSymbol: whichId2
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichId2, IsLeaf: NO, NodeSymbol: sign
+Lexeme: P, Line no: 54, Tk_name: ID, ValueIfNumber: ----, Parent: index, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichId2, IsLeaf: NO, NodeSymbol: index
+Lexeme: end, Line no: 57, Tk_name: SQBC, ValueIfNumber: ----, Parent: whichId2, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ioStmt, IsLeaf: NO, NodeSymbol: BC
+Lexeme: end, Line no: 58, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: ioStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: SEMICOL, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: lvalueARRStmt, IsLeaf: NO, NodeSymbol: SEMICOL
+Lexeme: , Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: SEMICOL, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: assignmentStmt, IsLeaf: NO, NodeSymbol: whichStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: , Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: END, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: , Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: moduleDef, IsLeaf: NO, NodeSymbol: statements
+Lexeme: `, Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: END, ValueIfNumber: ----, Parent: moduleDef, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: , Line no: 0, Tk_name: otherModules, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: idList, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: SEMICOL, ValueIfNumber: ----, Parent: moduleReuseStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: , Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: END, ValueIfNumber: ----, Parent: moduleDef, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: END, ValueIfNumber: ----, Parent: iterativeStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: whichStmt, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: assignmentStmt, IsLeaf: NO, NodeSymbol: whichStmt
+Lexeme: , Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: whichStmt, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statement, IsLeaf: NO, NodeSymbol: simpleStmt
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statement
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: statements, IsLeaf: NO, NodeSymbol: statements
+Lexeme: , Line no: 0, Tk_name: statements, ValueIfNumber: ----, Parent: statements, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: END, ValueIfNumber: ----, Parent: ret, YES, NodeSymbol: ----
+Lexeme: , Line no: 0, Tk_name: moduleDef, ValueIfNumber: ----, Parent: module, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: program, IsLeaf: NO, NodeSymbol: otherModules
+Lexeme: , Line no: 31981904, Tk_name: otherModules, ValueIfNumber: ----, Parent: otherModules, YES, NodeSymbol: ----
+Lexeme: , Line no: 32010272, Tk_name: driverModule, ValueIfNumber: ----, Parent: program, YES, NodeSymbol: ----
+Lexeme: , Line no: 32010272, Tk_name: otherModules, ValueIfNumber: ----, Parent: program, YES, NodeSymbol: ----
+Lexeme: ----, Line no: ----, Tk name: ----, ValueIfNumber: ----, Parent: ROOT, IsLeaf: NO, Node Symbol: startprogram
+Lexeme: , Line no: 32010272, Tk_name: DOLLAR, ValueIfNumber: ----, Parent: startprogram, YES, NodeSymbol: ----

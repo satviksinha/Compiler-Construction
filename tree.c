@@ -17,26 +17,14 @@ void addChild(struct treeNode* parent, struct node* child)
         if(!strcmp(child->value,"DOLLAR"))
             temp2->children = NULL;
         temp2->isTerminal = child->isTerminal;
-        temp2->parent = NULL;
+        temp2->parent = parent;
         temp2->prevSibling = temp;
         temp->nextSibling = temp2;
         temp = temp2;
         child = child->forward_link;
     }
-
+    //temp->parent = parent;
     temp->nextSibling = NULL;
 }
 
 
-// int main()
-// {
-//     //creation of root node
-//     root = malloc(sizeof(struct treeNode));
-//     root->isTerminal = 0;
-//     root->parent = NULL;
-//     root->nextSibling = NULL;
-//     root->prevSibling = NULL;
-//     strcpy(root->value,"startprogram");
-//     currExpand = root;
-//     return 0;
-// }

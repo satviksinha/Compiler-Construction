@@ -8,8 +8,8 @@
 
 struct treeNode
 {
-    // int line_no;
-    char value[23];
+    int line_no;
+    char value[23]; //token name
     int isTerminal;
     struct treeNode* children;
     struct treeNode* parent;

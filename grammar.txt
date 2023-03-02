@@ -63,11 +63,13 @@ newTerm,newNextTerm,newA2
 newA2,op2,newNextTerm,newA2
 newA2,EPSILON
 newNextTerm,BO,startExpr,BC
-newNextTerm,var_id_num
+newNextTerm,var_id_num2
 u1,MINUS,after_u1
 u1,PLUS,after_u1
 after_u1,BO,startExpr,BC
-after_u1,var_id_num
+after_u1,var_id_num2
+var_id_num2,NUM
+var_id_num2,ID
 simpleStmt,assignmentStmt
 simpleStmt,moduleReuseStmt
 assignmentStmt,ID,whichStmt
@@ -89,8 +91,8 @@ arithmeticOrBooleanExpr,anyTerm,ab1
 ab1,bop,anyTerm,ab1
 ab1,EPSILON
 anyTerm,arithmeticExpr,ab2
-anyTerm,boolvar,ab2
-ab2,relationalOp,arithmeticExpr,ab2
+anyTerm,boolvar
+ab2,relationalOp,arithmeticExpr
 ab2,EPSILON
 u,MINUS,after_unary
 u,PLUS,after_unary
