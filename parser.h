@@ -1,45 +1,32 @@
-#include<stdio.h>
-#include<ctype.h>
-#include<stdlib.h>
-#include<string.h>
+/*
+ID: 2020A7PS0297P                             NAME: Sarang Sridhar 
+ID: 2020A7PS0995P                             NAME: Kashish Mahajan 
+ID: 2020A7PS0993P                             NAME: Satvik Sinha 
+ID: 2020A7PS0036P                             NAME: Aarya Attrey
+ID: 2020A7PS0017P                             NAME: Urvashi Sharma 
+*/
+#ifndef PARSER_H
+#define PARSER_H
 
-int get_hash(const char* s);
-
-struct node
-{
-    int isTerminal;
-    struct node* link;
-    char value[23];
-}; 
-
-char nonTerminals[67][23] = {"startprogram","program","moduleDeclarations","otherModules",
-"driverModule","module","ret","inputp_list","moreList","outputp_list","moreOutput",
-"dataType","type","moduleDef","statements","statement","ioStmt","print_var","whichId2",
-"boolvar","whichId","index","sign","aVar","var_id_num","newArithmeticExpr","startExpr",
-"newA1","newA2","newTerm","newNextTerm","u1","after_u1","simpleStmt","asssignmentStmt",
-"whichStmt","lvalueIDStmt","lvalueARRStmt","moduleReuseStmt","optional","idList",
-"moreId","expression","arithmeticOrBooleanExpr","ab1","anyTerm","ab2","u","after_unary",
-"arithmeticExpr","a1","term","a2","nextTerm","op1","op2","bop","relationalOp",
-"declareStmt","conditionalStmt","caseStmt","post","value","default","iterativeStmt",
-"range_for","range"};
-
-char terminals[57][12] = {"INTEGER","REAL","BOOLEAN","OF","ARRAY","START","END","DECLARE","MODULE","DRIVER",
-"PROGRAM","GET_VALUE","PRINT","USE","WITH","PARAMETERS","TAKES","INPUT","RETURNS","FOR","IN","SWITCH",
-"CASE","BREAK","DEFAULT","WHILE","AND","OR","TRUE","FALSE","ID","NUM","RNUM","PLUS","MINUS","MUL","DIV",
-"LT","LE","GE","GT","EQ","NE","DEF","ENDDEF","DRIVERDEF","DRIVERENDDEF","COLON","RANGEOP","SEMICOL",
-"COMMA","ASSIGNOP","SQBO","SQBC","BO","BC","COMMENTMARK"};
-
-
-struct node* grammar[128];
-// Doubt - how to declare array?
-char** firstAndFollow[128];
-struct node* parseTable[100][100];
+#include "parserDef.h"
 
 // function for storing grammar rules in the form of linked list
 void makeGrammar(FILE* fp);
 
+//function for parse table generation
 void createParseTable();
 
+// passing token to parser
+void getNextToken();
 
+//parsing using stack
+void runPDA();
 
+//error handling
+void display_error();
+
+//hash function for non-terminals and terminals
+int get_hash(const char* s);
+
+#endif
 
